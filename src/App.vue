@@ -1,7 +1,9 @@
 <script setup>
 </script>
 
-<template></template>
+<template>
+  <div>123</div>
+</template>
 
 <style lang="scss">
 </style>
