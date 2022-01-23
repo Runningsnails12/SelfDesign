@@ -1,7 +1,7 @@
 [返回API列表](../API-documentation.md)
 ## 删除项目
 
-#### method: `GET`
+#### method: `POST`
 #### URL: `/project/deleteProject`
 #### describe:
 
@@ -10,9 +10,9 @@
 | :----: | :-------: | :------: |
 | token  | asdqwezxc |   令牌   |
 
-| params |  type  | example | describe |
-| :----: | :----: | :-----: | :------: |
-|   id   | string |  10001  |  项目ID  |
+| body  |  type  | example | describe |
+| :---: | :----: | :-----: | :------: |
+|  id   | string |  10001  |  项目ID  |
 
 #### response:
 ```json

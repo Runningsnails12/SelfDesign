@@ -12,7 +12,7 @@
 | API                                                              | 请求类型 | 功能             |
 | :--------------------------------------------------------------- | :------: | :--------------- |
 | [/project/createProject](./api/project_createProject.md)         | **POST** | 创建项目         |
-| [/project/deleteProject](./api/project_deleteProject.md)         | **GET**  | 删除项目         |
+| [/project/deleteProject](./api/project_deleteProject.md)         | **POST** | 删除项目         |
 | [/project/modifyContent](./api/project_modifyContent.md)         | **POST** | 修改项目内容     |
 | [/project/modifyName](./api/project_modifyName.md)               | **POST** | 修改项目名       |
 | [/project/getUserProject](./api/project_getUserProject.md)       | **GET**  | 获取用户所有项目 |
