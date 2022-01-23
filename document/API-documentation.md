@@ -17,3 +17,6 @@
 | [/project/modifyName](./api/project_modifyName.md)               | **POST** | 修改项目名       |
 | [/project/getUserProject](./api/project_getUserProject.md)       | **GET**  | 获取用户所有项目 |
 | [/project/getProjectContent](./api/project_getProjectContent.md) | **GET**  | 获取项目内容     |
+| [/project/release](./api/project_release.md)                     | **POST** | 发布             |
+| [/project/export](./api/project_export.md)                       | **GET**  | 导出             |
+| [/project/import](./api/project_import.md)                       | **POST** | 导入             |
