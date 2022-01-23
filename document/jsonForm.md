@@ -4,6 +4,7 @@
     "id": 1,
     "style": {},
     "tag": "swper",
+	"isContainer": true,
     "values": {},
     "event": [
       {
