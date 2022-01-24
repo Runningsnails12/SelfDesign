@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup>
 import 'normalize.css/normalize.css';
 import { reactive } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
@@ -6,14 +6,7 @@ import { useRouter, useRoute } from 'vue-router';
 const router = useRouter();
 const route = useRoute();
 
-interface nav {
-  id: number,
-  text: string,
-  img: string,
-  path: string
-}
-
-const navData = reactive<Array<nav>>([{
+const navData = reactive([{
   id: 0,
   text: '新手教程',
   img: './img/新手教程.png',
@@ -28,7 +21,7 @@ const navData = reactive<Array<nav>>([{
   text: '相关模板',
   img: './img/相关模板.png',
   path: '/template'
-}])
+}]);
 
 const toggleTab = (item) => router.push(item.path);
 
@@ -38,19 +31,26 @@ const toggleTab = (item) => router.push(item.path);
   <div>
     <div class="nav">
       <div class="nav_left">
-        <div v-for="item in navData" :key="item.id" class="nav_item" @click="toggleTab(item)">
+        <div 
+          v-for="item in navData" 
+          :key="item.id" 
+          class="nav_item" 
+          @click="toggleTab(item)"
+        >
           <img
             :src="item.img"
             :alt="item.text"
             class="nav_img"
             :style="{ visibility: item.id === route.meta.id ? 'visible' : 'hidden' }"
-          />
+          >
           <span class="nav_text">{{ item.text }}</span>
         </div>
       </div>
-      <div class="nav_right">登录</div>
+      <div class="nav_right">
+        登录
+      </div>
     </div>
-    <router-view></router-view>
+    <router-view />
   </div>
 </template>
 
