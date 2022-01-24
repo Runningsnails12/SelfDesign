@@ -5,6 +5,7 @@
 | :--------------------------------------------------- | :------: | :----------- |
 | [/user/register](./api/user_register.md)             | **POST** | 注册         |
 | [/user/login](./api/user_login.md)                   | **POST** | 登录         |
+| [/user/modifyPassword](./api/user_modifyPassword.md) | **POST** | 修改密码     |
 | [/user/getUserInfo](./api/user_getUserInfo.md)       | **GET**  | 获取用户信息 |
 | [/user/modifyUsername](./api/user_modifyUsername.md) | **POST** | 修改用户名   |
 
