@@ -20,3 +20,8 @@
 | [/project/release](./api/project_release.md)                     | **POST** | 发布             |
 | [/project/export](./api/project_export.md)                       | **GET**  | 导出             |
 | [/project/import](./api/project_import.md)                       | **POST** | 导入             |
+
+## 其它
+| API                                          | 请求类型 | 功能     |
+| :------------------------------------------- | :------: | :------- |
+| [/other/uploadImg](./api/other_uploadImg.md) | **POST** | 上传图片 |
