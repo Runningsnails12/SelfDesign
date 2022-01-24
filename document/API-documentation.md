@@ -5,6 +5,7 @@
 | :--------------------------------------------------- | :------: | :----------- |
 | [/user/register](./api/user_register.md)             | **POST** | 注册         |
 | [/user/login](./api/user_login.md)                   | **POST** | 登录         |
+| [/user/modifyPassword](./api/user_modifyPassword.md) | **POST** | 修改密码     |
 | [/user/getUserInfo](./api/user_getUserInfo.md)       | **GET**  | 获取用户信息 |
 | [/user/modifyUsername](./api/user_modifyUsername.md) | **POST** | 修改用户名   |
 
@@ -20,3 +21,8 @@
 | [/project/release](./api/project_release.md)                     | **POST** | 发布             |
 | [/project/export](./api/project_export.md)                       | **GET**  | 导出             |
 | [/project/import](./api/project_import.md)                       | **POST** | 导入             |
+
+## 其它
+| API                                          | 请求类型 | 功能     |
+| :------------------------------------------- | :------: | :------- |
+| [/other/uploadImg](./api/other_uploadImg.md) | **POST** | 上传图片 |
