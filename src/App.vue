@@ -9,17 +9,17 @@ const route = useRoute();
 const navData = reactive([{
   id: 0,
   text: '新手教程',
-  img: './img/新手教程.png',
+  img: 'img/新手教程.png',
   path: '/tutorial'
 }, {
   id: 1,
   text: '项目管理',
-  img: './img/项目管理.png',
+  img: 'img/项目管理.png',
   path: '/project'
 }, {
   id: 2,
   text: '相关模板',
-  img: './img/相关模板.png',
+  img: 'img/相关模板.png',
   path: '/template'
 }]);
 
@@ -47,7 +47,17 @@ const toggleTab = (item) => router.push(item.path);
         </div>
       </div>
       <div class="nav_right">
-        登录
+        <div class="avatar">
+          <img 
+            src="img/默认头像.png" 
+            alt="默认头像"
+          >
+        </div>
+        <div class="action">
+          <div>登录</div>
+          <div>|</div>
+          <div>注册</div>
+        </div>
       </div>
     </div>
     <router-view />
@@ -81,6 +91,27 @@ const toggleTab = (item) => router.push(item.path);
         font-family: Microsoft YaHei-Bold, Microsoft YaHei;
         font-weight: bold;
         color: #333333;
+      }
+    }
+  }
+  .nav_right{
+    display: flex;
+    margin-right: 90px;
+    .avatar{
+      display: flex;
+      margin-right: 10px;
+      align-items: center;
+      img{
+        width: 40px;
+        height: 40px;
+      }
+    }
+    .action{
+      display: flex;
+      align-items: center;
+      div{
+        margin: 0 5px;
+        cursor: pointer;
       }
     }
   }
