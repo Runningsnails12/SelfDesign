@@ -21,7 +21,7 @@
 	"code": 2000,
 	"message": "获取成功",
 	"data": {
-		"content": "{\"a\": \"asd\"}"
+		"content": {"a": "asd"}
 	}
 }
 ```
