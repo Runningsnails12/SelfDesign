@@ -1,8 +1,14 @@
-<script setup>
+<script>
+import PageEdit from './pages/PageEdit.vue'
+export default{
+  components:{PageEdit}
+}
+
 </script>
 
 <template>
-  <div>123</div>
+  <div>hello</div>
+  <page-edit/>
 </template>
 
 <style lang="scss">
