@@ -1,6 +1,6 @@
 <template>
   <div>
-    <component :is="root.tag" :parent-id="0" />
+    <component :is="root.tag" :my-children="root.children" />
     <div>
       <button @click="addButton(toBeAddedContainerID)">加 button</button>
       <button @click="addText(toBeAddedContainerID)">加 text</button>
@@ -14,8 +14,6 @@
 
 <script>
 import { reactive } from 'vue'
-import {useStore} from 'vuex'
-
 export default {
   data() {
     return {
@@ -24,52 +22,54 @@ export default {
     }
   },
   setup() {
-    // 根节点
+    
     const root = reactive({
       id: 0,
       tag: 'ContainerRow',
       children: [],
     })
     // 节点 Map
-    const store = useStore();
-    store.commit('addComponent', { key: 0, value: root });
+    const nodeMap = new Map();
+    nodeMap.set(0, root)
+
     return {
-      root
+      root,
+      nodeMap,
     }
   },
   methods: {
     addButton(targetId = 0) {
       this.newestID += 1
-      const Node = {
+      const Node = reactive( {
         id: this.newestID,
-        parentId: targetId,
+        parentID: targetId,
         tag: 'BaseButton',
         children: [],
-      }
-      this.$store.state.jsonMap.get(targetId).children.push(Node)
-      this.$store.commit('addComponent', { key: this.newestID, value: Node })
+      })
+      this.nodeMap.get(targetId).children.push(Node)
+      this.nodeMap.set(this.newestID, Node)
     },
     addText(targetId = 0) {
       this.newestID += 1
-      const Node = {
+      const Node = reactive( {
         id: this.newestID,
-        parentId: targetId,
+        parentID: targetId,
         tag: 'BaseText',
         children: [],
-      }
-      this.$store.state.jsonMap.get(targetId).children.push(Node)
-      this.$store.commit('addComponent', { key: this.newestID, value: Node })
+      })
+      this.nodeMap.get(targetId).children.push(Node)
+      this.nodeMap.set(this.newestID, Node)
     },
     addContainerRow(targetId = 0) {
       this.newestID += 1
-      const Node = {
+      const Node = reactive({
         id: this.newestID,
-        parentId: targetId,
+        parentID: targetId,
         tag: 'ContainerRow',
         children: [],
-      }
-      this.$store.state.jsonMap.get(targetId).children.push(Node)
-      this.$store.commit('addComponent', { key: this.newestID, value: Node })
+      })
+      this.nodeMap.get(targetId).children.push(Node)
+      this.nodeMap.set(this.newestID, Node)
     },
   },
 }
