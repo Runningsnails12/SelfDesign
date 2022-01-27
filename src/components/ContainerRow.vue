@@ -1,13 +1,19 @@
 <template>
   <div class="container">
-    <!-- 动态组件 -->
-    <component v-for="child in children" :is="child.tag" :key="child.id" :parent-id="child.id"/>
+    <component-decorator  v-for="child in children"  :key="child.id" :id="child.id">
+      <!-- 动态组件 -->
+      <component
+        :is="child.tag"
+        :parent-id="child.id"
+      />
+    </component-decorator>
   </div>
 </template>
 
 <script>
 import { toRefs } from '@vue/reactivity'
 import {useStore} from 'vuex'
+import ComponentDecorator from './ComponentDecorator.vue';
 
 export default {
   // tag
@@ -39,7 +45,7 @@ export default {
 <style  scoped>
 .container {
   display: flex;
-  border:1px solid #000;
+  border: 1px solid #000;
   justify-content: flex-start;
   height: 200px;
 }
