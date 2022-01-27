@@ -7,7 +7,6 @@ export default{
 </script>
 
 <template>
-  <div>hello</div>
   <page-edit/>
 </template>
 
