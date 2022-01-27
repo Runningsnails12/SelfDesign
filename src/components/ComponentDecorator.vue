@@ -5,7 +5,7 @@ import { useStore } from 'vuex';
 export default defineComponent({
   props: {
     id: {
-      type: [String, null],
+      type: String,
       required: true
     },
     transformer: {
@@ -23,9 +23,10 @@ export default defineComponent({
 
     const data = computed(() => props.transformer(rawData.value));
 
-    const emitClickWrapper = (cb) =>
+    const onClickWrapper = (cb) =>
       (e) => {
         emit('click', e);
+        store.commit('setActiveComponent', props.id);
         if (cb) cb(e);
       };
 
@@ -35,8 +36,8 @@ export default defineComponent({
           comp => h(
             comp.type,
             {
-              ...comp.props,
-              onClick: emitClickWrapper(comp.props.onClick)
+              ...comp.ponClickWrapper,
+              onClick: onClickWrapper(comp.props.onClick)
             },
             comp.children
           )
