@@ -36,8 +36,8 @@ export default defineComponent({
           comp => h(
             comp.type,
             {
-              ...comp.ponClickWrapper,
-              onClick: onClickWrapper(comp.props.onClick)
+              ...comp.props,
+              onClick: onClickWrapper(comp.props /* 处理注释节点没有props */  && comp.props.onClick)
             },
             comp.children
           )
