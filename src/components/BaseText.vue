@@ -6,7 +6,8 @@
 
 <script>
   export default {
-    name: 'BaseText'
+    name: 'BaseText',
+    props:{}
   }
 </script>
 

@@ -5,6 +5,7 @@
       <component
         :is="child.tag"
         :parent-id="child.id"
+        
       />
     </component-decorator>
   </div>
@@ -13,11 +14,12 @@
 <script>
 import { toRefs } from '@vue/reactivity'
 import {useStore} from 'vuex'
-import ComponentDecorator from './ComponentDecorator.vue';
+import ComponentDecorator from './ComponentDecorator.vue'
 
 export default {
   // tag
   name: 'ContainerRow',
+  components:{ComponentDecorator},
   props: {
     style: {
       type: Object,
@@ -34,7 +36,7 @@ export default {
     const {parentId} = toRefs(props);
     console.log(parentId)
     const store = useStore();
-    const children = store.state.jsonMap.get(parentId.value).children
+    const children = store.state.components.get(parentId.value).children
     return {
       children
     }

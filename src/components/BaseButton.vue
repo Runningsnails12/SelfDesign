@@ -4,7 +4,8 @@
 
 <script>
 export default {
-  name: 'BaseButton'
+  name: 'BaseButton',
+  props:{}
 }
 </script>
 

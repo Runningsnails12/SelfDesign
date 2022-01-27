@@ -46,7 +46,7 @@ export default {
         tag: 'BaseButton',
         children: [],
       }
-      this.$store.state.jsonMap.get(targetId).children.push(Node)
+      this.$store.state.components.get(targetId).children.push(Node)
       this.$store.commit('addComponent', { key: this.newestID, value: Node })
     },
     addText(targetId = 0) {
@@ -57,7 +57,7 @@ export default {
         tag: 'BaseText',
         children: [],
       }
-      this.$store.state.jsonMap.get(targetId).children.push(Node)
+      this.$store.state.components.get(targetId).children.push(Node)
       this.$store.commit('addComponent', { key: this.newestID, value: Node })
     },
     addContainerRow(targetId = 0) {
@@ -68,7 +68,7 @@ export default {
         tag: 'ContainerRow',
         children: [],
       }
-      this.$store.state.jsonMap.get(targetId).children.push(Node)
+      this.$store.state.components.get(targetId).children.push(Node)
       this.$store.commit('addComponent', { key: this.newestID, value: Node })
     },
   },
