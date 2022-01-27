@@ -5,7 +5,7 @@ import { useStore } from 'vuex';
 export default defineComponent({
   props: {
     id: {
-      type: String,
+      type: Number,
       required: true
     },
     transformer: {
