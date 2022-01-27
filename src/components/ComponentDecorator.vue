@@ -13,10 +13,10 @@ export default defineComponent({
       default: (rawData) => rawData
     }
   },
-  emits: ['click'],
+  emits: ['myClick'],
   setup(props, { emit, slots }) {
     if (!slots.default) return () => '空的';
-
+    console.log(slots.default());
     const store = useStore();
 
     const rawData = computed(() => store.state.components.get(props.id) ?? null);
@@ -25,7 +25,8 @@ export default defineComponent({
 
     const onClickWrapper = (cb) =>
       (e) => {
-        emit('click', e);
+        console.log(e)
+        emit('myClick', e);
         store.commit('setActiveComponent', props.id);
         if (cb) cb(e);
       };
@@ -36,7 +37,7 @@ export default defineComponent({
           comp => h(
             comp.type,
             {
-              ...comp.ponClickWrapper,
+              ...comp.props,
               onClick: onClickWrapper(comp.props.onClick)
             },
             comp.children

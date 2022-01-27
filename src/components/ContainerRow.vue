@@ -1,11 +1,10 @@
 <template>
   <div class="container">
-    <component-decorator  v-for="child in children"  :key="child.id" :id="child.id">
-      <!-- 动态组件 -->
+    <component-decorator   v-for="child in children"  :key="child.id" :id="child.id">
       <component
+        @click.stop
         :is="child.tag"
         :parent-id="child.id"
-        
       />
     </component-decorator>
   </div>
