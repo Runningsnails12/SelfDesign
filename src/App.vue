@@ -1,8 +1,11 @@
 <script setup>
 import 'normalize.css/normalize.css';
-import { reactive } from 'vue';
+import { reactive , computed} from 'vue';
+import { useStore } from 'vuex';
 import { useRouter, useRoute } from 'vue-router';
+import LoginForm from '@/components/LoginForm/LoginForm.vue';
 
+const store=useStore();
 const router = useRouter();
 const route = useRoute();
 
@@ -22,13 +25,16 @@ const navData = reactive([{
   img: 'img/相关模板.png',
   path: '/template'
 }]);
-
 const toggleTab = (item) => router.push(item.path);
+
+const toggleLoginForm = () => store.commit('handleLoginFormClose');
+
+const usernameSplit=computed(()=>store.state.username.slice(0,2));
 
 </script>
 
 <template>
-  <div>
+  <div class="container">
     <div class="nav">
       <div class="nav_left">
         <div 
@@ -46,26 +52,48 @@ const toggleTab = (item) => router.push(item.path);
           <span class="nav_text">{{ item.text }}</span>
         </div>
       </div>
-      <div class="nav_right">
+      <div
+        class="nav_right"
+        v-if="!store.state.token"
+      >
         <div class="avatar">
           <img 
             src="img/默认头像.png" 
             alt="默认头像"
           >
         </div>
-        <div class="action">
+        <div
+          class="action"
+          @click="toggleLoginForm"
+        >
           <div>登录</div>
           <div>|</div>
           <div>注册</div>
         </div>
       </div>
+      <div 
+        class="nav_right-logined"
+        v-else
+      >
+        <div class="avatar">
+          {{ usernameSplit }}
+        </div>
+        <div class="username">
+          {{ store.state.username }}
+        </div>
+      </div>
     </div>
+    <component :is="store.state.loginFormClose?LoginForm:''" />
     <router-view />
   </div>
 </template>
 
 <style lang="scss" scoped>
-.nav {
+.container{
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  .nav {
   width: 100%;
   height: 60px;
   display: flex;
@@ -115,5 +143,23 @@ const toggleTab = (item) => router.push(item.path);
       }
     }
   }
+  .nav_right-logined{
+    display: flex;
+    align-items: center;
+    margin-right: 90px;
+    .avatar{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 45px;
+      height: 45px;
+      margin-right: 10px;
+      background-color: rgb(196,229,255);
+      border: 1px solid rgb(0, 73, 184);
+      border-radius: 100%;
+    }
+  }
 }
+}
+
 </style>

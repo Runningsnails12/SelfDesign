@@ -21,7 +21,7 @@ service.interceptors.response.use((res) => {
   // if (code === 200) {
   //     return data;
   // }
-  return res;
+  return res.data;
 });
 
 const request = (options) => {

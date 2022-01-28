@@ -11,7 +11,18 @@
  */
 import request from '../utils/request';
 export default {
-  login() {
-    return request({});
-  }
+  login(params) {
+    return request({
+      url: '/user/login',
+      method: 'POST',
+      data: params,
+    });
+  },
+  register(params) {
+    return request({
+      url: '/user/register',
+      method: 'POST',
+      data: params,
+    });
+  },
 };
