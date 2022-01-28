@@ -3,6 +3,7 @@ import 'normalize.css/normalize.css';
 import { useStore } from 'vuex';
 import LoginForm from '@/components/LoginForm/LoginForm.vue';
 import NavBar from './components/NavBar.vue';
+import ProjectEditNav from '@/components/EditPageComponent/ProjectEditNav.vue';
 
 const store=useStore();
 
@@ -10,7 +11,8 @@ const store=useStore();
 
 <template>
   <div class="container">
-    <NavBar />
+    <NavBar v-show="$route.path !== '/projectEdit'" />
+    <ProjectEditNav v-show="$route.path == '/projectEdit'" />
     <component :is="store.state.loginFormClose?LoginForm:''" />
     <router-view />
   </div>
@@ -20,7 +22,7 @@ const store=useStore();
 .container{
   width: 100vw;
   height: 100vh;
-  overflow: hidden;
+  // overflow: hidden;
 }
 
 </style>
