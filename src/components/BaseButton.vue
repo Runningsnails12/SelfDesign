@@ -1,10 +1,11 @@
 <template>
-  <button>按钮</button>
+  <button style="position:relative">按钮</button>
 </template>
 
 <script>
+import componentType from './componentType'
 export default {
-  name: 'BaseButton',
+  name: componentType.button,
   props:{}
 }
 </script>

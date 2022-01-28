@@ -1,9 +1,10 @@
 <template>
-  <div class="container">
+  <div class="container" style="position:relative">
     <component-decorator   v-for="child in children"  :key="child.id" :id="child.id">
       <component
         @click.stop
         :is="child.tag"
+        :id="'component' + child.id"
         :parent-id="child.id"
       />
     </component-decorator>
@@ -14,10 +15,10 @@
 import { toRefs } from '@vue/reactivity'
 import {useStore} from 'vuex'
 import ComponentDecorator from './ComponentDecorator.vue'
-
+import componentType from './componentType.js'
 export default {
   // tag
-  name: 'ContainerRow',
+  name: componentType.containerRow,
   components:{ComponentDecorator},
   props: {
     style: {
@@ -29,11 +30,9 @@ export default {
       type: Number,
       default:0
     }
-
   },
   setup(props){
     const {parentId} = toRefs(props);
-    console.log(parentId)
     const store = useStore();
     const children = store.state.components.get(parentId.value).children
     return {
@@ -48,6 +47,7 @@ export default {
   display: flex;
   border: 1px solid #000;
   justify-content: flex-start;
+  padding:0 30px;
   height: 200px;
 }
 </style>

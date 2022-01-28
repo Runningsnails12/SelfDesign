@@ -13,7 +13,7 @@ export default defineComponent({
       default: (rawData) => rawData
     }
   },
-  emits: ['myClick'],
+  emits: ['click'],
   setup(props, { emit, slots }) {
     if (!slots.default) return () => '空的';
     console.log(slots.default());
@@ -26,7 +26,7 @@ export default defineComponent({
     const onClickWrapper = (cb) =>
       (e) => {
         console.log(e)
-        emit('myClick', e);
+        emit('click', e);
         store.commit('setActiveComponent', props.id);
         if (cb) cb(e);
       };
@@ -38,7 +38,7 @@ export default defineComponent({
             comp.type,
             {
               ...comp.props,
-              onClick: onClickWrapper(comp.props.onClick)
+              onClick: onClickWrapper(comp.props /* 处理注释节点没有props */  && comp.props.onClick)
             },
             comp.children
           )
