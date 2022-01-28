@@ -1,83 +1,79 @@
 <template>
-  <Form 
-    class="login" 
-    ref="f" 
-    v-slot="{ errors }"
-  >
+  <div class="login">
     <label for="account">账号</label>
-    <Field
-      type="text"
-      id="account"
-      name="account"
-      placeholder="请输入8-20位以内的数字或字母"
-      :rules="checkAccount"
-      v-model.trim="user.account"
-    />
+    <input 
+      type="text" 
+      id="account" 
+      placeholder="请输入8-20位以内的数字或字母" 
+      v-model="account" 
+    >
     <div class="form_error">
-      {{ errors.account }}
+      {{ accountError }}
     </div>
     <label for="password">密码</label>
-    <Field
-      type="password"
-      id="password"
-      name="password"
-      placeholder="请输入8-20位以内的数字或字母"
-      :rules="checkPassword"
-      v-model.trim="user.pwd"
-    />
+    <input 
+      type="password" 
+      id="password" 
+      placeholder="请输入8-20位以内的数字或字母" 
+      v-model="pwd"
+    >
     <div class="form_error">
-      {{ errors.pwd }}
+      {{ pwdError }}
     </div>
-    <div
-      class="login_form_button"
-      @click="logon"
+    <div 
+      class="login_form_button" 
+      @click="login"
     >
       登录
     </div>
-  </Form>
+  </div>
 </template>
 
 <script setup>
-import { ref,reactive } from 'vue';
+
 import { useStore } from 'vuex';
-import { Form, Field } from 'vee-validate';
+import { useForm, useField } from 'vee-validate';
 import Message from '@/components/ShowMessage';
 import api from '@/api';
 
-const store=useStore();
-const f=ref(null);
+const store = useStore();
 
-const user=reactive({
-  account:null,
-  pwd:null
+const simpleSchema = {
+  account(value) {
+    if (!value) return;
+    if (!/^\w{8,20}$/.test(value)) return '需要8-20位以内的数字或字母';
+    return true;
+  },
+  pwd(value) {
+    if (!value) return;
+    if (!/^\w{8,20}$/.test(value)) return '需要8-20位以内的数字或字母';
+    return true;
+  },
+};
+useForm({
+  validationSchema: simpleSchema,
 });
 
-const checkAccount=(value)=>{
-  if(!value) return;
-  if (!/^\w{8,20}$/.test(value)) return '需要8-20位以内的数字或字母';
-  return true;
-};
-const checkPassword=(value)=>{
-  if(!value) return;
-  if (!/^\w{8,20}$/.test(value)) return '需要8-20位以内的数字或字母';
-  return true;
-};
+const { value: account, errorMessage: accountError, meta: accountMeta } = useField('account');
+const { value: pwd, errorMessage: pwdError, meta: pwdMeta } = useField('pwd');
 
-const logon=async()=>{
-  const valid = await f.value.validate();
-  if(valid){
-    const res=await api.login(user);
-    if(res.code===2000){
+const login = async () => {
+  const valid = accountMeta.valid && pwdMeta.valid;
+  if (valid) {
+    console.log(account);
+    const res = await api.login({ account: account.value, pwd: pwd.value });
+    if (res.code === 2000) {
       Message.success(res.message);
       store.commit('handleLoginFormClose');
       store.commit('setToken',res.data.token);
-      store.commit('setUsername',user.account);
-    }else{
+      store.commit('setUsername',account);
+    } else {
       Message.error(res.message);
     }
+  } else {
+    Message.warning('请正确填写信息');
   }
 };
-
 </script>
 
 <style lang="scss" scoped>
@@ -97,12 +93,12 @@ const logon=async()=>{
     border: 1px solid #dddddd;
     border-radius: 2px;
   }
-  .form_error{
+  .form_error {
     height: 14px;
     font-size: 14px;
     color: red;
   }
-  .login_form_button{
+  .login_form_button {
     margin: 38px 0px;
     font-size: 18px;
     line-height: 40px;
