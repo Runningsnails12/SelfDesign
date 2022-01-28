@@ -119,6 +119,7 @@ const usernameSplit=computed(()=>store.state.username.slice(0,2));
         font-family: Microsoft YaHei-Bold, Microsoft YaHei;
         font-weight: bold;
         color: #333333;
+        white-space: nowrap;
       }
     }
   }
@@ -140,6 +141,7 @@ const usernameSplit=computed(()=>store.state.username.slice(0,2));
       div{
         margin: 0 5px;
         cursor: pointer;
+        white-space: nowrap;
       }
     }
   }
