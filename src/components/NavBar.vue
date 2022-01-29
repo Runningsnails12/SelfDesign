@@ -42,16 +42,43 @@
       <div class="avatar">
         {{ usernameSplit }}
       </div>
-      <div class="username">
+      <div 
+        class="username" 
+        @click="handleUsernameEdit"
+        :style="{'display':editUsername?'none':'block'}"
+      >
         {{ store.state.username }}
+      </div>
+      <div 
+        class="username_edit"
+        :style="{'display':editUsername?'flex':'none'}"
+      >
+        <input 
+          type="text" 
+          v-model="username"
+        >
+        <div 
+          class="username_edit_btn"
+          @click="saveUsername"
+        >
+          确认
+        </div>
+        <div 
+          class="username_edit_btn"
+          @click="cancelEdit"
+        >
+          取消
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script setup>
-import { reactive , computed } from 'vue';
+import { ref , reactive , computed } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter, useRoute } from 'vue-router';
+import api from '@/api';
+import Message from '@/components/ShowMessage';
 
 const store=useStore();
 const router = useRouter();
@@ -78,7 +105,26 @@ const toggleTab = (item) => router.push(item.path);
 
 const toggleLoginForm = () => store.commit('handleLoginFormClose');
 
-const usernameSplit=computed(()=>store.state.username.slice(0,2));
+const usernameSplit=computed(()=>store.state.username?.slice(0,2));
+
+const editUsername=ref(false);
+const username=ref(store.state.username);
+const handleUsernameEdit=()=>editUsername.value=!editUsername.value;
+const cancelEdit=()=>{
+  username.value=store.state.username;
+  handleUsernameEdit();
+};
+const saveUsername=async()=>{
+  const { code } = await api.modifyUsername({username:username.value});
+  if(code===2000){
+    store.commit('setUsername',username.value);
+    handleUsernameEdit();
+    Message.success('修改成功');
+  }else{
+    Message.error('修改失败');
+  }
+};
+
 </script>
 <style lang="scss">
 .nav {
@@ -147,6 +193,23 @@ const usernameSplit=computed(()=>store.state.username.slice(0,2));
       background-color: rgb(196,229,255);
       border: 1px solid rgb(0, 73, 184);
       border-radius: 100%;
+    }
+    .username{
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .username_edit{
+      display: flex;
+      align-items: center;
+      .username_edit_btn{
+        padding: 4px 8px;
+        margin-left: 10px;
+        color: #fff;
+        font-size: 13px;
+        background-color: #0049b8;
+        border-radius: 6px;
+        cursor: pointer;
+      }
     }
   }
 }

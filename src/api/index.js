@@ -10,19 +10,39 @@
     },
  */
 import request from '../utils/request';
+
 export default {
-  login(params) {
+  async login(params) {
     return request({
       url: '/user/login',
       method: 'POST',
-      data: params,
+      data: params
     });
   },
-  register(params) {
+  async register(params) {
     return request({
       url: '/user/register',
       method: 'POST',
-      data: params,
+      data: params
     });
   },
+  async getUserProject(){
+    return request({
+      url:'/project/getUserProject',
+      method:'GET'
+    });
+  },
+  async getUserInfo(){
+    return request({
+      url:'/user/getUserInfo',
+      method:'GET'
+    });
+  },
+  async modifyUsername(params){
+    return request({
+      url:'/user/modifyUsername',
+      method:'POST',
+      data: params
+    });
+  }
 };
