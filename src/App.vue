@@ -10,7 +10,11 @@ export default{
   <page-edit/>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
+body{
+  margin:0;
+  padding:0;
+}
 .nav {
   width: 100%;
   height: 60px;
