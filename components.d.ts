@@ -5,19 +5,23 @@
 declare module 'vue' {
   export interface GlobalComponents {
     AttrStyle: typeof import('./src/components/ControlPanel/AttrStyle.vue')['default']
+    CanvasPage: typeof import('./src/components/EditPageComponent/CanvasPage.vue')['default']
     ComponentDecorator: typeof import('./src/components/ComponentDecorator.vue')['default']
     ComponentPanel: typeof import('./src/components/EditPageComponent/ComponentPanel.vue')['default']
     ControlPanel: typeof import('./src/components/ControlPanel/ControlPanel.vue')['default']
+    DialogBox: typeof import('./src/components/EditPageComponent/DialogBox.vue')['default']
     Interaction: typeof import('./src/components/ControlPanel/Interaction.vue')['default']
     LogIn: typeof import('./src/components/LoginForm/LogIn.vue')['default']
     LoginForm: typeof import('./src/components/LoginForm/LoginForm.vue')['default']
     LogOn: typeof import('./src/components/LoginForm/LogOn.vue')['default']
     NavBar: typeof import('./src/components/NavBar.vue')['default']
     ProjectEditNav: typeof import('./src/components/EditPageComponent/ProjectEditNav.vue')['default']
+    ProjectItem: typeof import('./src/components/ProjectItem.vue')['default']
     ShowMessage: typeof import('./src/components/ShowMessage/ShowMessage.vue')['default']
     UserButton: typeof import('./src/components/UserComponent/UserButton.vue')['default']
     UserImage: typeof import('./src/components/UserComponent/UserImage.vue')['default']
     UserInput: typeof import('./src/components/UserComponent/UserInput.vue')['default']
+    ZoomPanel: typeof import('./src/components/EditPageComponent/ZoomPanel.vue')['default']
   }
 }
 
