@@ -22,7 +22,7 @@
     >
       <div class="avatar">
         <img 
-          src="img/默认头像.png" 
+          src="/img/默认头像.png" 
           alt="默认头像"
         >
       </div>
@@ -87,17 +87,17 @@ const route = useRoute();
 const navData = reactive([{
   id: 0,
   text: '新手教程',
-  img: 'img/新手教程.png',
+  img: '/img/新手教程.png',
   path: '/tutorial'
 }, {
   id: 1,
   text: '项目管理',
-  img: 'img/项目管理.png',
+  img: '/img/项目管理.png',
   path: '/project'
 }, {
   id: 2,
   text: '相关模板',
-  img: 'img/相关模板.png',
+  img: '/img/相关模板.png',
   path: '/template'
 }]);
 

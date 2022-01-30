@@ -10,6 +10,7 @@
     },
  */
 import request from '../utils/request';
+import fileDownload from 'js-file-download';
 
 export default {
   async login(params) {
@@ -44,5 +45,36 @@ export default {
       method:'POST',
       data: params
     });
-  }
+  },
+  async download(params){
+    return request({
+      url:'/project/export',
+      method:'GET',
+      data:params,
+      responseType: 'blob'
+    }).then(res=>{
+      fileDownload(res.data, params + '.json');
+    });
+  },
+  async deleteProject(params){
+    return request({
+      url:'/project/deleteProject',
+      method:'POST',
+      data: params
+    });
+  },
+  async createProject(params){
+    return request({
+      url:'/project/createProject',
+      method:'POST',
+      data:params
+    });
+  },
+  async modifyName(params){
+    return request({
+      url:'/project/modifyName',
+      method:'POST',
+      data:params
+    });
+  },
 };

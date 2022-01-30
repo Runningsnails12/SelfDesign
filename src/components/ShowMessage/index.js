@@ -13,7 +13,6 @@ const render = (type,text) => {
 
   const changeTop = () => {
     for (let i = 0; i < messageList.length; i++) {
-      console.log(messageList[i]);
       messageList[i].style.top = `${i * height}px`;
     }
   };
