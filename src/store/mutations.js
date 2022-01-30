@@ -17,7 +17,7 @@ function deleteComponentFromJson(state, {parentId, targetId}){
       break
     }
   }
-  children.splice(i, 1)
+  return children.splice(i, 1)[0];
 }
 
 
@@ -61,6 +61,13 @@ export default {
     resetActiveComponent(state) // 必须先置 -1
     deleteComponentFromMap(state,activeComponentId);
     deleteComponentFromJson(state, {parentId, targetId:activeComponentId});
+  },
+
+  // 移动组件
+  moveComponent(state, to){
+    const activeComponentId = state.activeComponentId;
+    const from = state.componentStyle.get(activeComponentId).parentId;
+    state.components.get(to).children.push(deleteComponentFromJson(state, {from, activeComponentId}));
   },
 
   // 修改当前活动组件

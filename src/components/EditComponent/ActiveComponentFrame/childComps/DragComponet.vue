@@ -1,40 +1,13 @@
 <template>
-  <div>
-    <teleport :to="activeComponentId">
-      <div
-        v-show="isShow"
-        class="frame"
-        @mousedown="startDragComponent"
-        @mousemove="dragComponent"
-        @mouseup="putDownComponent"
-        @click.stop
-        draggable="false"
-      >
-        <button @click.stop="deleteNode">删除</button>
-      </div>
-    </teleport>
-  </div>
+  <div></div>
 </template>
 
 <script>
-import { useStore } from 'vuex'
-import { computed } from 'vue'
 export default {
   setup() {
-    const store = useStore()
-    let activeComponentId = computed(() =>
-      store.state.activeComponentId !== -1
-        ? '#component' + store.state.activeComponentId
-        : 'body'
-    )
-    let isShow = computed(() => store.state.activeComponentId !== -1)
-
-    return { activeComponentId, isShow }
+    return {}
   },
   methods: {
-    deleteNode() {
-      this.$store.commit('deleteComponent');
-    },
     startDragComponent(e) {
       // 第一次执行让组件从原有容器中移动到root 中，并且 position 属性这是为 absolute，left 和 right 值随着光标移动
       //修改 target 的 style 的 position:fix, 并且 left 和 top 的值为 srcree - offset
@@ -72,14 +45,5 @@ export default {
 }
 </script>
 
-<style scoped>
-.frame {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  color: #fff;
-  background-color: rgba(0, 0, 0, 0.5);
-}
+<style lang="scss" scoped>
 </style>

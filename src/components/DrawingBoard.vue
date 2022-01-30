@@ -9,7 +9,7 @@
 <script>
 
 import { useStore } from 'vuex'
-import ActiveComponentFrame from './EditComponent/ActiveComponentFrame.vue'
+import ActiveComponentFrame from './EditComponent/ActiveComponentFrame/index.vue'
 export default {
   components: { ActiveComponentFrame },
   setup() {
