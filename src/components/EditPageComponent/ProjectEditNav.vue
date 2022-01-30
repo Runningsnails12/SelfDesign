@@ -29,27 +29,42 @@
         <button id="preview">
           预览
         </button>
-        <button id="publish">
-          发 &nbsp; 布
-        </button> 
+        <button 
+          id="publish"
+          @click="displaylDialog"
+        >
+          发 &nbsp; 布  
+        </button>    
       </div>
     </div>
   </div>
+  <dialog-box />
 </template>
 
 <script>
+import DialogBox from '@/components/EditPageComponent/DialogBox.vue';
+
 export default {
   name: 'ProjectEditNav',
+  components: {
+    DialogBox
+  },
   setup() {
     let lastSaveTime = '00:00';   // 最后一次的保存时间
 
-    // let revokeBtn = document.getElementById('revoke');
-    // const revokeBtn = () => {
+    const displaylDialog = () => {
+      let dialogOutsidebox = document.getElementById('dialog-outsidebox');
+      dialogOutsidebox.style.display = 'block';
+    };
 
-    // };
+    const publishMessage = () => {
+
+    };
 
     return {
       lastSaveTime,
+      displaylDialog,
+      publishMessage
     };
   }
 };
@@ -57,9 +72,11 @@ export default {
 </script>
 <style scoped>
   .edit-nav-box {
+    position: relative;
     width: 100%;
     background: #ffffff;
     box-shadow: 0px 3px 6px 1px rgba(0, 0, 0, 0.1607843137254902);
+    box-sizing: border-box; 
   }
 
   .edit-nav {
@@ -97,11 +114,8 @@ export default {
     width: 90px;
   }
 
-  #user-msg:hover ul {
-  
-  }
-
   #user-msg ul {
+    display: none;
     margin-top: -32px;
     width: 0;
     height: 0;
@@ -134,18 +148,18 @@ export default {
   #user-msg ul li i {
     width: 20px;
     height: 16px;
-    background: url(../../../public/img/新手教程.png);
+    background: url(img/新手教程.png);
     background-size: auto 16px;
     background-repeat: no-repeat;
   }
   
   #user-msg ul li:nth-child(2) i {
-    background: url(../../../public/img/项目管理.png);
+    background: url(img/项目管理.png);
     background-size: auto 16px;
     background-repeat: no-repeat;
   }
   #user-msg ul li:nth-child(3) i {
-    background: url(../../../public/img/相关模板.png);
+    background: url(img/相关模板.png);
     background-size: auto 16px;
     background-repeat: no-repeat;
   }
@@ -180,7 +194,7 @@ export default {
     width: 32px;
     height: 32px;
     background-color: #ffffff;
-    background: url(../../../public/img/EditIcons/nav_icon.png);
+    background: url(img/EditIcons/nav_icon.png);
     background-size: 128px 64px;
     background-repeat: no-repeat;
     outline: none;
@@ -253,4 +267,7 @@ export default {
   #publish:hover {
     box-shadow: 0px 3px 6px 1px rgba(0, 0, 0, 0.1607843137254902);
   }
+
+/* 弹框 */
+
 </style>
