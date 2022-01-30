@@ -6,6 +6,7 @@ import LoginForm from '@/components/LoginForm/LoginForm.vue';
 import NavBar from './components/NavBar.vue';
 import Message from './components/ShowMessage';
 import api from './api';
+import ProjectEditNav from '@/components/EditPageComponent/ProjectEditNav.vue';
 
 const store = useStore();
 onMounted(async () => {
@@ -45,8 +46,9 @@ Date.prototype.format = function (fmt) {
 
 <template>
   <div class="container">
-    <NavBar />
-    <component :is="store.state.loginFormClose ? LoginForm : ''" />
+    <NavBar v-show="$route.path !== '/projectEdit'" />
+    <ProjectEditNav v-show="$route.path == '/projectEdit'" />
+    <component :is="store.state.loginFormClose?LoginForm:''" />
     <router-view />
   </div>
 </template>
@@ -55,6 +57,6 @@ Date.prototype.format = function (fmt) {
 .container {
   width: 100vw;
   height: 100vh;
-  overflow: hidden;
+  // overflow: hidden;
 }
 </style>
