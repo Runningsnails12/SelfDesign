@@ -113,6 +113,9 @@ export default {
 </script>
 
 <style>
+li {
+	list-style-type: none;
+}
 .interaction .el-input__inner {
 	height: 1.5rem;
 	font-size: 0.8125rem;

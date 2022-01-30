@@ -14,10 +14,7 @@
 				交 互
 			</button>
 		</div>
-		<div class="corePanel">
-			<AttrStyle v-show="trigglePanel == 1"></AttrStyle>
-			<Interaction v-show="trigglePanel == 0"></Interaction>
-		</div>
+		<div class="corePanel"></div>
 	</div>
 </template>
 
