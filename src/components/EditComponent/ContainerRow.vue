@@ -16,6 +16,7 @@
 import { toRefs } from '@vue/reactivity'
 import {useStore} from 'vuex'
 import ComponentDecorator from './ComponentDecorator.vue'
+
 export default {
   // tag
   name: 'ContainerRow',

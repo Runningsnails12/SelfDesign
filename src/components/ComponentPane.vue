@@ -7,11 +7,11 @@
     >
       {{ comp.text }}
     </button>
+    插入容器：<input v-model.number="parentId"/>
   </div>
 </template>
 
 <script>
-import bus from 'vue3-eventbus'
 import { ref } from 'vue'
 export default {
   setup() {
@@ -32,13 +32,14 @@ export default {
         tag: 'ContainerColumn',
         text: '纵向容器',
       }
-      
     ])
-    return { components }
+    const parentId = ref(0)
+    return { components, parentId }
   },
   methods: {
-    addNode(nodeType) {
-      bus.emit('addNode', nodeType)
+    addNode(componentType) {
+      const parentId = this.parentId;
+      this.$store.commit('addComponent',{componentType, parentId})
     },
   },
 }
