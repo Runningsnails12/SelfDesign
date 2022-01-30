@@ -48,7 +48,7 @@ Date.prototype.format = function (fmt) {
   <div class="container">
     <NavBar v-show="$route.path !== '/projectEdit'" />
     <ProjectEditNav v-show="$route.path == '/projectEdit'" />
-    <component :is="store.state.loginFormClose?LoginForm:''" />
+    <LoginForm v-if="store.state.loginFormClose" />
     <router-view />
   </div>
 </template>
