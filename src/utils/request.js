@@ -1,19 +1,23 @@
 /**
  * axiox二次封装
  */
-import axiox from 'axios';
+import axios from 'axios';
 import config from '../config';
 
 //axiox实例
-const service = axiox.create({
+const service = axios.create({
   baseUrl: config.baseApi,
   timeout: 8000
 });
 
 //请求拦截
-// service.interceptors.request.use((req) => {
-
-// })
+service.interceptors.request.use((req) => {
+  const headers = req.headers;
+  const token = localStorage.getItem('token') || '';
+  if (!['/user/login', '/user/register'].includes(req.url))
+    headers.token = token;
+  return req;
+});
 
 //响应拦截
 service.interceptors.response.use((res) => {

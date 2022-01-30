@@ -60,13 +60,14 @@ const { value: pwd, errorMessage: pwdError, meta: pwdMeta } = useField('pwd');
 const login = async () => {
   const valid = accountMeta.valid && pwdMeta.valid;
   if (valid) {
-    console.log(account);
     const res = await api.login({ account: account.value, pwd: pwd.value });
     if (res.code === 2000) {
       Message.success(res.message);
       store.commit('handleLoginFormClose');
       store.commit('setToken',res.data.token);
-      store.commit('setUsername',account);
+      localStorage.setItem('token',res.data.token);
+      const {data}=await api.getUserInfo();
+      store.commit('setUsername',data.username);
     } else {
       Message.error(res.message);
     }

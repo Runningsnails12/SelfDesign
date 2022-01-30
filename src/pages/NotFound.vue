@@ -11,7 +11,10 @@
       <span class="letter">到</span>
       <span class="letter">了</span>
     </div>
-    <img src="img/404.png" alt="404" />
+    <img 
+      src="/img/404.png" 
+      alt="404"
+    >
   </div>
 </template>
 <script>
