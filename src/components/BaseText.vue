@@ -1,14 +1,18 @@
 <template>
-  <div style="position:relative">
+  <div style="position:relative; height:200px" :style="componentStyle">
     文本文本文本
   </div>
 </template>
 
 <script>
-  import componentType from './componentType.js'
   export default {
-    name: componentType.text,
-    props:{}
+    name: 'BaseText',
+    props:{
+      componentStyle:{
+        type:Object,
+        default:{}
+      }
+    }
   }
 </script>
 

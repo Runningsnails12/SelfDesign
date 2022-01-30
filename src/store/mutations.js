@@ -13,7 +13,7 @@ export default {
   addComponent(state, {key, value}){
     state.components.set(key, value);
   },
-  
+  // 删除组件
   deleteComponent,
 
   // 修改当前活动组件
@@ -21,8 +21,20 @@ export default {
     state.activeComponentId = id;
   },
 
-  // 重新当前活动组件
+  // 重置活动组件
   resetActiveComponent(state){
     state.activeComponentId = null;
+  },
+
+  // 修改活动组件样式
+  setActiveComponentStyle(state, style){
+    if(state.activeComponentId === null){
+      return
+    }
+    const componentStyle = state.components.get(state.activeComponentId).style;
+    // 覆盖 style 原有属性值
+    for(let key in style){
+      componentStyle[key] = style[key];
+    }
   }
 }

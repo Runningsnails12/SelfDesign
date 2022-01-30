@@ -1,12 +1,17 @@
 <template>
-  <button style="position:relative">按钮</button>
+  <button style="position:relative" :style="componentStyle">按钮</button>
 </template>
 
 <script>
-import componentType from './componentType'
+
 export default {
-  name: componentType.button,
-  props:{}
+  name: 'BaseButton',
+  props:{
+    componentStyle:{
+      type:Object,
+      default: {}
+    }
+  }
 }
 </script>
 

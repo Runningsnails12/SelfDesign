@@ -18,7 +18,7 @@ import {useStore} from 'vuex'
 import ComponentDecorator from './ComponentDecorator.vue'
 export default {
   // tag
-  name: 'ContainerRow',
+  name: "ContainerColumn",
   components:{ComponentDecorator},
   props: {
     componentStyle: {
@@ -46,6 +46,7 @@ export default {
 .container {
   display: flex;
   border: 1px solid #000;
+  flex-direction: column;
   justify-content: flex-start;
   padding:0 30px;
   height: 200px;

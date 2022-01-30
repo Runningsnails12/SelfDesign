@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <component :is="root.tag" :parent-id="0" />
-    <div>添加进容器: <input v-model.number="toBeAddedContainerId" /></div>
+  <div class="drawing-board" @click.stop="cancelComponentSelect">
+    <component :is="root.tag" :component-id="0" />
+    <div>添加进容器: <input v-model.number="toBeAddedContainerId" /><button @click="setComponentStyle">修改样式</button></div>
     <active-component-frame />
   </div>
 </template>
@@ -20,7 +20,7 @@ export default {
     // 根节点
     const root = reactive({
       id: 0,
-      tag: 'ContainerRow',
+      tag: 'ContainerColumn',
       children: [],
     })
     const store = useStore()
@@ -32,6 +32,7 @@ export default {
         id,
         parentId,
         tag,
+        style:{},
         children: [],
       }
     }
@@ -75,13 +76,37 @@ export default {
 
     // 移动节点
 
+    // 将一个组件从一个容器中移动到另一个容器
+
+    // root 移动到 target 容器
+
+    // 从父容器移动到 root
+
+    // 
+
+
     return {
       root,
       toBeAddedContainerId,
     }
   },
+  methods:{
+    // 取消组件的选中
+    cancelComponentSelect(){
+      this.$store.commit('resetActiveComponent');
+    },
+    // 设置激活组件样式
+    setComponentStyle(){
+      this.$store.commit('setActiveComponentStyle',{position:'fixed',left:0, top:0})
+    }
+  }
 }
 </script>
 
 <style  scoped>
+.drawing-board{
+  width: 96vw;
+  height: 80vh;
+  background-color: aliceblue;
+}
 </style>
