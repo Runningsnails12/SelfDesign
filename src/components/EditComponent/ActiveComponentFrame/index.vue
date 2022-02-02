@@ -7,6 +7,9 @@
         @click.stop
         draggable="false"
       >
+        <component-resizer
+          :id="$store.state.activeComponentId"
+        />
         <delete-component/>
         <drag-component/>
       </div>
@@ -19,6 +22,7 @@ import { useStore } from 'vuex'
 import { computed } from 'vue'
 import DragComponent from './childComps/DragComponet.vue'
 import DeleteComponent from './childComps/DeleteComponent.vue'
+import ComponentResizer from '../../ComponentResizer.vue'
 export default {
   setup() {
     const store = useStore()
@@ -30,7 +34,7 @@ export default {
     let isShow = computed(() => store.state.activeComponentId !== -1)
     return { activeComponentId, isShow }
   },
-  components:{DragComponent, DeleteComponent},
+  components:{ DragComponent, DeleteComponent, ComponentResizer },
 }
 </script>
 
