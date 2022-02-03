@@ -29,6 +29,7 @@
 				<Interaction></Interaction>
 			</div>
 		</div>
+		<div class="sidebar"></div>
 	</div>
 </template>
 
@@ -80,6 +81,14 @@ export default {
 	},
 };
 </script>
+<style>
+#c-panel button {
+	transition: all 0.3s;
+}
+#c-panel button:hover {
+	box-shadow: 0px 2px 6px 1px rgba(0, 0, 0, 0.1607843137254902);
+}
+</style>
 
 <style scoped>
 #c-panel {
@@ -119,11 +128,14 @@ export default {
 .sidebar > button img {
 	width: 20px;
 }
-
+.panel-content {
+	/* width: 100%; */
+	overflow-y: scroll;
+}
 /* 选项啥啥的 */
 .panel-content > ul {
 	margin: 26px 30px 28px 30px;
-	width: 200px;
+	width: 11rem;
 	height: 36px;
 	list-style: none;
 	border-radius: 6px;
@@ -133,12 +145,13 @@ export default {
 
 .panel-content > ul li {
 	float: left;
-	width: 100px;
+	width: 5.5rem;
 	height: 36px;
 	color: #333333;
 	line-height: 36px;
 	text-align: center;
 	cursor: pointer;
+	transition: all 0.3s;
 }
 .tabSelected {
 	color: #ffffff !important;
@@ -152,7 +165,7 @@ export default {
 .attributes-panel,
 .interact-panel {
 	display: none;
-	width: 11rem;
+	/* width: 11rem; */
 	margin: 0 auto;
 }
 </style>
