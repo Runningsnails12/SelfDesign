@@ -2,7 +2,7 @@ import { provide } from 'vue';
 
 const userInput = (raw) => {
   return {
-    value: raw.values.value,
+    value: raw.values.content,
     type: raw.values.type,
     rows: raw.values.rows,
     dashed: raw.values.dashed
@@ -11,7 +11,7 @@ const userInput = (raw) => {
 
 const userButton = (raw) => {
   return {
-    text: raw.values.text
+    text: raw.values.content
   };
 };
 
