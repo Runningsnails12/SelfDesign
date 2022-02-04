@@ -88,12 +88,12 @@ const copyUrl = (url) => {
   document.body.removeChild(aux);
 };
 const deleteProject = async (id) => {
-  const { code } = await api.deleteProject({ id: id });
+  const { code , message } = await api.deleteProject({ id: id });
   if (code === 2000) {
     Message.success('删除成功');
     emit('update-project');
   } else {
-    Message.error('删除失败');
+    Message.error(message);
   }
 };
 

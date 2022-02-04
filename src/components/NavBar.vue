@@ -108,20 +108,20 @@ const toggleLoginForm = () => store.commit('handleLoginFormClose');
 const usernameSplit=computed(()=>store.state.username?.slice(0,2));
 
 const editUsername=ref(false);
-const username=ref(store.state.username);
+const username=computed(()=>store.state.username);
 const handleUsernameEdit=()=>editUsername.value=!editUsername.value;
 const cancelEdit=()=>{
   username.value=store.state.username;
   handleUsernameEdit();
 };
 const saveUsername=async()=>{
-  const { code } = await api.modifyUsername({username:username.value});
+  const { code , message } = await api.modifyUsername({username:username.value});
   if(code===2000){
     store.commit('setUsername',username.value);
     handleUsernameEdit();
     Message.success('修改成功');
   }else{
-    Message.error('修改失败');
+    Message.error(message);
   }
 };
 
