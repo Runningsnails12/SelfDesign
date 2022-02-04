@@ -1,6 +1,6 @@
 <template>
   <div>
-     <button @click.stop="deleteNode">删除</button>
+     <button @click.stop="deleteNode" @mousedown.stop>删除</button>
   </div>
 </template>
 
@@ -14,7 +14,7 @@ export default {
   methods:{
      deleteNode() {
       this.$store.commit('deleteComponent');
-    }
+     }
   }
 }
 </script>

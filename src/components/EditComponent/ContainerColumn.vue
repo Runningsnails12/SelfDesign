@@ -1,11 +1,19 @@
 <template>
-  <div class="container" style="position:relative" :style="componentStyle">
-    <component-decorator   v-for="child in children"  :key="child.id" :id="child.id">
+  <div
+    class="container"
+    :class="{ active: isActive }"
+    style="position: relative"
+    :style="[componentStyle, tempStyle]"
+  >
+    <component-decorator
+      v-for="child in children"
+      :key="child.id"
+      :id="child.id"
+    >
       <component
         @click.stop
         :is="child.tag"
         :id="'component' + child.id"
-        :component-style="child.style"
         :component-id="child.id"
       />
     </component-decorator>
@@ -14,32 +22,37 @@
 
 <script>
 import { toRefs } from '@vue/reactivity'
-import {useStore} from 'vuex'
+import { useStore } from 'vuex'
 import ComponentDecorator from './ComponentDecorator.vue'
-
+import { computed } from 'vue'
 export default {
   // tag
-  name: "ContainerColumn",
-  components:{ComponentDecorator},
+  name: 'ContainerColumn',
+  components: { ComponentDecorator },
   props: {
-    componentStyle: {
-      type: Object,
-      // 调整容器大小，背景，边框，圆角
-      default: {},
-    },
     componentId: {
       type: Number,
-      default:0
+      required: true,
+    },
+  },
+  setup(props) {
+    const { componentId } = toRefs(props)
+    const store = useStore()
+    const children = store.state.components.get(componentId.value).children
+    const componentStyle = store.state.components.get(componentId.value).style
+    const tempStyle = computed(
+      () => store.state.components.get(componentId.value).tempStyle
+    )
+    let isActive = computed(
+      () => componentId.value === store.state.activeContainerId
+    )
+    return {
+      children,
+      isActive,
+      componentStyle,
+      tempStyle,
     }
   },
-  setup(props){
-    const {componentId} = toRefs(props);
-    const store = useStore();
-    const children = store.state.components.get(componentId.value).children
-    return {
-      children
-    }
-  }
 }
 </script>
 
@@ -49,7 +62,10 @@ export default {
   border: 1px solid #000;
   flex-direction: column;
   justify-content: flex-start;
-  padding:0 30px;
+  padding: 0 30px;
   height: 200px;
+}
+.active {
+  outline: #00f solid 2px;
 }
 </style>

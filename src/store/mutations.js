@@ -28,6 +28,7 @@ function generateNode(id, parentId, tag) {
     parentId,
     tag,
     style:{},
+    tempStyle:{}, // 前端操作的时候有用
     children: [],
   }
 }
@@ -64,10 +65,17 @@ export default {
   },
 
   // 移动组件
-  moveComponent(state, to){
+  moveComponent(state){
+    const to = state.activeContainerId;
+    if(to === -1){return}
     const activeComponentId = state.activeComponentId;
-    const from = state.componentStyle.get(activeComponentId).parentId;
-    state.components.get(to).children.push(deleteComponentFromJson(state, {from, activeComponentId}));
+    const from = state.components.get(activeComponentId).parentId;
+    console.log(from, to);
+    if(to !== from){
+      const comp = deleteComponentFromJson(state, {parentId:from, targetId:activeComponentId})
+      comp.parentId = to;
+      state.components.get(to).children.push(comp);
+    }
   },
 
   // 修改当前活动组件
@@ -80,7 +88,7 @@ export default {
 
   // 修改活动组件样式
   setActiveComponentStyle(state, style){
-    if(state.activeComponentId === null){
+    if(state.activeComponentId === -1){
       return
     }
     const componentStyle = state.components.get(state.activeComponentId).style;
@@ -88,5 +96,36 @@ export default {
     for(let key in style){
       componentStyle[key] = style[key];
     }
+  },
+
+  // 修改活动组件临时样式
+  setActiveComponentTempStyle(state, style){
+    if(state.activeComponentId === -1){
+      return
+    }
+    const componentStyle = state.components.get(state.activeComponentId).tempStyle;
+    // 覆盖 style 原有属性值
+    for(let key in style){
+      componentStyle[key] = style[key];
+    }
+  },
+
+  // 清空临时样式
+  clearActiveComponentTempStyle(state){
+    if(state.activeComponentId === -1){
+      return
+    }
+    state.components.get(state.activeComponentId).tempStyle = {};
+  },
+
+
+  // 设置激活容器
+  setActiveContainer(state, id){
+    state.activeContainerId = id;
+  },
+
+  // 重置激活容器
+  resetActiveContainer(state){
+    state.activeContainerId = -1;
   }
 }

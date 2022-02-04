@@ -1,7 +1,6 @@
 <template>
-  <div class="drawing-board" @click.stop="cancelComponentSelect">
+  <div  class="drawing-board" @click.stop="cancelComponentSelect">
     <component :is="root.tag" :component-id="0" />
-    <div><button @click="setComponentStyle">修改样式</button></div>
     <active-component-frame />
   </div>
 </template>
@@ -9,7 +8,7 @@
 <script>
 
 import { useStore } from 'vuex'
-import ActiveComponentFrame from './EditComponent/ActiveComponentFrame/index.vue'
+import ActiveComponentFrame from './EditComponent/ActiveComponentFrame/ActiveComponentFrame.vue'
 export default {
   components: { ActiveComponentFrame },
   setup() {
@@ -25,10 +24,6 @@ export default {
     // 取消组件的选中
     cancelComponentSelect(){
       this.$store.commit('resetActiveComponent');
-    },
-    // 设置激活组件样式
-    setComponentStyle(){
-      this.$store.commit('setActiveComponentStyle',{position:'fixed',left:0, top:0})
     }
   }
 }
