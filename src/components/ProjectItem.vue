@@ -2,7 +2,12 @@
   <div class="project_item">
     <div class="info">
       <div class="title">
-        {{ project.name }}
+        <span
+          class="project-name"
+          @click="changeProjectName(project.id)"
+        >
+          {{ project.name }}
+        </span>
       </div>
       <div 
         class="url" 
@@ -62,6 +67,7 @@
 <script setup>
 import api from '@/api';
 import { useRouter } from 'vue-router';
+import { ElMessageBox } from 'element-plus';
 import Message from '@/components/ShowMessage';
 const router = useRouter();
 defineProps({
@@ -100,6 +106,33 @@ const deleteProject = async (id) => {
 const changeDate = (d) => {
   const date = new Date(+d).format('yyyy-MM-dd hh:mm:ss');
   return date;
+};
+
+const changeProjectName = async (id) => {
+  let newName;
+  try {
+    const { value } = await ElMessageBox.prompt(
+      '请输入新名称',
+      '修改项目名称',
+      {
+        inputPattern: /^.+$/,
+        inputErrorMessage: '名称不能为空'
+      }
+    );
+    newName = value;
+  } catch {
+    Message.warning('取消修改项目名称');
+    return;
+  }
+
+  const resp = await api.modifyName({ id, name: newName });
+
+  if (resp.flag) {
+    Message.success('修改项目名称成功');
+    emit('update-project');
+  } else {
+    Message.error(resp.message);
+  }
 };
 
 </script>
@@ -170,5 +203,11 @@ const changeDate = (d) => {
     color: #fff;
     border-top-right-radius: 8px;
   }
+}
+
+.project-name:hover {
+  text-decoration: underline;
+
+  cursor: pointer;
 }
 </style>
