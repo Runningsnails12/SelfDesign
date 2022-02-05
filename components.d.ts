@@ -25,7 +25,6 @@ declare module 'vue' {
     ShowMessage: typeof import('./src/components/ShowMessage/ShowMessage.vue')['default']
     UserButton: typeof import('./src/components/UserComponent/UserButton.vue')['default']
     UserImage: typeof import('./src/components/UserComponent/UserImage.vue')['default']
-    UserInput: typeof import('./src/components/UserComponent/UserInput.vue')['default']
     UserText: typeof import('./src/components/UserComponent/UserText.vue')['default']
     ZoomPanel: typeof import('./src/components/EditPageComponent/ZoomPanel.vue')['default']
   }

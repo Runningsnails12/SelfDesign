@@ -133,25 +133,6 @@ export default {
 }
 /* 选项啥啥的 */
 .panel-content > ul {
-<<<<<<< HEAD
-  margin: 26px 30px 28px 30px;
-  width: 200px;
-  height: 36px;
-  list-style: none;
-  border-radius: 6px;
-  box-shadow: 0px 3px 6px 1px rgba(0, 0, 0, 0.1607843137254902);
-  overflow: hidden;
-}
-
-.panel-content > ul li {
-  float: left;
-  width: 100px;
-  height: 36px;
-  color: #333333;
-  line-height: 36px;
-  text-align: center;
-  cursor: pointer;
-=======
 	margin: 26px 30px 28px 30px;
 	width: 11rem;
 	height: 36px;
@@ -170,7 +151,6 @@ export default {
 	text-align: center;
 	cursor: pointer;
 	transition: all 0.3s;
->>>>>>> e79742ac63fa61ac9e7921481a3cdfd1f0ceb252
 }
 .tabSelected {
   color: #ffffff !important;
