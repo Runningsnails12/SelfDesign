@@ -21,9 +21,9 @@ export default {
   setup(props) {
     const store = useStore()
     const { componentId } = toRefs(props)
-    const componentStyle = store.state.components.get(componentId.value).style
+    const componentStyle = store.state.editPage.components.get(componentId.value).style
     const tempStyle = computed(
-      () => store.state.components.get(componentId.value).tempStyle
+      () => store.state.editPage.components.get(componentId.value).tempStyle
     )
     return {
       componentStyle,

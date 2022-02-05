@@ -9,10 +9,12 @@
       v-for="child in children"
       :key="child.id"
       :id="child.id"
+      v-slot = "data"
     >
       <component
         @click.stop
         :is="child.tag"
+        :data = "data"
         :id="'component' + child.id"
         :component-id="child.id"
       />
@@ -40,12 +42,12 @@ export default {
     const { componentId } = toRefs(props)
     const store = useStore()
     let isActive = computed(
-      () => componentId.value === store.state.activeContainerId
+      () => componentId.value === store.state.editPage.activeContainerId
     )
-    const children = store.state.components.get(componentId.value).children
-    const componentStyle = store.state.components.get(componentId.value).style
+    const children = store.state.editPage.components.get(componentId.value).children
+    const componentStyle = store.state.editPage.components.get(componentId.value).style
     const tempStyle = computed(
-      () => store.state.components.get(componentId.value).tempStyle
+      () => store.state.editPage.components.get(componentId.value).tempStyle
     )
     return {
       children,

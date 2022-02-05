@@ -38,13 +38,13 @@ export default {
   setup(props) {
     const { componentId } = toRefs(props)
     const store = useStore()
-    const children = store.state.components.get(componentId.value).children
-    const componentStyle = store.state.components.get(componentId.value).style
+    const children = store.state.editPage.components.get(componentId.value).children
+    const componentStyle = store.state.editPage.components.get(componentId.value).style
     const tempStyle = computed(
-      () => store.state.components.get(componentId.value).tempStyle
+      () => store.state.editPage.components.get(componentId.value).tempStyle
     )
     let isActive = computed(
-      () => componentId.value === store.state.activeContainerId
+      () => componentId.value === store.state.editPage.activeContainerId
     )
     return {
       children,

@@ -14,8 +14,8 @@ export default {
   setup() {
    
     const store = useStore()
-    store.commit('addComponent', {componentType: 'ContainerColumn', parentId: -1});
-    const root = store.state.components.get(0);
+    store.commit('editPage/addComponent', {componentType: 'ContainerColumn', parentId: -1});
+    const root = store.state.editPage.components.get(0);
     return {
       root
     }
@@ -23,7 +23,7 @@ export default {
   methods:{
     // 取消组件的选中
     cancelComponentSelect(){
-      this.$store.commit('resetActiveComponent');
+      this.$store.commit('editPage/resetActiveComponent');
     }
   }
 }
@@ -33,6 +33,7 @@ export default {
 .drawing-board{
   width: 96vw;
   height: 80vh;
+  margin:auto;
   background-color: aliceblue;
 }
 </style>

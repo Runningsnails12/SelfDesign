@@ -16,18 +16,16 @@ export default defineComponent({
   emits: ['click'],
   setup(props, { emit, slots }) {
     if (!slots.default) return () => '空的';
-    console.log(slots.default());
     const store = useStore();
 
-    const rawData = computed(() => store.state.components.get(props.id) ?? null);
+    const rawData = computed(() => store.state.editPage.components.get(props.id) ?? null);
 
     const data = computed(() => props.transformer(rawData.value));
 
     const onClickWrapper = (cb) =>
       (e) => {
-        console.log(e)
         emit('click', e);
-        store.commit('setActiveComponent', props.id);
+        store.commit('editPage/setActiveComponent', props.id);
         if (cb) cb(e);
       };
 

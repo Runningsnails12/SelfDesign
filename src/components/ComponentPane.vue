@@ -39,7 +39,7 @@ export default {
   methods: {
     addNode(componentType) {
       const parentId = this.parentId;
-      this.$store.commit('addComponent',{componentType, parentId})
+      this.$store.commit('editPage/addComponent',{componentType, parentId})
     },
   },
 }

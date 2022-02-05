@@ -24,11 +24,11 @@ export default {
   setup() {
     const store = useStore()
     let activeComponentId = computed(() =>
-      store.state.activeComponentId !== -1
-        ? '#component' + store.state.activeComponentId
+      store.state.editPage.activeComponentId !== -1
+        ? '#component' + store.state.editPage.activeComponentId
         : 'body'
     )
-    let isShow = computed(() => store.state.activeComponentId !== -1);
+    let isShow = computed(() => store.state.editPage.activeComponentId !== -1);
 
   
     function startDragComponent(e) {
@@ -43,7 +43,7 @@ export default {
         'z-index': 100,
         'pointer-events':'none'
       }
-      store.commit('setActiveComponentTempStyle', style)
+      store.commit('editPage/setActiveComponentTempStyle', style)
       document.onmousemove = throttle( function (e) {
         if (!isMouseDown) {
           return false
@@ -59,10 +59,10 @@ export default {
         // 变化了才提交
         if(newActiveContainerId !== activeContainerId){
           activeContainerId = newActiveContainerId;
-          store.commit('setActiveContainer', newActiveContainerId);
+          store.commit('editPage/setActiveContainer', newActiveContainerId);
         }
 
-        store.commit('setActiveComponentTempStyle', style)
+        store.commit('editPage/setActiveComponentTempStyle', style)
       })
 
       document.onmouseup = function () {
@@ -72,10 +72,10 @@ export default {
         }
         isMouseDown = false
       
-        store.commit('moveComponent')
-        store.commit('clearActiveComponentTempStyle')
-        store.commit('resetActiveContainer')
-        store.commit('resetActiveComponent')
+        store.commit('editPage/moveComponent')
+        store.commit('editPage/clearActiveComponentTempStyle')
+        store.commit('editPage/resetActiveContainer')
+        store.commit('editPage/resetActiveComponent')
       
         document.onmousemove = null
         console.log('放下')
