@@ -45,32 +45,12 @@ Date.prototype.format = function (fmt) {
   return fmt;
 };
 
-// import { ref, watch } from "vue";
-import { useRoute } from "vue-router";
-const route = useRoute();
-let path = route.path;
-// let isShow = ref(false);
-
-// // watch(() =>
-// route.beforeEach((to, form, next) => {
-//   console.log(to.path);
-//   console.log(to.path === "/projectEdit");
-//   console.log("isShow: " + isShow);
-//   if (to.path === "/projectEdit") {
-//     isShow.value = true;
-//   } else {
-//     isShow.value = false;
-//   }
-// });
-// // );
 </script>
 
 <template>
   <div class="container">
-    <NavBar v-show="route.path !== '/projectEdit'" />
-    <!-- <ProjectEditNav v-show="route.path === '/projectEdit'" /> -->
-    <!-- <NavBar v-show="!isShow" /> -->
-    <ProjectEditNav />
+    <NavBar v-show="$route.path !== '/projectEdit'" />
+    <ProjectEditNav v-show="$route.path === '/projectEdit'" />
     <LoginForm v-if="store.state.loginFormClose" />
     <router-view />
   </div>
