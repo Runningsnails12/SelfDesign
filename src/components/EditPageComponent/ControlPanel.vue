@@ -163,14 +163,8 @@ export default {
 
 .attributes-panel,
 .interact-panel {
-<<<<<<< HEAD
-  display: none;
-  width: 11rem;
-  margin: 0 auto;
-=======
 	display: none;
 	/* width: 11rem; */
 	margin: 0 auto;
->>>>>>> e79742ac63fa61ac9e7921481a3cdfd1f0ceb252
 }
 </style>
