@@ -30,6 +30,14 @@ const routes = [
     name: 'NotFound',
     path: '/:pathMatch(.*)*',
     component: () => import('@/pages/NotFound.vue')
+  }, 
+  {
+    name: 'ProjectEdit',
+    path: '/projectEdit',
+    meta: {
+      isEdit: true
+    },
+    component: () => import('@/pages/ProjectEdit.vue')
   }
 ];
 

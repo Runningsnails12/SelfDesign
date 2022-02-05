@@ -17,7 +17,7 @@
 import { useStore } from 'vuex'
 import { computed } from 'vue'
 import DeleteComponent from './childComps/DeleteComponent.vue'
-import throttle from '../../../utils/throttle'
+import throttle from '@/utils/throttle'
 import getActiveContainer from './childComps/getActiveContainer'
 
 export default {
@@ -32,8 +32,7 @@ export default {
 
   
     function startDragComponent(e) {
-      console.log('开始')
-      console.log(e.target);
+     
       const clientX = e.clientX
       const clientY = e.clientY
       let isMouseDown = true;
@@ -78,7 +77,7 @@ export default {
         store.commit('editPage/resetActiveComponent')
       
         document.onmousemove = null
-        console.log('放下')
+     
       }
     }
 

@@ -3,18 +3,20 @@
     class="container"
     :class="{ active: isActive }"
     style="position: relative"
-    :style="[componentStyle, tempStyle]"
   >
     <component-decorator
-      v-for="child in children"
+      v-for="child in myChildren"
       :key="child.id"
       :id="child.id"
+      v-slot="{data}"
     >
       <component
         @click.stop
-        :is="child.tag"
+        :is="componentMap.get(child.tag)"
+        v-bind = "data"
         :id="'component' + child.id"
-        :component-id="child.id"
+        style="position:relative"
+        :style="child.tempStyle"
       />
     </component-decorator>
   </div>
@@ -23,34 +25,32 @@
 <script>
 import { toRefs } from '@vue/reactivity'
 import { useStore } from 'vuex'
-import ComponentDecorator from './ComponentDecorator.vue'
 import { computed } from 'vue'
+import componentMap from './componentMap'
 export default {
+  name: 'UserLayoutVertical',
   // tag
-  name: 'ContainerColumn',
-  components: { ComponentDecorator },
   props: {
     componentId: {
       type: Number,
       required: true,
     },
+    myChildren:{
+      type:Array,
+      default: []
+    }
   },
+
   setup(props) {
+
     const { componentId } = toRefs(props)
     const store = useStore()
-    const children = store.state.editPage.components.get(componentId.value).children
-    const componentStyle = store.state.editPage.components.get(componentId.value).style
-    const tempStyle = computed(
-      () => store.state.editPage.components.get(componentId.value).tempStyle
-    )
     let isActive = computed(
       () => componentId.value === store.state.editPage.activeContainerId
     )
     return {
-      children,
       isActive,
-      componentStyle,
-      tempStyle,
+      componentMap
     }
   },
 }

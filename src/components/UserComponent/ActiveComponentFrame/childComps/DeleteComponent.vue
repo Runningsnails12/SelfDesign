@@ -13,7 +13,7 @@ export default {
   },
   methods:{
      deleteNode() {
-      this.$store.commit('deleteComponent');
+      this.$store.commit('editPage/deleteComponent');
      }
   }
 }

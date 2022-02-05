@@ -3,11 +3,11 @@
     <button
       v-for="comp in components"
       :key="comp.tag"
-      @click="addNode(comp.tag)"
+      @click="addNode(comp)"
     >
       {{ comp.text }}
     </button>
-    插入容器：<input v-model.number="parentId"/>
+    插入容器：<input v-model.number="parentId" />
   </div>
 </template>
 
@@ -17,29 +17,43 @@ export default {
   setup() {
     const components = ref([
       {
-        tag: 'BaseButton',
+        tag: 'Button',
         text: '按钮',
+        children: [],
+        style: {},
+        events: [],
+        values:{}
       },
       {
-        tag: 'BaseText',
-        text: '文本',
+        tag: 'Image',
+        text: '图片',
+        children: [],
+        style: {},
+        events: [],
+        values:{}
       },
       {
-        tag: 'ContainerRow',
+        tag: 'HorizontalLayout',
         text: '横向容器',
+        children: [],
+        style: {},
+        events: [],
       },
-       {
-        tag: 'ContainerColumn',
+      {
+        tag: 'VerticalLayout',
         text: '纵向容器',
-      }
+        children: [],
+        style: {},
+        events: [],
+      },
     ])
-    const parentId = ref(0)
+    const parentId = ref(1)
     return { components, parentId }
   },
   methods: {
-    addNode(componentType) {
-      const parentId = this.parentId;
-      this.$store.commit('editPage/addComponent',{componentType, parentId})
+    addNode(node) {
+      const parentId = this.parentId
+      this.$store.commit('editPage/addComponent', { node, parentId })
     },
   },
 }

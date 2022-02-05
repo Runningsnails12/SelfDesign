@@ -1,3 +1,5 @@
+import deepCopy from "@/utils/deepCopy";
+
 
 // 从map中删除组件
 function deleteComponentFromMap(state, key) {
@@ -22,29 +24,58 @@ function deleteComponentFromJson(state, { parentId, targetId }) {
 }
 
 
-// 产生一个节点
-function generateNode(id, parentId, tag) {
+// 最新节点 id, 执行完 initialComponents
+let newestId = -1;
+
+/**
+ * 根据模板 copy 一个节点
+ * @param {*} nodeTemplate 节点模板
+ * @param {*} parentId 
+ * @returns 
+ */
+function generateNode(nodeTemplate, parentId = 0) {
+  // 没有 id 是 添加节点调用
+  let id = -1;
+  if(!nodeTemplate.id){
+    newestId += 1;
+    id = newestId;
+  }else{
+    // 有 id 是 初始化节点调用
+    id = nodeTemplate.id;
+    newestId = id > newestId ? id : newestId;
+  }
+
   return {
     id,
     parentId,
-    tag,
-    style: {},
+    tag:nodeTemplate.tag,
+    style: deepCopy(nodeTemplate.style),
+    values: deepCopy(nodeTemplate.values),
+    events: deepCopy(nodeTemplate.envents),
     tempStyle: {}, // 前端操作的时候有用
     children: [],
   }
 }
 
-function generateNode()
 
 
-
-// 最新节点 id
-let newestId = -1;
 
 // 重置 activeComponentId
-function resetActiveComponent(state){
+function resetActiveComponent(state) {
   state.activeComponentId = -1;
 }
+
+// 添加节点
+function addComponent(state, {node, parentId = 0 }) {
+  const copyNode = generateNode(node, parentId);
+  state.components.set(copyNode.id, copyNode); // 往 map 中添加节点
+  if(parentId !== 0){
+    // 非根节点
+    state.components.get(parentId).children.push(copyNode); // 构造树状数据
+  }
+  node.children.forEach(child => addComponent(state, { node: child, parentId: id }))
+}
+
 
 export default {
   namespaced: true,
@@ -55,14 +86,7 @@ export default {
   },
   mutations: {
     // 添加组件
-    addComponent(state, { componentType, parentId = 0 }) {
-      newestId += 1;
-      const node = generateNode(newestId, parentId, componentType);
-      if (parentId !== -1) {// 非 root 节点
-        state.components.get(parentId).children.push(node); // json 中添加树状关系
-      }
-      state.components.set(newestId, node); // map 中添加 映射关系
-    },
+    addComponent,
 
     // 删除组件
     deleteComponent(state) {

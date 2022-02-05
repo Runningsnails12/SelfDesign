@@ -1,9 +1,25 @@
 <script setup>
+import { computed } from 'vue';
+
+const props = defineProps({
+  text: {
+    type: String,
+    default: ''
+  }
+});
+
+const text = computed(() => props.text);
+</script>
+
+<script>
+export default {
+  name:'UserButton'
+}
 </script>
 
 <template>
   <button type="button">
-    <slot />
+    <slot>{{ text }}</slot>
   </button>
 </template>
 

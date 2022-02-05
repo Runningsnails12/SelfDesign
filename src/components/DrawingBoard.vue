@@ -1,39 +1,42 @@
 <template>
-  <div  class="drawing-board" @click.stop="cancelComponentSelect">
-    <component :is="root.tag" :component-id="0" />
-    <active-component-frame />
+  <div class="drawing-board" @click.stop="cancelComponentSelect">
+    <the-root-component :root-node="root"/>
   </div>
 </template>
 
 <script>
-
-import { useStore } from 'vuex'
-import ActiveComponentFrame from './EditComponent/ActiveComponentFrame/ActiveComponentFrame.vue'
+import useUserComponentTransformer from './UserComponent/transformers'
 export default {
-  components: { ActiveComponentFrame },
-  setup() {
-   
-    const store = useStore()
-    store.commit('editPage/addComponent', {componentType: 'ContainerColumn', parentId: -1});
-    const root = store.state.editPage.components.get(0);
-    return {
-      root
+  data() {
+    return { 
+      root:{
+        id: 1,
+        tag: 'VerticalLayout',
+        style: {
+          width:'100%',
+          height:'100%'
+        },
+        children:[]
+      }
     }
   },
-  methods:{
+  methods: {
     // 取消组件的选中
-    cancelComponentSelect(){
-      this.$store.commit('editPage/resetActiveComponent');
-    }
+    cancelComponentSelect() {
+      this.$store.commit('editPage/resetActiveComponent')
+    },
+  },
+  setup(){
+    useUserComponentTransformer()
   }
 }
 </script>
 
 <style  scoped>
-.drawing-board{
+.drawing-board {
   width: 96vw;
   height: 80vh;
-  margin:auto;
+  margin: auto;
   background-color: aliceblue;
 }
 </style>
