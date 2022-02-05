@@ -1,11 +1,8 @@
 import { provide } from 'vue';
 
-const userInput = (raw) => {
+const userText = (raw) => {
   return {
-    value: raw.values.content,
-    type: raw.values.type,
-    rows: raw.values.rows,
-    dashed: raw.values.dashed
+    value: raw.values.content
   };
 };
 
@@ -27,14 +24,14 @@ const userImage = (raw) => {
 /**
  * 在用到ComponentDecorator的那个组件setup里执行
  * 之后直接把ComponentDecorator v-slot里的{ data }
- * 使用v-bind传到子组件（<component>）
+ * 使用v-bind传到子组件（\<component\>）
  */
 const useUserComponentTransformer = () => {
   provide(
     '__userComponentTransformers',
     new Map([
       ['Image', userImage],
-      ['Text', userInput],
+      ['Text', userText],
       ['Button', userButton]
     ])
   );
