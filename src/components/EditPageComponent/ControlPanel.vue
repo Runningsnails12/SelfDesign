@@ -1,29 +1,36 @@
 <template>
-  <div id="c-panel">
-    <div class="sidebar">
-      <button @click="sideExtension">
-        <img :src="'img/EditIcons/左右切换' + btnSrc + '.png'" />
-      </button>
-    </div>
-    <div class="panel-content">
-      <ul>
-        <li
-          @click="tabChange(index)"
-          :class="checkedOne == index ? 'tabSelected' : ''"
-          :key="item.id"
-          v-for="(item, index) in panelSwitchOptions"
-        >
-          {{ item.tag }}
-        </li>
-      </ul>
-      <div class="attributes-panel" :class="checkedOne == 0 ? 'panelSelected' : ''">
-        <AttrStyle></AttrStyle>
-      </div>
-      <div class="interact-panel" :class="checkedOne != 0 ? 'panelSelected' : ''">
-        <Interaction></Interaction>
-      </div>
-    </div>
-  </div>
+	<div id="c-panel">
+		<div class="sidebar">
+			<button @click="sideExtension">
+				<img :src="'img/EditIcons/左右切换' + btnSrc + '.png'" />
+			</button>
+		</div>
+		<div class="panel-content">
+			<ul>
+				<li
+					@click="tabChange(index)"
+					:class="checkedOne == index ? 'tabSelected' : ''"
+					:key="item.id"
+					v-for="(item, index) in panelSwitchOptions"
+				>
+					{{ item.tag }}
+				</li>
+			</ul>
+			<div
+				class="attributes-panel"
+				:class="checkedOne == 0 ? 'panelSelected' : ''"
+			>
+				<AttrStyle></AttrStyle>
+			</div>
+			<div
+				class="interact-panel"
+				:class="checkedOne != 0 ? 'panelSelected' : ''"
+			>
+				<Interaction></Interaction>
+			</div>
+		</div>
+		<div class="sidebar"></div>
+	</div>
 </template>
 
 <script>
@@ -73,6 +80,14 @@ export default {
   },
 };
 </script>
+<style>
+#c-panel button {
+	transition: all 0.3s;
+}
+#c-panel button:hover {
+	box-shadow: 0px 2px 6px 1px rgba(0, 0, 0, 0.1607843137254902);
+}
+</style>
 
 <style scoped>
 #c-panel {
@@ -112,9 +127,13 @@ export default {
 .sidebar > button img {
   width: 20px;
 }
-
+.panel-content {
+	/* width: 100%; */
+	overflow-y: scroll;
+}
 /* 选项啥啥的 */
 .panel-content > ul {
+<<<<<<< HEAD
   margin: 26px 30px 28px 30px;
   width: 200px;
   height: 36px;
@@ -132,6 +151,26 @@ export default {
   line-height: 36px;
   text-align: center;
   cursor: pointer;
+=======
+	margin: 26px 30px 28px 30px;
+	width: 11rem;
+	height: 36px;
+	list-style: none;
+	border-radius: 6px;
+	box-shadow: 0px 3px 6px 1px rgba(0, 0, 0, 0.1607843137254902);
+	overflow: hidden;
+}
+
+.panel-content > ul li {
+	float: left;
+	width: 5.5rem;
+	height: 36px;
+	color: #333333;
+	line-height: 36px;
+	text-align: center;
+	cursor: pointer;
+	transition: all 0.3s;
+>>>>>>> e79742ac63fa61ac9e7921481a3cdfd1f0ceb252
 }
 .tabSelected {
   color: #ffffff !important;
@@ -144,8 +183,14 @@ export default {
 
 .attributes-panel,
 .interact-panel {
+<<<<<<< HEAD
   display: none;
   width: 11rem;
   margin: 0 auto;
+=======
+	display: none;
+	/* width: 11rem; */
+	margin: 0 auto;
+>>>>>>> e79742ac63fa61ac9e7921481a3cdfd1f0ceb252
 }
 </style>

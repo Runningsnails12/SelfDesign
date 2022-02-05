@@ -4,11 +4,13 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
+    AddEvent: typeof import('./src/components/ControlPanel/AddEvent.vue')['default']
     AttrStyle: typeof import('./src/components/ControlPanel/AttrStyle.vue')['default']
     CanvasPage: typeof import('./src/components/EditPageComponent/CanvasPage.vue')['default']
     ComponentDecorator: typeof import('./src/components/ComponentDecorator.vue')['default']
     ComponentPanel: typeof import('./src/components/EditPageComponent/ComponentPanel.vue')['default']
     ControlPanel: typeof import('./src/components/EditPageComponent/ControlPanel.vue')['default']
+    CurEvent: typeof import('./src/components/ControlPanel/CurEvent.vue')['default']
     DialogBox: typeof import('./src/components/EditPageComponent/DialogBox.vue')['default']
     ElOption: typeof import('element-plus/es')['ElOption']
     ElSelect: typeof import('element-plus/es')['ElSelect']
@@ -24,6 +26,7 @@ declare module 'vue' {
     UserButton: typeof import('./src/components/UserComponent/UserButton.vue')['default']
     UserImage: typeof import('./src/components/UserComponent/UserImage.vue')['default']
     UserInput: typeof import('./src/components/UserComponent/UserInput.vue')['default']
+    UserText: typeof import('./src/components/UserComponent/UserText.vue')['default']
     ZoomPanel: typeof import('./src/components/EditPageComponent/ZoomPanel.vue')['default']
   }
 }

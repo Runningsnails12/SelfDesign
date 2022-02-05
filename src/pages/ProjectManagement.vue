@@ -135,7 +135,7 @@ const usernameSplit = computed(() => store.state.username?.slice(0, 2));
 const projectList = ref([]);
 const updateProject = async () => {
   const { data } = await api.getUserProject();
-  projectList.value = data.projectList || [];
+  projectList.value = data?.projectList || [];
 };
 watch(() => store.state.token, () => updateProject(), { immediate: true });
 
@@ -154,14 +154,14 @@ const toggleCreateDialog = () => {
   handleDialogClose.value = !handleDialogClose.value;
 };
 const createProjectConfirm = async () => {
-  const { code } = await api.createProject({ projectName: projectName.value });
+  const { code , message } = await api.createProject({ projectName: projectName.value });
   if (code === 2000) {
     updateProject();
     Message.success('创建成功');
     projectName.value = '';
     toggleCreateDialog();
   } else {
-    Message.error('创建失败');
+    Message.error(message);
   }
 };
 const createProjectCancel = () => {
@@ -244,7 +244,7 @@ const createProjectCancel = () => {
       justify-content: space-between;
       flex-wrap: wrap;
       .project {
-        width: 312px;
+        width: 27%;
         height: 206px;
         margin-bottom: 30px;
         box-shadow: 0px 2px 6px 1px rgba(0, 0, 0, 0.16);
@@ -253,7 +253,7 @@ const createProjectCancel = () => {
         border: 1px solid #707070;
         overflow: hidden;
         &:last-child:nth-child(3n-1) {
-          margin-right: 427px;
+          margin-right: calc(27% + 19% / 2);
         }
       }
       .create_project {

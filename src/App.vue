@@ -10,14 +10,17 @@ import ProjectEditNav from "@/components/EditPageComponent/ProjectEditNav.vue";
 
 const store = useStore();
 onMounted(async () => {
-  store.commit("setToken", localStorage.getItem("token"));
-  const { data } = await api.getUserInfo();
-  if (data) {
-    store.commit("setUsername", data.username);
-  } else {
-    Message.error("登录过期了，请重新登录");
-    store.commit("setToken", undefined);
-    store.commit("handleLoginFormClose");
+  const token=localStorage.getItem('token');
+  if(token){
+    store.commit('setToken', token);
+    const { data } = await api.getUserInfo();
+    if (data) {
+      store.commit('setUsername', data.username);
+    } else {
+      Message.error('登录过期了，请重新登录');
+      store.commit('setToken', null);
+      store.commit('handleLoginFormClose');
+    }
   }
 });
 
