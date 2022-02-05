@@ -10,17 +10,17 @@
 </template>
 
 <script>
-import { ref, watch } from "vue";
+import {ref, watch} from 'vue';
 export default {
-  name: "DialogBox",
+  name: 'DialogBox',
   props: {
     dialogVisible: {
       type: Boolean,
       default: false,
     },
   },
-  emits: ["dialogVisible"],
-  setup(props, { emit }) {
+  emits: ['dialogVisible'],
+  setup(props, {emit}) {
     let dialogDisvisible = ref(props.dialogVisible);
     // 监听改变
     watch(
@@ -30,7 +30,7 @@ export default {
       }
     );
     const cancelDialog = () => {
-      emit("dialogVisible", dialogDisvisible.value);
+      emit('dialogVisible', dialogDisvisible.value);
     };
 
     return {

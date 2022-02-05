@@ -30,16 +30,16 @@
 </template>
 
 <script>
-import { ref } from "vue";
-import DialogBox from "@/components/EditPageComponent/DialogBox.vue";
+import {ref} from 'vue';
+import DialogBox from '@/components/EditPageComponent/DialogBox.vue';
 
 export default {
-  name: "ProjectEditNav",
+  name: 'ProjectEditNav',
   components: {
     DialogBox,
   },
   setup() {
-    let lastSaveTime = "00:00"; // 最后一次的保存时间
+    let lastSaveTime = '00:00'; // 最后一次的保存时间
     // 父传子的数据：修改子
     let dialogVisible = ref(false);
     // 子传父的数据：修改父

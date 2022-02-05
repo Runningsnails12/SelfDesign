@@ -8,16 +8,10 @@
     <div class="zoom-box">
       <ul>
         <li>
-          <button
-            id="plusBtn" 
-            @click="increaseSize"
-          />
+          <button id="plusBtn" @click="increaseSize" />
         </li>
         <li>
-          <button 
-            id="minusBtn"
-            @click="reduceSize"
-          />
+          <button id="minusBtn" @click="reduceSize" />
         </li>
         <li>
           <el-select v-model="scaleNum">
@@ -34,89 +28,89 @@
   </div>
 </template>
 <script>
-import { ref, provide } from "vue";
-import ComponentPanel from "@/components/EditPageComponent/ComponentPanel.vue";
-import CanvasPage from "@/components/EditPageComponent/CanvasPage.vue";
-import ControlPanel from "@/components/EditPageComponent/ControlPanel.vue";
+import {ref, provide} from 'vue';
+import ComponentPanel from '@/components/EditPageComponent/ComponentPanel.vue';
+import CanvasPage from '@/components/EditPageComponent/CanvasPage.vue';
+import ControlPanel from '@/components/EditPageComponent/ControlPanel.vue';
 
 export default {
-  name: "ProjectEdit",
+  name: 'ProjectEdit',
   components: {
     ComponentPanel,
     CanvasPage,
     ControlPanel,
   },
   setup() {
-    let scaleNum = ref("100%");
+    let scaleNum = ref('100%');
     const options = [
       {
-        scaleNum: "200%",
-        label: "200%",
+        scaleNum: '200%',
+        label: '200%',
       },
       {
-        scaleNum: "150%",
-        label: "150%",
+        scaleNum: '150%',
+        label: '150%',
       },
       {
-        scaleNum: "125%",
-        label: "125%",
+        scaleNum: '125%',
+        label: '125%',
       },
       {
-        scaleNum: "100%",
-        label: "100%",
+        scaleNum: '100%',
+        label: '100%',
       },
       {
-        scaleNum: "75%",
-        label: "75%",
+        scaleNum: '75%',
+        label: '75%',
       },
       {
-        scaleNum: "50%",
-        label: "50%",
+        scaleNum: '50%',
+        label: '50%',
       },
       {
-        scaleNum: "25%",
-        label: "25%",
+        scaleNum: '25%',
+        label: '25%',
       },
     ];
 
-    // 点击事件 
+    // 点击事件
     const increaseSize = () => {
-      if(parseInt(scaleNum.value) < 200) {
-        scaleNum.value = parseInt(scaleNum.value) + 25 +"%";
+      if (parseInt(scaleNum.value) < 200) {
+        scaleNum.value = parseInt(scaleNum.value) + 25 + '%';
       }
     };
     const reduceSize = () => {
-      if(parseInt(scaleNum.value) > 25) {
-        scaleNum.value = parseInt(scaleNum.value) - 25 +"%";
+      if (parseInt(scaleNum.value) > 25) {
+        scaleNum.value = parseInt(scaleNum.value) - 25 + '%';
       }
     };
 
     // 按键事件
     document.onkeydown = (e) => {
-      // ctrl + 
-      if(e.ctrlKey && e.keyCode == 187) {
+      // ctrl +
+      if (e.ctrlKey && e.keyCode == 187) {
         increaseSize();
       }
       // ctrl -
-      if(e.ctrlKey && e.keyCode == 189) {
+      if (e.ctrlKey && e.keyCode == 189) {
         reduceSize();
       }
 
       // 阻止默认事件
-      if(e && e.preventDefault) {
+      if (e && e.preventDefault) {
         e.preventDefault();
       } else {
         window.event.returnValue = false;
       }
     };
 
-    provide("scaleNum", scaleNum);
+    provide('scaleNum', scaleNum);
 
     return {
       scaleNum,
       options,
       increaseSize,
-      reduceSize
+      reduceSize,
     };
   },
 };
@@ -141,32 +135,31 @@ export default {
 /* 中间画布缩放处理 */
 #canvaspage-outsidebox {
   display: flex;
-  padding: 45px;
-  width: calc(100vw - 350px);
+  width: calc(100vw - 250px);
   min-width: 800px;
-  height: calc(100vh - 150px);
+  height: calc(100vh - 63px);
   justify-content: center;
   overflow: scroll;
-  /* border: 1px solid #f00; */
 }
 
+/* ----------- 滚动条 ----------- */
 #canvaspage-outsidebox::-webkit-scrollbar {
-	width: 10px;
-	height: 10px;
-	background-color: #e9ebed;
+  width: 10px;
+  height: 10px;
+  background-color: #e9ebed;
 }
 
 /*定义滚动条轨道 内阴影+圆角*/
 #canvaspage-outsidebox::-webkit-scrollbar-track {
   border-radius: 6px;
-	background-color: #e9ebed;
-	/* -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.25); */
+  background-color: #e9ebed;
+  /* -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.25); */
 }
- 
+
 /*定义滑块 内阴影+圆角*/
 #canvaspage-outsidebox::-webkit-scrollbar-thumb {
   border-radius: 8px;
-	background-color: #888888;
+  background-color: #888888;
   -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.25);
 }
 
