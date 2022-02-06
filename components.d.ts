@@ -4,14 +4,21 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
+    ActiveComponentFrame: typeof import('./src/components/UserComponent/ActiveComponentFrame/ActiveComponentFrame.vue')['default']
     AddEvent: typeof import('./src/components/ControlPanel/AddEvent.vue')['default']
     AttrStyle: typeof import('./src/components/ControlPanel/AttrStyle.vue')['default']
+    BaseButton: typeof import('./src/components/EditComponent/BaseButton.vue')['default']
+    BaseText: typeof import('./src/components/EditComponent/BaseText.vue')['default']
     CanvasPage: typeof import('./src/components/EditPageComponent/CanvasPage.vue')['default']
-    ComponentDecorator: typeof import('./src/components/ComponentDecorator.vue')['default']
+    ComponentDecorator: typeof import('./src/components/UserComponent/ComponentDecorator.vue')['default']
+    ComponentPane: typeof import('./src/components/ComponentPane.vue')['default']
     ComponentPanel: typeof import('./src/components/EditPageComponent/ComponentPanel.vue')['default']
+    ComponentResizer: typeof import('./src/components/UserComponent/ActiveComponentFrame/childComps/ComponentResizer.vue')['default']
     ControlPanel: typeof import('./src/components/EditPageComponent/ControlPanel.vue')['default']
     CurEvent: typeof import('./src/components/ControlPanel/CurEvent.vue')['default']
+    DeleteComponent: typeof import('./src/components/UserComponent/ActiveComponentFrame/childComps/DeleteComponent.vue')['default']
     DialogBox: typeof import('./src/components/EditPageComponent/DialogBox.vue')['default']
+    DragComponet: typeof import('./src/components/UserComponent/ActiveComponentFrame/childComps/DragComponet.vue')['default']
     DrawingBoard: typeof import('./src/components/DrawingBoard.vue')['default']
     Interaction: typeof import('./src/components/ControlPanel/Interaction.vue')['default']
     K: typeof import('./src/components/ControlPanel/k.vue')['default']
@@ -21,10 +28,14 @@ declare module 'vue' {
     NavBar: typeof import('./src/components/NavBar.vue')['default']
     ProjectEditNav: typeof import('./src/components/EditPageComponent/ProjectEditNav.vue')['default']
     ProjectItem: typeof import('./src/components/ProjectItem.vue')['default']
+    ResizeWidget: typeof import('./src/components/UserComponent/ActiveComponentFrame/childComps/ResizeWidget.vue')['default']
     ShowMessage: typeof import('./src/components/ShowMessage/ShowMessage.vue')['default']
+    TheRootComponent: typeof import('./src/components/UserComponent/TheRootComponent.vue')['default']
     UserButton: typeof import('./src/components/UserComponent/UserButton.vue')['default']
     UserImage: typeof import('./src/components/UserComponent/UserImage.vue')['default']
     UserText: typeof import('./src/components/UserComponent/UserText.vue')['default']
+    UserLayoutHorizontal: typeof import('./src/components/UserComponent/UserLayoutHorizontal.vue')['default']
+    UserLayoutVertical: typeof import('./src/components/UserComponent/UserLayoutVertical.vue')['default']
     ZoomPanel: typeof import('./src/components/EditPageComponent/ZoomPanel.vue')['default']
   }
 }

@@ -1,13 +1,17 @@
 <template>
   <div>
     <drawing-board/>
+    <component-pane/>
   </div>
 </template>
 
 <script>
+import ComponentPane from '../components/ComponentPane.vue'
 import DrawingBoard from '../components/DrawingBoard.vue'
+
+
   export default {
-  components: { DrawingBoard }
+  components: {DrawingBoard, ComponentPane}
   }
 </script>
 

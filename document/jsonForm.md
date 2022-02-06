@@ -9,7 +9,7 @@
 		"tag": "swper",
 		"isContainer": true,
 		"values": {},
-		"event": [
+		"events": [
 			{
 				"type": "mouse",
 				"action": "click",

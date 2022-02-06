@@ -16,10 +16,9 @@ export default defineComponent({
   emits: ['click'],
   setup(props, { emit, slots }) {
     if (!slots.default) return () => '空的';
-
     const store = useStore();
 
-    const rawData = computed(() => store.state.components.get(props.id) ?? null);
+    const rawData = computed(() => store.state.editPage.components.get(props.id) ?? null);
 
     // 开的后门
     /** @type {Map<string, (raw: Record<string, string>) => unknown> | null} */
@@ -31,13 +30,13 @@ export default defineComponent({
     const transformer = computed(() =>
       transformers?.get(rawData.value?.tag) ?? props.transformer
     );
-
-    const data = computed(() => transformer(rawData.value));
+   
+    const data = computed(() => transformer.value(rawData.value));
 
     const onClickWrapper = (cb) =>
       (e) => {
         emit('click', e);
-        store.commit('setActiveComponent', props.id);
+        store.commit('editPage/setActiveComponent', props.id);
         if (cb) cb(e);
       };
 

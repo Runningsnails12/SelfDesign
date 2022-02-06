@@ -11,6 +11,12 @@ const props = defineProps({
 const text = computed(() => props.text);
 </script>
 
+<script>
+export default {
+  name:'UserButton'
+}
+</script>
+
 <template>
   <button type="button">
     <slot>{{ text }}</slot>

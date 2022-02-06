@@ -21,6 +21,20 @@ const userImage = (raw) => {
   };
 };
 
+const userLayoutHorizontal = (raw) => {
+  return {
+    componentId: raw.id,
+    myChildren: raw.children
+  }
+}
+
+const userLayoutVertical = (raw) => {
+  return {
+    componentId: raw.id,
+    myChildren: raw.children
+  }
+}
+
 /**
  * 在用到ComponentDecorator的那个组件setup里执行
  * 之后直接把ComponentDecorator v-slot里的{ data }
@@ -33,6 +47,8 @@ const useUserComponentTransformer = () => {
       ['Image', userImage],
       ['Text', userText],
       ['Button', userButton]
+      ['HorizontalLayout',userLayoutHorizontal],
+      ['VerticalLayout', userLayoutVertical]
     ])
   );
 };

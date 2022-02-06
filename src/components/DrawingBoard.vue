@@ -1,79 +1,42 @@
 <template>
-  <div>
-    <component :is="root.tag" :my-children="root.children" />
-    <div>
-      <button @click="addButton(toBeAddedContainerID)">加 button</button>
-      <button @click="addText(toBeAddedContainerID)">加 text</button>
-      <button @click="addContainerRow(toBeAddedContainerID)">
-        加 横向容器
-      </button>
-      添加进容器: <input v-model.number="toBeAddedContainerID" />
-    </div>
+  <div class="drawing-board" @click.stop="cancelComponentSelect">
+    <the-root-component :root-node="root"/>
   </div>
 </template>
 
 <script>
-import { reactive } from 'vue'
+import useUserComponentTransformer from './UserComponent/transformers'
 export default {
   data() {
-    return {
-      newestID: 0,
-      toBeAddedContainerID: 0,
-    }
-  },
-  setup() {
-    
-    const root = reactive({
-      id: 0,
-      tag: 'ContainerRow',
-      children: [],
-    })
-    // 节点 Map
-    const nodeMap = new Map();
-    nodeMap.set(0, root)
-
-    return {
-      root,
-      nodeMap,
+    return { 
+      root:{
+        id: 1,
+        tag: 'VerticalLayout',
+        style: {
+          width:'100%',
+          height:'100%'
+        },
+        children:[]
+      }
     }
   },
   methods: {
-    addButton(targetId = 0) {
-      this.newestID += 1
-      const Node = reactive( {
-        id: this.newestID,
-        parentID: targetId,
-        tag: 'BaseButton',
-        children: [],
-      })
-      this.nodeMap.get(targetId).children.push(Node)
-      this.nodeMap.set(this.newestID, Node)
-    },
-    addText(targetId = 0) {
-      this.newestID += 1
-      const Node = reactive( {
-        id: this.newestID,
-        parentID: targetId,
-        tag: 'BaseText',
-        children: [],
-      })
-      this.nodeMap.get(targetId).children.push(Node)
-      this.nodeMap.set(this.newestID, Node)
-    },
-    addContainerRow(targetId = 0) {
-      this.newestID += 1
-      const Node = reactive({
-        id: this.newestID,
-        parentID: targetId,
-        tag: 'ContainerRow',
-        children: [],
-      })
-      this.nodeMap.get(targetId).children.push(Node)
-      this.nodeMap.set(this.newestID, Node)
+    // 取消组件的选中
+    cancelComponentSelect() {
+      this.$store.commit('editPage/resetActiveComponent')
     },
   },
+  setup(){
+    useUserComponentTransformer()
+  }
 }
 </script>
 
-<style lang="scss" scoped>
+<style  scoped>
+.drawing-board {
+  width: 96vw;
+  height: 80vh;
+  margin: auto;
+  background-color: aliceblue;
+}
 </style>
