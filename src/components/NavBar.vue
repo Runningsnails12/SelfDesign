@@ -65,7 +65,7 @@
         </div>
         <div 
           class="username_edit_btn"
-          @click="cancelEdit"
+          @click="handleUsernameEdit"
         >
           取消
         </div>
@@ -108,16 +108,18 @@ const toggleLoginForm = () => store.commit('handleLoginFormClose');
 const usernameSplit=computed(()=>store.state.username?.slice(0,2));
 
 const editUsername=ref(false);
-const username=computed(()=>store.state.username);
+const name = ref(null);
+const username = computed({
+  get:() => store.state.username,
+  set:val => name.value = val
+});
+
 const handleUsernameEdit=()=>editUsername.value=!editUsername.value;
-const cancelEdit=()=>{
-  username.value=store.state.username;
-  handleUsernameEdit();
-};
+
 const saveUsername=async()=>{
-  const { code , message } = await api.modifyUsername({username:username.value});
-  if(code===2000){
-    store.commit('setUsername',username.value);
+  const { code , message } = await api.modifyUsername({username:name.value});
+  if(code === 2000){
+    store.commit('setUsername',name.value);
     handleUsernameEdit();
     Message.success('修改成功');
   }else{
