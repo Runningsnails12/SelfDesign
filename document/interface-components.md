@@ -54,8 +54,8 @@ store.commit('editPage/addComponent', {node: nodeTemplate[i]})
 
 <template>
   <div>
-    <!-- 根组件 -->
-    <the-root-compoennt :root-node = "root"/>
+    <!-- 根组件，已全局注册可直接使用 -->
+    <the-root-component :root-node = "root"/>
   </div>
 </template>
 
