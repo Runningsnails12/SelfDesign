@@ -31,7 +31,7 @@
 			<li class="item targetType"></li>
 			<li class="item targetPage"></li> -->
 		</ul>
-		<button class="cancel" @click="$emit('triggleIsAdd', false)">取 消</button>
+		<button class="cancel" @click="cancel">取 消</button>
 		<button class="comfirm" @click="comfirm">确 定</button>
 	</div>
 </template>
@@ -39,9 +39,8 @@
 <script>
 import { defineComponent, ref, reactive } from "vue";
 
-export default {
+export default defineComponent({
 	name: "AddEvent",
-	emits: ["triggleIsAdd"],
 	setup(props, { emit }) {
 		let options = reactive({
 			type: {
@@ -116,28 +115,24 @@ export default {
 		function comfirm() {
 			// 添加事件
 
-			this.onTriggleIsAdd(false);
+			this.triggleIsAdd("cur");
 		}
 		function cancel() {
 			// 取消
 
-			this.onTriggleIsAdd(false);
+			this.triggleIsAdd("cur");
 		}
-		const onTriggleIsAdd = (val) => {
-			console.log(5);
+		const triggleIsAdd = (val) => {
 			emit("triggleIsAdd", val);
 		};
-		// function onTriggleIsAdd(val) {
-		// 	emit("triggleIsAdd", val);
-		// }
 		return {
 			options,
 			comfirm,
 			cancel,
-			onTriggleIsAdd,
+			triggleIsAdd,
 		};
 	},
-};
+});
 </script>
 
 <style>
