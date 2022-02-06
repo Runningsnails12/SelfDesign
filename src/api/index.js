@@ -77,4 +77,25 @@ export default {
       data:params
     });
   },
+  async getProjectContent(params){
+    return request({
+      url:'/project/getProjectContent',
+      method:'GET',
+      data:params
+    });
+  },
+  async release(params){
+    return request({
+      url:'/project/release',
+      method:'POST',
+      data:params
+    });
+  },
+  async modifyContent(params){
+    return request({
+      url:'/project/modifyContent',
+      method:'POST',
+      data:params
+    });
+  },
 };

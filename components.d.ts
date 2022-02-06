@@ -12,7 +12,6 @@ declare module 'vue' {
     ControlPanel: typeof import('./src/components/EditPageComponent/ControlPanel.vue')['default']
     CurEvent: typeof import('./src/components/ControlPanel/CurEvent.vue')['default']
     DialogBox: typeof import('./src/components/EditPageComponent/DialogBox.vue')['default']
-    ElIcon: typeof import('element-plus/es')['ElIcon']
     ElOption: typeof import('element-plus/es')['ElOption']
     ElSelect: typeof import('element-plus/es')['ElSelect']
     Interaction: typeof import('./src/components/ControlPanel/Interaction.vue')['default']
@@ -26,7 +25,7 @@ declare module 'vue' {
     ShowMessage: typeof import('./src/components/ShowMessage/ShowMessage.vue')['default']
     UserButton: typeof import('./src/components/UserComponent/UserButton.vue')['default']
     UserImage: typeof import('./src/components/UserComponent/UserImage.vue')['default']
-    UserInput: typeof import('./src/components/UserComponent/UserInput.vue')['default']
+    UserText: typeof import('./src/components/UserComponent/UserText.vue')['default']
     ZoomPanel: typeof import('./src/components/EditPageComponent/ZoomPanel.vue')['default']
   }
 }
