@@ -1,8 +1,10 @@
 /* eslint-disable no-undef */
 module.exports = {
   'env': {
+    // 'node': true,
     'browser': true,
-    'es2021': true
+    'es2021': true,
+    'vue/setup-compiler-macros': true
   },
   'extends': [
     'eslint:recommended',

@@ -1,10 +1,23 @@
-import { createStore } from "vuex"
-import mutations from './mutations.js'
-const state = {
-  jsonMap: new Map()
-}
+import { createStore } from 'vuex';
 
 export default createStore({
-  state,
-  mutations
-})
+  state:{
+    loginFormClose:false,
+    token:null,
+    username:null
+  },
+  mutations:{
+    handleLoginFormClose(state){
+      state.loginFormClose=!state.loginFormClose;
+    },
+    setToken(state,data){
+      state.token=data;
+    },
+    setUsername(state,data){
+      state.username=data;
+    }
+  },
+  actions:{
+
+  }
+});

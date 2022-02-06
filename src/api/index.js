@@ -9,7 +9,93 @@
         })
     },
  */
-import request from '../utils/request'
-export default {
+import request from '../utils/request';
+import fileDownload from 'js-file-download';
 
-}
+export default {
+  async login(params) {
+    return request({
+      url: '/user/login',
+      method: 'POST',
+      data: params
+    });
+  },
+  async register(params) {
+    return request({
+      url: '/user/register',
+      method: 'POST',
+      data: params
+    });
+  },
+  async getUserProject(){
+    return request({
+      url:'/project/getUserProject',
+      method:'GET'
+    });
+  },
+  async getUserInfo(){
+    return request({
+      url:'/user/getUserInfo',
+      method:'GET'
+    });
+  },
+  async modifyUsername(params){
+    return request({
+      url:'/user/modifyUsername',
+      method:'POST',
+      data: params
+    });
+  },
+  async download(params){
+    return request({
+      url:'/project/export',
+      method:'GET',
+      data:params,
+      responseType: 'blob'
+    }).then(res=>{
+      fileDownload(res.data, params + '.json');
+    });
+  },
+  async deleteProject(params){
+    return request({
+      url:'/project/deleteProject',
+      method:'POST',
+      data: params
+    });
+  },
+  async createProject(params){
+    return request({
+      url:'/project/createProject',
+      method:'POST',
+      data:params
+    });
+  },
+  async modifyName(params){
+    return request({
+      url:'/project/modifyName',
+      method:'POST',
+      data:params
+    });
+  },
+  async getProjectContent(params){
+    return request({
+      url:'/project/getProjectContent',
+      method:'GET',
+      data:params
+    });
+  },
+  async release(params){
+    return request({
+      url:'/project/release',
+      method:'POST',
+      data:params
+    });
+  },
+  async modifyContent(params){
+    return request({
+      url:'/project/modifyContent',
+      method:'POST',
+      data:params
+    });
+  },
+};
