@@ -9,6 +9,7 @@
 import {useStore} from 'vuex'
 import ActiveComponentFrame from './ActiveComponentFrame/ActiveComponentFrame.vue';
 import componentMap from './componentMap'
+import useUserComponentTransformer from './transformers'
 export default {
   components: { ActiveComponentFrame },
   props:{
@@ -18,9 +19,9 @@ export default {
     }
   },
   setup(props) {
+    useUserComponentTransformer();
     const store = useStore();
-    store.commit('editPage/addComponent', {node: props.rootNode}); // 初始化组件
-
+    store.commit('editPage/addComponent', {node: props.rootNode, parentId: 0}); // 初始化组件
    return {
       componentMap
     }
