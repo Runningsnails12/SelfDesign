@@ -24,7 +24,8 @@
         },
         "values": {
           "description": "组件特殊值。例如：文本框的文本、图片组件的url",
-          "type": "string"
+          "type": "object",
+          "additionalProperties": true
         },
         "event": {
           "description": "组件事件",

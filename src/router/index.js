@@ -33,7 +33,7 @@ const routes = [
   }, 
   {
     name: 'ProjectEdit',
-    path: '/projectEdit',
+    path: '/projectEdit/:id',
     meta: {
       isEdit: true
     },

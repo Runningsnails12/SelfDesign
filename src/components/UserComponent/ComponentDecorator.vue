@@ -1,5 +1,5 @@
 <script>
-import { computed, defineComponent, h } from 'vue';
+import { computed, defineComponent, h, inject } from 'vue';
 import { useStore } from 'vuex';
 
 export default defineComponent({
@@ -16,17 +16,27 @@ export default defineComponent({
   emits: ['click'],
   setup(props, { emit, slots }) {
     if (!slots.default) return () => '空的';
-
     const store = useStore();
 
-    const rawData = computed(() => store.state.components.get(props.id) ?? null);
+    const rawData = computed(() => store.state.editPage.components.get(props.id) ?? null);
 
-    const data = computed(() => props.transformer(rawData.value));
+    // 开的后门
+    /** @type {Map<string, (raw: Record<string, string>) => unknown> | null} */
+    const transformers = inject(
+      '__userComponentTransformers',
+      null
+    );
+
+    const transformer = computed(() =>
+      transformers?.get(rawData.value?.tag) ?? props.transformer
+    );
+   
+    const data = computed(() => transformer.value(rawData.value));
 
     const onClickWrapper = (cb) =>
       (e) => {
         emit('click', e);
-        store.commit('setActiveComponent', props.id);
+        store.commit('editPage/setActiveComponent', props.id);
         if (cb) cb(e);
       };
 

@@ -23,6 +23,7 @@
 | [/project/import](./api/project_import.md)                       | **POST** | 导入             |
 
 ## 其它
-| API                                          | 请求类型 | 功能     |
-| :------------------------------------------- | :------: | :------- |
-| [/other/uploadImg](./api/other_uploadImg.md) | **POST** | 上传图片 |
+| API                                              | 请求类型 | 功能         |
+| :----------------------------------------------- | :------: | :----------- |
+| [/other/uploadImg](./api/other_uploadImg.md)     | **POST** | 上传图片     |
+| [/other/getTemplate](./api/other_getTemplate.md) | **POST** | 获取组件模板 |

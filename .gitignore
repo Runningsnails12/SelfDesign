@@ -4,6 +4,7 @@ node_modules
 dist
 dist-ssr
 *.local
+myBug.md
 
 # local env files
 .env.local
