@@ -180,7 +180,7 @@ export default {
   margin: 10px 0 10px 10px;
   width: 25px;
   height: 25px;
-  background: url(img/EditIcons/zoom_icon.png);
+  background: url(/img/EditIcons/zoom_icon.png);
   background-size: auto 25px;
   background-repeat: no-repeat;
   border: none;
@@ -220,7 +220,7 @@ export default {
   margin-top: 10px;
   width: 25px;
   height: 25px;
-  background: url(img/EditIcons/zoom_icon.png);
+  background: url(/img/EditIcons/zoom_icon.png);
   background-position: -50px 0;
   background-repeat: no-repeat;
   background-size: auto 25px;

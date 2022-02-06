@@ -27,65 +27,65 @@
   </div>
 </template>
 <script>
-import { ref, reactive } from "vue";
+import {ref, reactive} from 'vue';
 
 export default {
-  name: "ComponentPanel",
+  name: 'ComponentPanel',
   setup() {
     let checkedOne = ref(0);
     // 组件选项（容器/组件）
     const componentOptions = reactive([
       {
         id: 1,
-        tag: "容  器",
+        tag: '容  器',
         // title: '大组件',
         componentData: [
           {
             cid: 1,
-            cname: "布局",
-            img: "img/EditIcons/布局.png",
+            cname: '布局',
+            img: '/img/EditIcons/布局.png',
           },
           {
             cid: 2,
-            cname: "轮播图",
-            img: "img/EditIcons/轮播图.png",
+            cname: '轮播图',
+            img: '/img/EditIcons/轮播图.png',
           },
           {
             cid: 3,
-            cname: "二级导航",
-            img: "img/EditIcons/二级导航.png",
+            cname: '二级导航',
+            img: '/img/EditIcons/二级导航.png',
           },
           {
             cid: 4,
-            cname: "列表",
-            img: "img/EditIcons/列表.png",
+            cname: '列表',
+            img: '/img/EditIcons/列表.png',
           },
           {
             cid: 5,
-            cname: "表格",
-            img: "img/EditIcons/表格.png",
+            cname: '表格',
+            img: '/img/EditIcons/表格.png',
           },
         ],
       },
       {
         id: 2,
-        tag: "组  件",
+        tag: '组  件',
         // title: '小组件',
         componentData: [
           {
             cid: 1,
-            cname: "图片",
-            img: "img/EditIcons/图片.png",
+            cname: '图片',
+            img: '/img/EditIcons/图片.png',
           },
           {
             cid: 2,
-            cname: "文本框",
-            img: "img/EditIcons/文本框.png",
+            cname: '文本框',
+            img: '/img/EditIcons/文本框.png',
           },
           {
             cid: 3,
-            cname: "按钮",
-            img: "img/EditIcons/按钮.png",
+            cname: '按钮',
+            img: '/img/EditIcons/按钮.png',
           },
         ],
       },

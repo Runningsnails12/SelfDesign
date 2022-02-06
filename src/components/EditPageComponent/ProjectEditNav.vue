@@ -3,7 +3,7 @@
     <div class="edit-nav">
       <div class="left-part">
         <div id="user-msg">
-          <img id="user-icon" src="img/EditIcons/header_icon.png" />
+          <img id="user-icon" src="/img/EditIcons/header_icon.png" />
           <ul>
             <li><i /><span>新手教程</span></li>
             <li><i /><span>项目管理</span></li>
@@ -142,18 +142,18 @@ export default {
 #user-msg ul li i {
   width: 20px;
   height: 16px;
-  background: url(img/新手教程.png);
+  background: url(/img/新手教程.png);
   background-size: auto 16px;
   background-repeat: no-repeat;
 }
 
 #user-msg ul li:nth-child(2) i {
-  background: url(img/项目管理.png);
+  background: url(/img/项目管理.png);
   background-size: auto 16px;
   background-repeat: no-repeat;
 }
 #user-msg ul li:nth-child(3) i {
-  background: url(img/相关模板.png);
+  background: url(/img/相关模板.png);
   background-size: auto 16px;
   background-repeat: no-repeat;
 }
@@ -188,7 +188,7 @@ export default {
   width: 32px;
   height: 32px;
   background-color: #ffffff;
-  background: url(img/EditIcons/nav_icon.png);
+  background: url(/img/EditIcons/nav_icon.png);
   background-size: 128px 64px;
   background-repeat: no-repeat;
   outline: none;

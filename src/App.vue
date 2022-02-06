@@ -48,28 +48,37 @@ Date.prototype.format = function (fmt) {
   return fmt;
 };
 
-// import {setRoute} from 'vue-router';
-// let route = setRoute();
+import {ref, watch} from 'vue';
+import {useRouter} from 'vue-router';
 
-// const aaa = () => {
-//   console.log(route.path === '/projectEdit');
-//   return route.path === '/projectEdit';
-// };
+const router = useRouter();
+let isprojectEditPage = ref(false);
+
+watch(
+  () => router.currentRoute.value.path, // 当前页面的path
+  (path) => {
+    isprojectEditPage.value = path.search('projectEdit') == 1 ? true : false;
+  },
+  {
+    deep: false, // 是否采用深度监听
+    immediate: false, // 首次加载是否执行
+  }
+);
 </script>
 
 <template>
   <div class="container">
-    <NavBar v-if="$route.path !== '/projectEdit'" />
-    <ProjectEditNav v-if="$route.path === '/projectEdit'" />
+    <NavBar v-if="!isprojectEditPage" />
+    <ProjectEditNav v-if="isprojectEditPage" />
     <LoginForm v-if="store.state.loginFormClose" />
     <router-view />
   </div>
 </template>
 
 <style lang="scss">
-body{
-  margin:0;
-  padding:0;
+body {
+  margin: 0;
+  padding: 0;
 }
 .nav {
   width: 100%;

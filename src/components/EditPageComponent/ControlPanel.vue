@@ -2,7 +2,7 @@
   <div id="c-panel">
     <div class="sidebar">
       <button @click="sideExtension">
-        <img :src="'img/EditIcons/左右切换' + btnSrc + '.png'" />
+        <img :src="'/img/EditIcons/左右切换' + btnSrc + '.png'" />
       </button>
     </div>
     <div class="panel-content">
