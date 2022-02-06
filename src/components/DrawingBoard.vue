@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import useUserComponentTransformer from './UserComponent/transformers'
 export default {
   data() {
     return { 
@@ -25,9 +24,6 @@ export default {
     cancelComponentSelect() {
       this.$store.commit('editPage/resetActiveComponent')
     },
-  },
-  setup(){
-    useUserComponentTransformer()
   }
 }
 </script>

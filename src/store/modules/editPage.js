@@ -33,7 +33,7 @@ let newestId = -1;
  * @param {*} parentId 
  * @returns 
  */
-function generateNode(nodeTemplate, parentId = 0) {
+function generateNode(nodeTemplate, parentId) {
   // 没有 id 是 添加节点调用
   let id = -1;
   if(!nodeTemplate.id){
@@ -49,9 +49,9 @@ function generateNode(nodeTemplate, parentId = 0) {
     id,
     parentId,
     tag:nodeTemplate.tag,
-    style: deepCopy(nodeTemplate.style),
-    values: deepCopy(nodeTemplate.values),
-    events: deepCopy(nodeTemplate.envents),
+    style: nodeTemplate.style? deepCopy(nodeTemplate.style) : {},
+    values: nodeTemplate.values? deepCopy(nodeTemplate.values) : {},
+    events: nodeTemplate.events? deepCopy(nodeTemplate.envents) : [],
     tempStyle: {}, // 前端操作的时候有用
     children: [],
   }
@@ -66,7 +66,7 @@ function resetActiveComponent(state) {
 }
 
 // 添加节点
-function addComponent(state, {node, parentId = 0 }) {
+function addComponent(state, {node, parentId = 1 }) {
   const copyNode = generateNode(node, parentId);
   state.components.set(copyNode.id, copyNode); // 往 map 中添加节点
   if(parentId !== 0){
@@ -84,6 +84,12 @@ export default {
     activeComponentId: -1,
     activeContainerId: -1
   },
+  getters:{
+    activeComponent(state){
+      return state.activeComponentId !== -1 ? state.components.get(state.activeComponentId) : null;
+    }
+  },
+
   mutations: {
     // 添加组件
     addComponent,
@@ -163,6 +169,32 @@ export default {
     // 重置激活容器
     resetActiveContainer(state) {
       state.activeContainerId = -1;
+    },
+
+    // 修改活动组件 values
+    setActiveComponentValues(state, values){
+      if (state.activeComponentId === -1) {
+        return
+      }
+      const componentValues = state.components.get(state.activeComponentId).values;
+      // 覆盖 style 原有属性值
+      for (let key in values) {
+        componentValues[key] = values[key];
+      }
+    },
+
+    // 修改活动组件 events, 还在写。。。。。
+    setActiveComponentEvents(state, {events}){
+      if (state.activeComponentId === -1) {
+        return
+      }
+      const componentEvents = state.components.get(state.activeComponentId).events;
+      // 覆盖 style 原有属性值
+      // for (let key in events) {
+      //   componentEvents[key] = events[key];
+      // }
+
     }
+
   }
 }
