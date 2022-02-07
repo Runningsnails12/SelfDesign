@@ -63,8 +63,6 @@ export default {
 
     const publishMessage = () => {};
 
-    const store = useStore();
-
     const undo = () => {
       store.dispatch(UNDO_KEY);
     };
