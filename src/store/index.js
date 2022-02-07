@@ -1,5 +1,5 @@
-import { createStore } from 'vuex'
-import editPage from './modules/editPage'
+import { createStore } from 'vuex';
+import editPage from './modules/editPage';
 import { historyPlugin, historyGlobalActions, historyGlobalMutations } from './plugins/history';
 export default createStore({
   state: {
@@ -29,5 +29,5 @@ export default createStore({
   plugins: [
     historyPlugin
   ]
-})
+});
 
