@@ -4,8 +4,20 @@
 			<h4 class="title">文本</h4>
 			<div class="core">
 				<div>
-					<div class="fontFamily"></div>
-					<div class="color"></div>
+					<el-select
+						v-model="value"
+						class="fontFamily"
+						placeholder="fontFamily"
+					>
+						<el-option
+							v-for="item in fontFamilys"
+							:key="item.value"
+							:label="item.label"
+							:value="item.value"
+						>
+						</el-option>
+					</el-select>
+					<el-color-picker class="colorChoose shadow-color" v-model="color" />
 				</div>
 				<div>
 					<div class="fontWeight"></div>
@@ -61,7 +73,7 @@
 						class="colorChoose background-color"
 						v-model="color"
 					/>
-					<em>背景</em>
+					<em class="bg">背景</em>
 					<el-color-picker class="colorChoose border-color" v-model="color" />
 					<em>边框</em>
 				</div>
@@ -162,6 +174,7 @@ import { ref, reactive } from "vue";
 export default {
 	name: "AttrStyle",
 	setup() {
+		let fontFamilys = reactive[{ option: "", value: "" }];
 		let text = reactive({});
 		const color = ref("#ffffff");
 		const colorRgba = ref("#eeeeee");
@@ -190,7 +203,11 @@ export default {
 	border: 0;
 }
 .el-color-picker {
-	margin-right: 0.9375rem;
+	margin-right: 0.5rem;
+}
+.el-input__inner {
+	height: 25px;
+	border-radius: 0.125rem;
 }
 </style>
 
@@ -251,7 +268,7 @@ export default {
 	color: #666666;
 }
 /*  #region colorChoose  */
-.appearance .core div .colorChoose {
+.appearance .core div .bg {
 	margin-right: 20px;
 }
 /*  #endregion  */
