@@ -98,7 +98,7 @@ export default {
 	display: flex;
 	margin-left: -285px;
 	position: relative;
-	width: 325px;
+	width: 380px;
 	height: 100%;
 	left: 285px;
 	background: #ffffff;
@@ -108,16 +108,12 @@ export default {
 	transition: ease-in-out all 0.5s;
 }
 #c-panel .panel-content > .L {
-	/* width: calc(100%-1.25rem); */
 	height: 100%;
 	width: 100%;
-
-	/* margin-left: 1.25rem; */
 	box-sizing: border-box;
 }
 .sidebar {
 	position: relative;
-	/* width: 20px; */
 	height: 100%;
 }
 
@@ -139,10 +135,9 @@ export default {
 	width: 20px;
 }
 .panel-content {
-	/* width: 100%; */
 	width: 100%;
-	/* box-sizing: border-box; */
-	/* overflow-y: scroll; */
+	overflow-y: scroll;
+	overflow-x: hidden;
 	padding-left: 0.9375rem;
 }
 
@@ -157,7 +152,6 @@ export default {
 .panel-content::-webkit-scrollbar-track {
 	border-radius: 6px;
 	background-color: #e9ebed;
-	/* -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.25); */
 }
 
 /*定义滑块 内阴影+圆角*/
@@ -171,10 +165,7 @@ export default {
 .interact-panel {
 	padding-right: 0.9375rem;
 	display: none;
-
-	/* width: 11rem; */
 	margin: 0 auto;
-	/* padding: 0 1.25rem; */
 }
 
 .attributes-panel {
@@ -182,23 +173,21 @@ export default {
 }
 /* 选项啥啥的 */
 .panel-content ul.btn {
-	/* padding: 26px 30px 28px 30px; */
-	/* box-sizing: border: box;; */
-	/* width: 11rem; */
 	width: 100%;
 	height: 5.625rem;
 	list-style: none;
 	overflow: hidden;
 	background-color: #fff;
 	transition: all 0.3s;
-	/* margin: 0 auto; */
 	display: flex;
 	align-items: center;
 	justify-content: center;
 }
 .panel-content .L ul.btn {
-	background-color: #e9ebed;
-	/* border: 1px solid #e8e8e8; */
+	background-color: #fafafb;
+	border: 1px solid #e8e8e8;
+	border-top: 0;
+	border-right: 0;
 }
 
 .panel-content ul.btn li {
@@ -216,7 +205,7 @@ export default {
 }
 .panel-content ul.btn li:nth-of-type(2) {
 	border-radius: 0 6px 6px 0;
-	margin-right: 0.9375rem;
+	margin-right: 5px;
 }
 .panel-content ul.btn li.tabSelected {
 	color: #ffffff !important;
