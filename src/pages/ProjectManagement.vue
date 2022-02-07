@@ -210,9 +210,10 @@ onUnmounted(() => {
 </script>
 <style lang="scss">
 .management {
-  height: calc(100% - 60px);
+  height: calc(100vh - 60px);
   background-color: #dce7ea;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   .user_info_container {
     display: flex;
     justify-content: center;
