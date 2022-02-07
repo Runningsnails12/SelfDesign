@@ -109,13 +109,10 @@ export default {
     },
 
     // 移动组件
-    moveComponent(state) {
-      const to = state.activeContainerId;
+    moveComponent(state, {to, from, targetId}) {
       if (to === -1) { return; }
-      const activeComponentId = state.activeComponentId;
-      const from = state.components.get(activeComponentId).parentId;
       if (to !== from) {
-        const comp = deleteComponentFromJson(state, { parentId: from, targetId: activeComponentId });
+        const comp = deleteComponentFromJson(state, { parentId: from, targetId });
         comp.parentId = to;
         state.components.get(to).children.push(comp);
       }
@@ -157,11 +154,11 @@ export default {
     },
 
     // 清空临时样式
-    clearActiveComponentTempStyle(state) {
-      if (state.activeComponentId === -1) {
+    clearActiveComponentTempStyle(state, activeComponentId) {
+      if (activeComponentId === -1) {
         return;
       }
-      state.components.get(state.activeComponentId).tempStyle = {};
+      state.components.get(activeComponentId).tempStyle = {};
     },
 
 
