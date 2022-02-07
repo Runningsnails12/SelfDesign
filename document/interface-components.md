@@ -19,7 +19,7 @@ componentsTemplate = [
         style: {},
         events: [],
         values:{}
-      },
+      }, 
       {
         tag: 'Image',
         children: [],

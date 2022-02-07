@@ -126,17 +126,19 @@ export default {
 <style scoped>
 .edit-page {
   display: flex;
+  width: 100%;
   height: calc(100vh - 61px);
   justify-content: space-between;
   background-color: #e9ebed;
   overflow: hidden;
+  /* border: 1px solid #f00; */
 }
 
 /* 中间画布缩放处理 */
 #canvaspage-outsidebox {
   display: flex;
   width: calc(100vw - 250px);
-  min-width: 800px;
+  /* min-width: 800px; */
   height: calc(100vh - 63px);
   justify-content: center;
   overflow: scroll;

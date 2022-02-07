@@ -25,15 +25,15 @@ const userLayoutHorizontal = (raw) => {
   return {
     componentId: raw.id,
     myChildren: raw.children
-  }
-}
+  };
+};
 
 const userLayoutVertical = (raw) => {
   return {
     componentId: raw.id,
     myChildren: raw.children
-  }
-}
+  };
+};
 
 /**
  * 在用到ComponentDecorator的那个组件setup里执行
@@ -46,7 +46,7 @@ const useUserComponentTransformer = () => {
     new Map([
       ['Image', userImage],
       ['Text', userText],
-      ['Button', userButton]
+      ['Button', userButton],
       ['HorizontalLayout',userLayoutHorizontal],
       ['VerticalLayout', userLayoutVertical]
     ])

@@ -1,4 +1,4 @@
-import deepCopy from "@/utils/deepCopy";
+import deepCopy from '@/utils/deepCopy';
 
 
 // 从map中删除组件
@@ -14,10 +14,10 @@ function deleteComponentFromMap(state, key) {
 // 从 json 中删除组件
 function deleteComponentFromJson(state, { parentId, targetId }) {
   const children = state.components.get(parentId).children;
-  let i = 0
+  let i = 0;
   for (; i < children.length; i++) {
     if (children[i].id === targetId) {
-      break
+      break;
     }
   }
   return children.splice(i, 1)[0];
@@ -54,7 +54,7 @@ function generateNode(nodeTemplate, parentId) {
     events: nodeTemplate.events? deepCopy(nodeTemplate.envents) : [],
     tempStyle: {}, // 前端操作的时候有用
     children: [],
-  }
+  };
 }
 
 
@@ -73,7 +73,7 @@ function addComponent(state, {node, parentId = 1 }) {
     // 非根节点
     state.components.get(parentId).children.push(copyNode); // 构造树状数据
   }
-  node.children.forEach(child => addComponent(state, { node: child, parentId: id }))
+  node.children.forEach(child => addComponent(state, { node: child, parentId: copyNode.id }));
 }
 
 
@@ -101,7 +101,7 @@ export default {
         return;
       }
       const parentId = state.components.get(activeComponentId).parentId;
-      resetActiveComponent(state) // 必须先置 -1
+      resetActiveComponent(state); // 必须先置 -1
       deleteComponentFromMap(state, activeComponentId);
       deleteComponentFromJson(state, { parentId, targetId: activeComponentId });
     },
@@ -109,12 +109,12 @@ export default {
     // 移动组件
     moveComponent(state) {
       const to = state.activeContainerId;
-      if (to === -1) { return }
+      if (to === -1) { return; }
       const activeComponentId = state.activeComponentId;
       const from = state.components.get(activeComponentId).parentId;
       console.log(from, to);
       if (to !== from) {
-        const comp = deleteComponentFromJson(state, { parentId: from, targetId: activeComponentId })
+        const comp = deleteComponentFromJson(state, { parentId: from, targetId: activeComponentId });
         comp.parentId = to;
         state.components.get(to).children.push(comp);
       }
@@ -131,7 +131,7 @@ export default {
     // 修改活动组件样式
     setActiveComponentStyle(state, style) {
       if (state.activeComponentId === -1) {
-        return
+        return;
       }
       const componentStyle = state.components.get(state.activeComponentId).style;
       // 覆盖 style 原有属性值
@@ -143,7 +143,7 @@ export default {
     // 修改活动组件临时样式
     setActiveComponentTempStyle(state, style) {
       if (state.activeComponentId === -1) {
-        return
+        return;
       }
       const componentStyle = state.components.get(state.activeComponentId).tempStyle;
       // 覆盖 style 原有属性值
@@ -155,7 +155,7 @@ export default {
     // 清空临时样式
     clearActiveComponentTempStyle(state) {
       if (state.activeComponentId === -1) {
-        return
+        return;
       }
       state.components.get(state.activeComponentId).tempStyle = {};
     },
@@ -174,7 +174,7 @@ export default {
     // 修改活动组件 values
     setActiveComponentValues(state, values){
       if (state.activeComponentId === -1) {
-        return
+        return;
       }
       const componentValues = state.components.get(state.activeComponentId).values;
       // 覆盖 style 原有属性值
@@ -186,7 +186,7 @@ export default {
     // 修改活动组件 events, 还在写。。。。。
     setActiveComponentEvents(state, {events}){
       if (state.activeComponentId === -1) {
-        return
+        return;
       }
       const componentEvents = state.components.get(state.activeComponentId).events;
       // 覆盖 style 原有属性值
@@ -195,6 +195,5 @@ export default {
       // }
 
     }
-
   }
-}
+};
