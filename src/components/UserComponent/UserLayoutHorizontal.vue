@@ -11,7 +11,7 @@
         :is="componentMap.get(child.tag)"
         v-bind="data"
         :id="'component' + child.id"
-        style="position: relative"
+        style="position: relative; user-select: none"
         :style="child.tempStyle"
       />
     </component-decorator>
@@ -36,6 +36,14 @@ export default {
       type: Array,
       default: [],
     },
+    width: {
+      type: [String, Number, null],
+      default: '400px'
+    },
+    height: {
+      type: [String, Number, null],
+      default: '200px'
+    }
   },
   setup(props) {
     const {componentId} = toRefs(props);
@@ -54,13 +62,14 @@ export default {
 <style scoped>
 .container {
   display: flex;
-  border: 1px solid #000;
   justify-content: flex-start;
-  padding: 0 30px;
-  height: 200px;
+  align-items: center;
+  height: v-bind(height);
+  width:v-bind(width);
+  outline:dashed #aaa;
 }
 
 .active {
-  outline: #00f solid 2px;
+  outline: #4A8AF4  solid 2px;
 }
 </style>

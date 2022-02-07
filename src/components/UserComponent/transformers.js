@@ -24,14 +24,18 @@ const userImage = (raw) => {
 const userLayoutHorizontal = (raw) => {
   return {
     componentId: raw.id,
-    myChildren: raw.children
+    myChildren: raw.children,
+    width: raw.style.width,
+    height: raw.style.height
   };
 };
 
 const userLayoutVertical = (raw) => {
   return {
     componentId: raw.id,
-    myChildren: raw.children
+    myChildren: raw.children,
+    width: raw.style.width,
+    height: raw.style.height
   };
 };
 

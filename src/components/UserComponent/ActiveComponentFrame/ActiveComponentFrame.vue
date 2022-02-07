@@ -2,6 +2,7 @@
   <div>
     <teleport :to="activeComponentId">
       <div
+        @keydown="deleteComp"
         v-show="isShow"
         class="frame"
         @click.stop
@@ -84,7 +85,11 @@ export default {
     return { activeComponentId, isShow,startDragComponent }
   },
   components:{ DeleteComponent},
- 
+  methods:{
+    deleteComp(e){
+      console.log(e);
+    }
+  }
 }
 </script>
 

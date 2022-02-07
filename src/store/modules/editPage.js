@@ -124,6 +124,9 @@ export default {
 
     // 修改当前活动组件
     setActiveComponent(state, id) {
+      if(id === 1){ // 不能选中根组件
+        return;
+      }
       state.activeComponentId = id;
     },
 

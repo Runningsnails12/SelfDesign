@@ -2,9 +2,11 @@
   <component-decorator :id="rootNode.id" v-slot="{data}">
     <component
       :is="componentMap.get(rootNode.tag)"
+      @click.stop
       v-bind="data"
       :component-id="rootNode.id"
       :id="'component' + rootNode.id"
+      style="min-height: 527px"
     />
   </component-decorator>
   <active-component-frame />
