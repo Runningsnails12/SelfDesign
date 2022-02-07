@@ -9,32 +9,6 @@ const onlyCloneRootComponent = (value) => {
   }
 };
 
-// /**
-//  * 根据id添加组件到Components Map
-//  * @param {Record<string, string>} component 组件数据
-//  * @param {Map<number, any>} map vuex中的componets Map
-//  */
-// const addComponentById = (component, map) => {
-//   const { id, children } = component;
-//   map.set(id, component);
-
-//   for (const child of children) {
-//     addComponentById(child, map);
-//   }
-// };
-
-// /**
-//  * 重建Components Map
-//  * @param {Map<number, any>} map 
-//  */
-// const rebuildComponentMapFromRoot = (map) => {
-//   const children = map.get(1).children;
-
-//   for (const child of children) {
-//     addComponentById(child, map);
-//   }
-// };
-
 /** @typedef {import('vuex').Store<any>['subscribe']} Subscribe */
 
 const history = [];
@@ -54,7 +28,6 @@ const undo = ({ dispatch }) => {
 
   const prev = history[i - 1];
   dispatch(REPLACE_STATE_MUTATION_KEY, { editPage: prev }, { root: true });
-  // Object.assign(store.state, { editPage: prev });
 
   i -= 1;
 };
@@ -71,7 +44,6 @@ const redo = ({ dispatch }) => {
   
   const future = history[i + 1];
   dispatch(REPLACE_STATE_MUTATION_KEY, { editPage: future }, { root: true });
-  // Object.assign(store.state, { editPage: future });
 
   i += 1;
 };
