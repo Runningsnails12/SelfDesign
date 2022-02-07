@@ -51,7 +51,7 @@ function generateNode(nodeTemplate, parentId) {
     tag:nodeTemplate.tag,
     style: nodeTemplate.style? deepCopy(nodeTemplate.style) : {},
     values: nodeTemplate.values? deepCopy(nodeTemplate.values) : {},
-    events: nodeTemplate.events? deepCopy(nodeTemplate.envents) : [],
+    event: nodeTemplate.event? deepCopy(nodeTemplate.event) : [],
     tempStyle: {}, // 前端操作的时候有用
     children: [],
   };
@@ -73,7 +73,9 @@ function addComponent(state, {node, parentId = 1 }) {
     // 非根节点
     state.components.get(parentId).children.push(copyNode); // 构造树状数据
   }
-  node.children.forEach(child => addComponent(state, { node: child, parentId: copyNode.id }));
+  if(node.children) {
+    node.children.forEach(child => addComponent(state, { node: child, parentId: copyNode.id }));
+  }
 }
 
 
@@ -184,13 +186,13 @@ export default {
     },
 
     // 修改活动组件 events, 还在写。。。。。
-    setActiveComponentEvents(state, {events}){
+    setActiveComponentEvents(state, {event}){
       if (state.activeComponentId === -1) {
         return;
       }
-      const componentEvents = state.components.get(state.activeComponentId).events;
+      const componentEvents = state.components.get(state.activeComponentId).event;
       // 覆盖 style 原有属性值
-      // for (let key in events) {
+      // for (let key in event) {
       //   componentEvents[key] = events[key];
       // }
 

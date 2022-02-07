@@ -1,7 +1,7 @@
 <template>
   <div id="outsidebox">
     <div id="canvas-page">
-      比例系数：{{ parseInt(scaleCoefficient) * 0.01 }}
+      <!-- 比例系数：{{ parseInt(scaleCoefficient) * 0.01 }} -->
       <the-root-component :root-node="root" />
     </div>
   </div>

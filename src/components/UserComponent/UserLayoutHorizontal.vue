@@ -1,21 +1,17 @@
 <template>
-  <div
-    class="container"
-    :class="{ active: isActive }"
-    style="position: relative"
-  >
+  <div class="container" :class="{active: isActive}" style="position: relative">
     <component-decorator
       v-for="child in myChildren"
       :key="child.id"
       :id="child.id"
-      v-slot = "{data}"
+      v-slot="{data}"
     >
       <component
         @click.stop
         :is="componentMap.get(child.tag)"
-        v-bind = "data"
+        v-bind="data"
         :id="'component' + child.id"
-        style="position:relative"
+        style="position: relative"
         :style="child.tempStyle"
       />
     </component-decorator>
@@ -23,11 +19,10 @@
 </template>
 
 <script>
-import { toRefs } from '@vue/reactivity'
-import { useStore } from 'vuex'
-import { computed } from 'vue'
-import componentMap from './componentMap'
-
+import {toRefs} from '@vue/reactivity';
+import {useStore} from 'vuex';
+import {computed} from 'vue';
+import componentMap from './componentMap';
 
 export default {
   name: 'UserLayoutHorizontal',
@@ -39,24 +34,24 @@ export default {
     },
     myChildren: {
       type: Array,
-      default:[]
-    }
+      default: [],
+    },
   },
   setup(props) {
-    const { componentId } = toRefs(props)
-    const store = useStore()
+    const {componentId} = toRefs(props);
+    const store = useStore();
     let isActive = computed(
       () => componentId.value === store.state.editPage.activeContainerId
-    )
+    );
     return {
       isActive,
-      componentMap
-    }
+      componentMap,
+    };
   },
-}
+};
 </script>
 
-<style  scoped>
+<style scoped>
 .container {
   display: flex;
   border: 1px solid #000;
