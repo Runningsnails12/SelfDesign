@@ -194,7 +194,13 @@ export default {
       // for (let key in event) {
       //   componentEvents[key] = events[key];
       // }
+    },
 
+    // 清空 state 的所有状态
+    clearAllStates(state){
+      state.components = new Map();
+      state.activeComponentId = -1;
+      state.activeContainerId = -1;
     }
   }
 };

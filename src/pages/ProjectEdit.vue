@@ -40,6 +40,12 @@ export default {
     CanvasPage,
     ControlPanel,
   },
+
+  unmounted(){
+    // 清空 store.editPage 里的所有状态
+    this.$store.commit('editPage/clearAllStates');
+  },
+
   setup() {
     let scaleNum = ref('100%');
     const options = [
