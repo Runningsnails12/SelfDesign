@@ -46,6 +46,7 @@ export default {
       btnSrc.value = btnSrc.value == 'L' ? 'R' : 'L';
       let cPanel = document.getElementById('c-panel');
       cPanel.style.left = cPanel.style.left != '0px' ? '0px' : '285px';
+      // cPanel.style.transform = 'translate(' + (cPanel.style.marginLeft != '0px' ? '0%' : '95%') + ')';
       cPanel.style.marginLeft = cPanel.style.marginLeft != '0px' ? '0px' : '-285px';
     };
 
@@ -91,6 +92,7 @@ export default {
   width: 300px;
   height: 100%;
   left: 285px;
+  /* transform: translate(95%); */
   background: #ffffff;
   box-shadow: 0px 3px 6px 1px rgba(0, 0, 0, 0.1607843137254902);
   border: 1px solid #eeeeee;

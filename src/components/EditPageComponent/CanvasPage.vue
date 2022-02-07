@@ -1,14 +1,35 @@
 <template>
   <div id="outsidebox">
-    <div id="canvas-page">比例系数：{{ parseInt(scaleCoefficient) * 0.01 }}</div>
+    <div id="canvas-page">
+      比例系数：{{ parseInt(scaleCoefficient) * 0.01 }}
+      <the-root-component :root-node="root" />
+    </div>
   </div>
 </template>
 
 <script>
 import {watch, inject} from 'vue';
+import TheRootComponent from '@/components/UserComponent/TheRootComponent.vue';
 
 export default {
   name: 'CanvasPage',
+  components: {
+    TheRootComponent,
+  },
+  data() {
+    return {
+      // 后端返回的根节点
+      root: {
+        id: 1,
+        tag: 'VerticalLayout',
+        style: {
+          width: '100%',
+          height: '100%',
+        },
+        children: [],
+      },
+    };
+  },
   setup() {
     // 比例系数
     let scaleCoefficient = inject('scaleNum');

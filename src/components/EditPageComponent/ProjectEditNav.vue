@@ -78,7 +78,7 @@ export default {
   margin: 0 auto;
   width: 100%;
   max-width: 1920px;
-  min-width: 1200px;
+  /* min-width: 1200px; */
   height: 60px;
   justify-content: space-between;
 }
