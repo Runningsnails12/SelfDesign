@@ -6,24 +6,27 @@
       </button>
     </div>
     <div class="panel-content">
-      <ul>
-        <li
-          @click="tabChange(index)"
-          :class="checkedOne == index ? 'tabSelected' : ''"
-          :key="item.id"
-          v-for="(item, index) in panelSwitchOptions"
-        >
-          {{ item.tag }}
-        </li>
-      </ul>
-      <div class="attributes-panel" :class="checkedOne == 0 ? 'panelSelected' : ''">
-        <AttrStyle></AttrStyle>
-      </div>
-      <div class="interact-panel" :class="checkedOne != 0 ? 'panelSelected' : ''">
-        <Interaction></Interaction>
+      <div :class="checkedOne === 0 ? 'L' : ''">
+        <ul class="btn">
+          <li
+            @click="tabChange(index)"
+            :class="checkedOne == index ? 'tabSelected' : ''"
+            :key="item.id"
+            v-for="(item, index) in panelSwitchOptions"
+          >
+            {{ item.tag }}
+          </li>
+        </ul>
+
+        <div class="attributes-panel" :class="checkedOne == 0 ? 'panelSelected' : ''">
+          <AttrStyle></AttrStyle>
+        </div>
+        <div class="interact-panel" :class="checkedOne != 0 ? 'panelSelected' : ''">
+          <Interaction></Interaction>
+        </div>
       </div>
     </div>
-    <div class="sidebar"></div>
+    <!-- <div class="sidebar"></div> -->
   </div>
 </template>
 
@@ -89,20 +92,26 @@ export default {
   display: flex;
   margin-left: -285px;
   position: relative;
-  width: 300px;
+  width: 325px;
   height: 100%;
   left: 285px;
-  /* transform: translate(95%); */
   background: #ffffff;
   box-shadow: 0px 3px 6px 1px rgba(0, 0, 0, 0.1607843137254902);
   border: 1px solid #eeeeee;
   box-sizing: border-box;
   transition: ease-in-out all 0.5s;
 }
+#c-panel .panel-content > .L {
+  /* width: calc(100%-1.25rem); */
+  height: 100%;
+  width: 100%;
 
+  /* margin-left: 1.25rem; */
+  box-sizing: border-box;
+}
 .sidebar {
   position: relative;
-  width: 20px;
+  /* width: 20px; */
   height: 100%;
 }
 
@@ -125,42 +134,90 @@ export default {
 }
 .panel-content {
   /* width: 100%; */
-  overflow-y: scroll;
-}
-/* 选项啥啥的 */
-.panel-content > ul {
-  margin: 26px 30px 28px 30px;
-  width: 11rem;
-  height: 36px;
-  list-style: none;
-  border-radius: 6px;
-  box-shadow: 0px 3px 6px 1px rgba(0, 0, 0, 0.1607843137254902);
-  overflow: hidden;
+  width: 100%;
+  /* box-sizing: border-box; */
+  /* overflow-y: scroll; */
+  padding-left: 0.9375rem;
 }
 
-.panel-content > ul li {
+/* ----------- 滚动条 ----------- */
+.panel-content::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background-color: #e9ebed;
+}
+
+/*定义滚动条轨道 内阴影+圆角*/
+.panel-content::-webkit-scrollbar-track {
+  border-radius: 6px;
+  background-color: #e9ebed;
+  /* -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.25); */
+}
+
+/*定义滑块 内阴影+圆角*/
+.panel-content::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background-color: #888888;
+  -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.25);
+}
+
+.attributes-panel,
+.interact-panel {
+  padding-right: 0.9375rem;
+  display: none;
+
+  /* width: 11rem; */
+  margin: 0 auto;
+  /* padding: 0 1.25rem; */
+}
+
+.attributes-panel {
+  padding-right: 0;
+}
+/* 选项啥啥的 */
+.panel-content ul.btn {
+  /* padding: 26px 30px 28px 30px; */
+  /* box-sizing: border: box;; */
+  /* width: 11rem; */
+  width: 100%;
+  height: 5.625rem;
+  list-style: none;
+  overflow: hidden;
+  background-color: #fff;
+  transition: all 0.3s;
+  /* margin: 0 auto; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.panel-content .L ul.btn {
+  background-color: #e9ebed;
+  /* border: 1px solid #e8e8e8; */
+}
+
+.panel-content ul.btn li {
   float: left;
   width: 5.5rem;
   height: 36px;
   color: #333333;
   line-height: 36px;
   text-align: center;
+  border-radius: 6px 0 0 6px;
+  background-color: #fff;
   cursor: pointer;
   transition: all 0.3s;
+  box-shadow: 0px 3px 6px 1px rgba(0, 0, 0, 0.1607843137254902);
 }
-.tabSelected {
+.panel-content ul.btn li:nth-of-type(2) {
+  border-radius: 0 6px 6px 0;
+  margin-right: 0.9375rem;
+}
+.panel-content ul.btn li.tabSelected {
   color: #ffffff !important;
   background: #4a8af4;
 }
 
 .panelSelected {
   display: block !important;
-}
-
-.attributes-panel,
-.interact-panel {
-  display: none;
-  /* width: 11rem; */
-  margin: 0 auto;
 }
 </style>

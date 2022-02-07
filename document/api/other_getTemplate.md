@@ -17,50 +17,50 @@
 	"code": 2000,
 	"message": "获取成功",
 	"data": {
-		"templates":[
-			{
+		"templates": {
+			"PositionLayout": {
 				"tag": "PositionLayout",
 				"style": {},
 				"children": [],
-				"events":[],
+				"events": []
 			},
-			{
+			"HorizontalLayout": {
 				"tag": "HorizontalLayout",
 				"style": {},
 				"children": [],
-				"events":[],
+				"events": []
 			},
-			{
+			"VerticalLayout": {
 				"tag": "VerticalLayout",
 				"style": {},
 				"children": [],
-				"events":[],
+				"events": []
 			},
-			{
+			"Text": {
 				"tag": "Text",
 				"style": {},
 				"values": {
 					"content": "",
 				},
-				"events":[],
+				"events": []
 			},
-			{
+			"Button": {
 				"tag": "Button",
 				"style": {},
 				"values": {
 					"content": "",
 				},
-				"events":[],
+				"events": []
 			},
-			{
+			"Image": {
 				"tag": "Image",
 				"style": {},
 				"values": {
 					"url": "",
 				},
-				"events":[],
-			},
-		]
+				"events": []
+			}
+		}
 	}
 }
 ```
