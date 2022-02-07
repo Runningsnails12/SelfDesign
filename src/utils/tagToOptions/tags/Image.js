@@ -1,17 +1,14 @@
-/** @type {import("..").ComponentOptions} */
-const options = {
-  width: ['string', 0],
-  height: ['string', 0],
-  border: ['string', 0],
-  'box-shadow': 'string',
-};
-
-const values = {
-  url: 'string'
-};
-
-/** @type {import("..").Result} */
+/** @type {import('..').Result} */
 export default {
-  options,
-  values
+  text: false,  // true 文本样式
+  textContent: false, // true 文本内容
+  change: true, // true
+  appearance: true, //
+  align: false,  // true 对其方式 当前布局 flex 
+  image: true, // true tag == image
+  event: {
+    mouse: false, //可以添加鼠标事件
+    keydown: false,
+    keyup: false,
+  }
 };
