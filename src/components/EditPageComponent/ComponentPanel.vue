@@ -56,7 +56,7 @@ export default {
           {
             cid: 2,
             cname: '横向布局',
-            img: '/img/EditIcons/轮播图.png',
+            img: '/img/EditIcons/横向布局.png',
             template: {
               tag: 'HorizontalLayout',
               style: {},
@@ -67,7 +67,7 @@ export default {
           {
             cid: 3,
             cname: '纵向布局',
-            img: '/img/EditIcons/二级导航.png',
+            img: '/img/EditIcons/纵向布局.png',
             template: {
               tag: 'VerticalLayout',
               style: {},
@@ -77,11 +77,21 @@ export default {
           },
           // {
           //   cid: 4,
+          //   cname: '轮播图',
+          //   img: '/img/EditIcons/轮播图.png',
+          // },
+          // {
+          //   cid: 5,
+          //   cname: '二级导航',
+          //   img: '/img/EditIcons/二级导航.png',
+          // },
+          // {
+          //   cid: 6,
           //   cname: '列表',
           //   img: '/img/EditIcons/列表.png',
           // },
           // {
-          //   cid: 5,
+          //   cid: 7,
           //   cname: '表格',
           //   img: '/img/EditIcons/表格.png',
           // },

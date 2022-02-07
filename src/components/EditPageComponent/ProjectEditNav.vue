@@ -3,11 +3,13 @@
     <div class="edit-nav">
       <div class="left-part">
         <div id="user-msg">
-          <img id="user-icon" src="/img/EditIcons/header_icon.png" />
-          <ul>
-            <li><i /><span>新手教程</span></li>
-            <li><i /><span>项目管理</span></li>
-            <li><i /><span>相关模板</span></li>
+          <div id="user-icon">
+            {{ userIcon }}
+          </div>
+          <ul id="to-manage-page">
+            <li @click="$router.push('/tutorial')"><i /><span>新手教程</span></li>
+            <li @click="$router.push('/project')"><i /><span>项目管理</span></li>
+            <li @click="$router.push('/template')"><i /><span>相关模板</span></li>
           </ul>
         </div>
         <div class="file-name">
@@ -30,7 +32,8 @@
 </template>
 
 <script>
-import {ref} from 'vue';
+import {ref, computed} from 'vue';
+import {useStore} from 'vuex';
 import DialogBox from '@/components/EditPageComponent/DialogBox.vue';
 
 export default {
@@ -47,13 +50,20 @@ export default {
       dialogVisible.value = val;
     };
 
+    // 头像
+    const store = useStore();
+    const userIcon = computed(() => store.state.username?.slice(0, 2));
+
+    // 预览 & 发布
     const displaylDialog = () => {
+      confirm(111);
       dialogVisible.value = !dialogVisible.value;
     };
 
     const publishMessage = () => {};
 
     return {
+      userIcon,
       childData,
       dialogVisible,
       lastSaveTime,
@@ -67,7 +77,6 @@ export default {
 .edit-nav-box {
   position: relative;
   width: 100%;
-  background: #ffffff;
   border-bottom: 1px solid #bfbfbf;
   box-shadow: 0px 3px 6px 1px rgba(0, 0, 0, 0.1607843137254902);
   box-sizing: border-box;
@@ -80,6 +89,7 @@ export default {
   max-width: 1920px;
   /* min-width: 1200px; */
   height: 60px;
+  background: #ffffff;
   justify-content: space-between;
 }
 
@@ -91,74 +101,83 @@ export default {
 #user-msg {
   margin: 0 50px 0 15px;
   width: 50px;
-  border: 1px solid #f00;
 }
 
-#user-msg > img {
-  margin: 5px 0;
-  width: 50px;
-  box-sizing: border-box;
+#user-msg > #user-icon {
+  position: absolute;
+  margin: 7px 0;
+  width: 48px;
+  height: 48px;
+  line-height: 45px;
+  text-align: center;
+  background: #c4e5ff;
   border-radius: 50%;
-  border: 2px solid #5b9bc8;
+  border: 1.5px solid #5b9bc8;
+  box-sizing: border-box;
   transition: ease-in-out all 0.5s;
+  z-index: 10;
 }
 
 /* 二级导航 */
 #user-msg:hover #user-icon {
-  width: 90px;
+  /* transform-origin: 0% 0%; */
+  /* transform: scale(1.8); */
+  width: 80px;
+  height: 80px;
+  line-height: 75px;
+  font-size: 32px;
 }
 
-#user-msg:hover #user-msg ul {
-  display: block;
+#user-msg:hover #to-manage-page {
+  left: 0;
 }
 
-#user-msg ul {
-  display: none;
-  margin-top: -32px;
-  width: 0;
-  height: 0;
+#to-manage-page {
+  position: absolute;
   padding: 30px 16px 16px 16px;
-  width: 108px;
-  height: 102px;
+  width: 162px;
+  height: 138px;
+  top: 68px;
+  left: -200px;
   list-style: none;
   background: #ffffff;
   box-shadow: 0px 3px 6px 1px rgba(0, 0, 0, 0.25098039215686274);
   border-radius: 2px;
   border: 1px solid #f5f5f5;
-  transition: ease-in-out all 0.5s;
+  transition: ease-in-out all 0.4s;
 }
 
-#user-msg ul li {
+#to-manage-page li {
   display: flex;
-  margin-bottom: 6px;
-  padding: 7px 19px 7px 17px;
+  margin-bottom: 8px;
+  padding: 9px 19px 9px 17px;
   color: #666666;
-  font-size: 12px;
+  font-size: 16px;
   border-radius: 2px;
-  border: 1px solid #f1f2f4;
+  border: 1px solid #eaeaea;
   transition: ease-in-out all 0.3s;
   cursor: pointer;
 }
-#user-msg ul li:hover {
+#to-manage-page li:hover {
   background: #f1f2f4;
 }
 
-#user-msg ul li i {
-  width: 20px;
-  height: 16px;
+#to-manage-page li i {
+  width: 30px;
+  height: 20px;
   background: url(/img/新手教程.png);
-  background-size: auto 16px;
+  background-size: auto 20px;
   background-repeat: no-repeat;
 }
 
-#user-msg ul li:nth-child(2) i {
+#to-manage-page li:nth-child(2) i {
   background: url(/img/项目管理.png);
-  background-size: auto 16px;
+  background-size: auto 20px;
   background-repeat: no-repeat;
 }
-#user-msg ul li:nth-child(3) i {
+#to-manage-page li:nth-child(3) i {
   background: url(/img/相关模板.png);
-  background-size: auto 16px;
+  background-size: auto 20px;
   background-repeat: no-repeat;
 }
 /* 项目名称修改 */
