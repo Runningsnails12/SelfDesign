@@ -2,7 +2,6 @@
   <div
     class="container"
     :class="{ active: isActive }"
-    style="position: relative"
   >
     <component-decorator
       v-for="child in myChildren"
@@ -15,8 +14,10 @@
         :is="componentMap.get(child.tag)"
         v-bind="data"
         :id="'component' + child.id"
-        style="position: relative; user-select: none"
-        :style="child.tempStyle"
+        :style="[child.tempStyle,{
+          position:'relative',
+          'user-select': 'none'
+        }]"
       />
     </component-decorator>
   </div>
@@ -73,6 +74,7 @@ export default {
 
 <style scoped>
 .container {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: v-bind(justifyContent);

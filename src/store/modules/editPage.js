@@ -114,7 +114,6 @@ export default {
       if (to === -1) { return; }
       const activeComponentId = state.activeComponentId;
       const from = state.components.get(activeComponentId).parentId;
-      console.log(from, to);
       if (to !== from) {
         const comp = deleteComponentFromJson(state, { parentId: from, targetId: activeComponentId });
         comp.parentId = to;

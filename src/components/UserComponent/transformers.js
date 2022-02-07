@@ -27,7 +27,7 @@ const userLayoutHorizontal = (raw) => {
     myChildren: raw.children,
     width: raw.style.width,
     height: raw.style.height,
-    justiyContent: raw.style.justifyContent ? raw.style.justifyContent : raw.style['justify-content'],
+    justifyContent: raw.style.justifyContent ? raw.style.justifyContent : raw.style['justify-content'],
     alignItems: raw.style.alignItems ? raw.style.alignItems : raw.style['align-items']
   };
 };
@@ -38,10 +38,21 @@ const userLayoutVertical = (raw) => {
     myChildren: raw.children,
     width: raw.style.width,
     height: raw.style.height,
-    justiyContent: raw.style.justifyContent ? raw.style.justifyContent : raw.style['justify-content'],
+    justifyContent: raw.style.justifyContent ? raw.style.justifyContent : raw.style['justify-content'],
     alignItems: raw.style.alignItems ? raw.style.alignItems : raw.style['align-items']
   };
 };
+
+const userLayoutPosition = (raw) => {
+  return {
+    componentId: raw.id,
+    myChildren: raw.children,
+    width: raw.style.width,
+    height: raw.style.height
+  };
+}
+
+
 
 /**
  * 在用到ComponentDecorator的那个组件setup里执行
@@ -56,7 +67,8 @@ const useUserComponentTransformer = () => {
       ['Text', userText],
       ['Button', userButton],
       ['HorizontalLayout',userLayoutHorizontal],
-      ['VerticalLayout', userLayoutVertical]
+      ['VerticalLayout', userLayoutVertical],
+      ['PositionLayout', userLayoutPosition]
     ])
   );
 };
