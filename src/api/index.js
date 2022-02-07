@@ -98,4 +98,14 @@ export default {
       data:params
     });
   },
+  importProject({ projectName, file }) {
+    return request({
+      url: '/project/import',
+      method: 'post',
+      data: {
+        projectName,
+        file
+      }
+    });
+  }
 };

@@ -45,13 +45,20 @@
         <div class="project create_project">
           <img src="/img/添加.png" alt="添加" class="add_img" />
           <div class="create_project-hover">
-            <div class="create_project_item" @click="importProject">
+            <div class="create_project_item" @click="onClickInputProject">
               <img
                 src="/img/相关模板.png"
                 alt="导入项目"
                 class="create_project_item_img"
               />
               <span class="create_project_item_text">导入已有项目</span>
+              <input
+                type="file"
+                id="import-project-input"
+                class="visually-hidden"
+                ref="importFileInputRef"
+                accept="application/json"
+              />
             </div>
             <div class="create_project_item" @click="toggleCreateDialog">
               <img src="/img/创建.png" alt="创建项目" class="create_project_item_img" />
@@ -83,7 +90,9 @@
 </template>
 <script setup>
 import {useStore} from 'vuex';
-import {ref, computed, watch} from 'vue';
+import {ref, computed, watch, onUnmounted} from 'vue';
+import {useRouter} from 'vue-router';
+import {ElMessageBox} from 'element-plus';
 import api from '@/api';
 import Message from '@/components/ShowMessage';
 import ProjectItem from '@/components/ProjectItem.vue';
@@ -133,6 +142,71 @@ const createProjectConfirm = async () => {
 const createProjectCancel = () => {
   toggleCreateDialog();
 };
+
+const prompt = async () => {
+  try {
+    const {value} = await ElMessageBox.prompt('请输入项目名称', '导入项目', {
+      inputPattern: /^.+$/,
+      inputErrorMessage: '项目名称不能为空',
+    });
+    return value;
+  } catch {
+    Message.warning('导入取消');
+    return null;
+  }
+};
+
+// FIXME: 应该有更好的传递导入项目名的方式
+/** @type {import('vue').Ref<string>} */
+const importProjectName = ref(null);
+const onClickInputProject = async () => {
+  importProjectName.value = await prompt();
+  if (importProjectName.value) importFileInputRef.value?.click();
+};
+
+/** @type {import('vue').Ref<HTMLInputElement>} */
+const importFileInputRef = ref(null);
+const stopPropagation = (/** @type {Event} */ e) => e.stopPropagation();
+const isValidType = (/** @type {File} */ file) => file.type == 'application/json';
+const router = useRouter();
+const onFileChange = async () => {
+  const [file] = importFileInputRef.value.files;
+  if (!file) {
+    Message.warning('没有选择文件，停止导入');
+    return;
+  }
+  if (!isValidType(file)) {
+    Message.error('不是有效的JSON文件');
+    return;
+  }
+
+  const resp = await api.importProject({
+    importProjectName: importProjectName.value,
+    file,
+  });
+
+  if (resp.flag) {
+    Message.info(resp.data.message);
+    setTimeout(() => {
+      router.push('/projectEdit/' + resp.data.id);
+    }, 2000);
+  } else {
+    Message.error(resp.data.message);
+  }
+};
+
+watch(importFileInputRef, (currRef, prevRef) => {
+  if (prevRef == null && currRef) {
+    currRef.addEventListener('click', stopPropagation);
+    currRef.addEventListener('change', onFileChange);
+    return;
+  }
+});
+
+onUnmounted(() => {
+  importFileInputRef.value?.removeEventListener('click', stopPropagation);
+  importFileInputRef.value?.removeEventListener('change', onFileChange);
+});
 </script>
 <style lang="scss">
 .management {
@@ -304,5 +378,12 @@ const createProjectCancel = () => {
       top: 80px;
     }
   }
+}
+
+.visually-hidden {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+  opacity: 0;
 }
 </style>
