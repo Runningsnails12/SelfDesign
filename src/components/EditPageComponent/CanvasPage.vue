@@ -2,35 +2,21 @@
   <div id="outsidebox">
     <div id="canvas-page">
       <!-- 比例系数：{{ parseInt(scaleCoefficient) * 0.01 }} -->
-      <the-root-component :root-node="root" />
+      <the-root-component v-if="!loading" :root-node="root" />
     </div>
   </div>
 </template>
 
 <script>
-import {watch, inject} from 'vue';
+import {ref, watch, inject} from 'vue';
 import TheRootComponent from '@/components/UserComponent/TheRootComponent.vue';
-// import {useRoute} from 'vue-router';
-// import api from '@/api';
+import {useRoute} from 'vue-router';
+import api from '@/api';
 
 export default {
   name: 'CanvasPage',
   components: {
     TheRootComponent,
-  },
-  data() {
-    return {
-      // 后端返回的根节点
-      root: {
-        id: 1,
-        tag: 'VerticalLayout',
-        style: {
-          width: '100%',
-          height: '100%',
-        },
-        children: [],
-      },
-    };
   },
   setup() {
     // 比例系数
@@ -46,12 +32,18 @@ export default {
       modifyCoefficient();
     });
 
-    // const route = useRoute();
-    // api.getProjectContent({id: route.params.id}).then((data) => {
-    //   console.log(data);
-    // });
+    // 画布根组件的数据传递：初始时不加载，数据传入后加载
+    let loading = ref(true);
+    let root = ref({});
+    const route = useRoute();
+    api.getProjectContent({id: route.params.id}).then((res) => {
+      root.value = res.data.content.root;
+      loading.value = false;
+    });
 
     return {
+      root,
+      loading,
       scaleCoefficient,
       modifyCoefficient,
     };
@@ -69,7 +61,7 @@ export default {
 
 #canvas-page {
   width: 786px;
-  min-height: 432px;
+  /* min-height: 432px; */
   background: #ffffff;
   box-shadow: 0px 3px 6px 1px rgba(0, 0, 0, 0.25098039215686274);
   transition: all ease-in-out 0.4s;

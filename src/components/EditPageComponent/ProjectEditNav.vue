@@ -57,8 +57,9 @@ export default {
 
     // 预览 & 发布
     const displaylDialog = () => {
-      confirm(111);
-      dialogVisible.value = !dialogVisible.value;
+      if (confirm('是否确定将本项目发布？')) {
+        dialogVisible.value = !dialogVisible.value;
+      }
     };
 
     const publishMessage = () => {};
@@ -134,7 +135,7 @@ export default {
   border: 1.5px solid #5b9bc8;
   box-sizing: border-box;
   transition: ease-in-out all 0.5s;
-  z-index: 10;
+  z-index: 1;
 }
 
 /* 二级导航 */
