@@ -28,7 +28,15 @@
 		<div class="change">
 			<h4 class="title">变换</h4>
 			<div class="core">
-				<div>形状</div>
+				<div>
+					<b>形状</b>
+					<em>W</em> <em class="editable" contenteditable="true">0</em>
+
+					<em>H</em> <em class="editable" contenteditable="true">0</em>
+
+					<i class="rotate"></i>
+					<em class="editable" contenteditable="true">0°</em>
+				</div>
 				<div class="whole">
 					<span class="topBottom"><i></i></span>
 					<span class="leftRight"><i></i></span>
@@ -43,11 +51,29 @@
 				<div>
 					<span class="square"><i></i></span>
 					<span class="foursquare"><i></i></span>
+					<em class="editable" contenteditable="true">0</em>
+					<em class="editable" contenteditable="true">0</em>
+					<em class="editable" contenteditable="true">0</em>
+					<em class="editable" contenteditable="true">0</em>
 				</div>
-				<div></div>
-				<div></div>
+				<div>
+					<el-color-picker
+						class="colorChoose background-color"
+						v-model="color"
+					/>
+					<em>背景</em>
+					<el-color-picker class="colorChoose border-color" v-model="color" />
+					<em>边框</em>
+				</div>
+				<div>
+					<el-color-picker class="colorChoose shadow-color" v-model="color" />
+					<em>阴影</em>
+				</div>
 				<div class="alaph">
-					<!-- <i></i> -->
+					<i class="water"></i>
+					<em class="editable" contenteditable="true">0</em>
+					<em class="per">%</em>
+					<b> 不透明度</b>
 				</div>
 			</div>
 		</div>
@@ -93,7 +119,12 @@
 				<span>特有 | </span><span>PositionLayout-childNode</span>
 			</h4>
 			<div class="core">
-				<div><b>位置</b></div>
+				<div>
+					<b>位置</b>
+					<em>X</em><em class="editable" contenteditable="true">0</em>
+
+					<em>Y</em><em class="editable" contenteditable="true">0</em>
+				</div>
 				<div>
 					<button class="toup">上移一层</button>
 					<button class="todown">下移一层</button>
@@ -132,13 +163,40 @@ export default {
 	name: "AttrStyle",
 	setup() {
 		let text = reactive({});
+		const color = ref("#ffffff");
+		const colorRgba = ref("#eeeeee");
+		const change = (e) => {
+			console.log(e);
+			colorRgba.value = e.rgba;
+		};
+		return {
+			color,
+			colorRgba,
+			change,
+		};
 	},
 };
 </script>
 
+<style>
+.el-color-picker__trigger {
+	width: 40px;
+	height: 25px;
+	padding: 0;
+	border-color: #dddddd;
+	border-radius: 2px;
+}
+.el-color-picker__color {
+	border: 0;
+}
+.el-color-picker {
+	margin-right: 0.9375rem;
+}
+</style>
+
 <style scoped>
 .attrStyle {
-	padding-bottom: 100px;
+	padding-bottom: 40px;
 }
 .attrStyle > div {
 	width: 100%;
@@ -175,6 +233,7 @@ export default {
 .attrStyle > div.image .title > span:nth-of-type(2) {
 	top: 3px;
 }
+
 .attrStyle > div .core {
 	width: 12rem;
 	margin: 0 auto;
@@ -186,6 +245,65 @@ export default {
 	margin-top: 10px;
 	align-items: center;
 }
+.core div > b {
+	font-weight: normal;
+	margin-right: 10px;
+	color: #666666;
+}
+/*  #region colorChoose  */
+.appearance .core div .colorChoose {
+	margin-right: 20px;
+}
+/*  #endregion  */
+
+/* #region       em em.editable              */
+.core div em {
+	font-style: normal;
+	font-size: 0.75rem;
+	color: #666666;
+	margin-right: 2px;
+}
+.core div em.editable {
+	display: inline-block;
+	padding: 2px 6px;
+	border-bottom: 2px #bbbbbb solid;
+	margin-right: 10px;
+	outline: none;
+}
+
+.change .core div i.rotate {
+	display: inline-block;
+	width: 15px;
+	height: 17px;
+	background: url("/img/EditIcons/change.png") no-repeat -55px 2px;
+	background-size: 470%;
+}
+.appearance .core div i.water {
+	display: inline-block;
+	width: 15px;
+	height: 17px;
+	background: url("/img/EditIcons/appearance.png") no-repeat -31px 2px;
+	background-size: 300%;
+}
+.appearance .core div:nth-of-type(1) > em.editable {
+	margin-right: 0.1875rem;
+}
+.appearance .core div:nth-of-type(1) > em.editable:nth-of-type(1) {
+	margin-left: 8px;
+}
+.appearance .core div.alaph em.per {
+	color: #bbbbbb;
+}
+.appearance .core div.alaph em {
+	margin-right: 0;
+}
+.appearance .core div.alaph b {
+	margin-left: 0.3125rem;
+}
+/* #endregion */
+
+/* #region          span i icon                    */
+
 .core div > span {
 	width: 14px;
 	height: 15px;
@@ -315,10 +433,7 @@ export default {
 }
 
 /* 特有1 WholeLayout */
-.core div > b {
-	font-weight: normal;
-	margin-right: 10px;
-}
+
 .WholeLayout .core div > span i {
 	background-image: url("/img/EditIcons/change.png");
 	background-size: 700%;
@@ -359,6 +474,7 @@ export default {
 	background-position: -52px -51px;
 	background-size: 600%;
 }
+/* #endregion */
 
 /* 特有2 childLayout 4个btn */
 .core div button {
@@ -387,6 +503,7 @@ export default {
 .image .core div span b {
 	font-weight: normal;
 	font-size: 0.75rem;
+	color: #666666;
 }
 .image .core div:nth-last-of-type(1) {
 	text-align: center;
@@ -398,6 +515,7 @@ export default {
 	width: 100%;
 	height: 1.5625rem;
 	padding: 0 0.625rem;
+	color: #333;
 }
 .image .core div button.i-uploading {
 	padding: 0.3125rem 1.25rem;

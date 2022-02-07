@@ -3,28 +3,28 @@
 		<component-panel />
 		<div id="canvaspage-outsidebox">
 			<canvas-page />
+			<div class="zoom-box">
+				<ul>
+					<li>
+						<button id="plusBtn" @click="increaseSize" />
+					</li>
+					<li>
+						<button id="minusBtn" @click="reduceSize" />
+					</li>
+					<li>
+						<el-select v-model="scaleNum">
+							<el-option
+								v-for="item in options"
+								:key="item.scaleNum"
+								:label="item.label"
+								:value="item.scaleNum"
+							/>
+						</el-select>
+					</li>
+				</ul>
+			</div>
 		</div>
 		<control-panel />
-		<div class="zoom-box">
-			<ul>
-				<li>
-					<button id="plusBtn" @click="increaseSize" />
-				</li>
-				<li>
-					<button id="minusBtn" @click="reduceSize" />
-				</li>
-				<li>
-					<el-select v-model="scaleNum">
-						<el-option
-							v-for="item in options"
-							:key="item.scaleNum"
-							:label="item.label"
-							:value="item.scaleNum"
-						/>
-					</el-select>
-				</li>
-			</ul>
-		</div>
 	</div>
 </template>
 <script>
@@ -134,6 +134,7 @@ export default {
 
 /* 中间画布缩放处理 */
 #canvaspage-outsidebox {
+	position: relative;
 	display: flex;
 	width: calc(100vw - 250px);
 	/* min-width: 800px; */
@@ -166,7 +167,7 @@ export default {
 /* 画板缩放控件 */
 .zoom-box {
 	position: absolute;
-	right: 10%;
+	right: 2%;
 	bottom: 5%;
 	width: 166px;
 	height: 46px;

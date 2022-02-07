@@ -1,5 +1,5 @@
-import { createStore } from 'vuex'
-import editPage from './modules/editPage'
+import { createStore } from 'vuex';
+import editPage from './modules/editPage';
 export default createStore({
   state: {
     loginFormClose: false,
@@ -21,5 +21,5 @@ export default createStore({
   modules: {
     editPage
   }
-})
+});
 
