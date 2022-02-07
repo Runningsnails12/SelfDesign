@@ -1,7 +1,7 @@
 <template>
   <div class="edit-page">
     <component-panel />
-    <div id="canvaspage-outsidebox">
+    <div id="canvaspage-outsidebox" @click="resetChooseNode">
       <canvas-page />
       <div class="zoom-box">
         <ul>
@@ -29,6 +29,7 @@
 </template>
 <script>
 import {ref, provide} from 'vue';
+import {useStore} from 'vuex';
 import ComponentPanel from '@/components/EditPageComponent/ComponentPanel.vue';
 import CanvasPage from '@/components/EditPageComponent/CanvasPage.vue';
 import ControlPanel from '@/components/EditPageComponent/ControlPanel.vue';
@@ -41,7 +42,7 @@ export default {
     ControlPanel,
   },
 
-  unmounted(){
+  unmounted() {
     // 清空 store.editPage 里的所有状态
     this.$store.commit('editPage/clearAllStates');
   },
@@ -117,11 +118,18 @@ export default {
 
     provide('scaleNum', scaleNum);
 
+    // 点击空白处取消点击事件
+    const store = useStore();
+    const resetChooseNode = () => {
+      store.commit('editPage/resetActiveComponent');
+    };
+
     return {
       scaleNum,
       options,
       increaseSize,
       reduceSize,
+      resetChooseNode,
     };
   },
 };

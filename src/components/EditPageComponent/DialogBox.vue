@@ -2,20 +2,31 @@
   <div id="dialog-outsidebox">
     <div>
       <div class="dialog-box">
-        <h3>项目发布链接</h3>
+        <h3>
+          项目<span :class="btn ? 'publishText' : ''">{{ btn ? '发布' : '预览' }} </span>
+        </h3>
         <div class="link-box">
           <img src="/img/EditIcons/链接.png" />
-          <input type="text" placeholder="https://www.baidu.com" />
+          <input
+            id="online-link"
+            type="text"
+            :value="linkValue"
+            placeholder="https://www.baidu.com"
+          />
         </div>
-        <button id="copyBtn" @click="copyPublishLink">复 &nbsp; 制</button>
-        <button id="cancelBtn" @click="cancelDialog">取 &nbsp; 消</button>
+        <button :class="btn ? 'publishCopyBtn' : 'copyBtn'" @click="copyPublishLink">
+          复 &nbsp; 制
+        </button>
+        <button :class="btn ? 'publishCancelBtn' : 'cancelBtn'" @click="cancelDialog">
+          取 &nbsp; 消
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import {ref, watch} from 'vue';
+import {ref, watch, inject} from 'vue';
 export default {
   name: 'DialogBox',
   props: {
@@ -35,13 +46,24 @@ export default {
       }
     );
 
+    // 是否是发布的按钮
+    const btn = inject('isPublishBtn');
+
     const cancelDialog = () => {
       emit('dialogVisible', dialogDisvisible.value);
     };
 
-    const copyPublishLink = () => {};
+    // 点击复制，复制链接
+    let linkValue = ref('https://github.com/Runningsnails12/SelfDesign');
+    const copyPublishLink = () => {
+      let onlineLink = document.getElementById('online-link');
+      onlineLink.select();
+      document.execCommand('copy');
+    };
 
     return {
+      btn,
+      linkValue,
       dialogDisvisible,
       cancelDialog,
       copyPublishLink,
@@ -83,6 +105,14 @@ export default {
   letter-spacing: 1px;
 }
 
+.dialog-box > h3 > span {
+  color: #4a8af4;
+}
+
+.dialog-box > h3 > .publishText {
+  color: #dd4f43;
+}
+
 .link-box {
   display: flex;
   margin: 0 auto;
@@ -116,7 +146,7 @@ export default {
   font-size: 16px;
   border-radius: 4px;
   outline: none;
-  border: none;
+  box-sizing: border-box;
   transition: all ease-in-out 0.3s;
 }
 
@@ -124,15 +154,29 @@ export default {
   box-shadow: 0px 3px 6px 1px rgba(0, 0, 0, 0.16);
 }
 
-#copyBtn {
+.copyBtn {
   margin: 0 12px 0 215px;
   background: #4a8af4;
   color: #ffffff;
+  border: none;
 }
 
-#cancelBtn {
+.cancelBtn {
+  color: #4a8af4;
   background: #fafafb;
-  border: 1px solid #4a8af4;
-  box-sizing: border-box;
+  border: 1px solid #dadce0;
+}
+
+.publishCopyBtn {
+  margin: 0 12px 0 215px;
+  background: #dd4f43;
+  color: #ffffff;
+  border: none;
+}
+
+.publishCancelBtn {
+  color: #dd4f43;
+  background: #fafafb;
+  border: 1px solid #dadce0;
 }
 </style>
