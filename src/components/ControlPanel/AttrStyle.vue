@@ -5,23 +5,37 @@
 			<div class="core">
 				<div>
 					<el-select
-						v-model="value"
+						v-model="fontFamilys.value"
 						class="fontFamily"
 						placeholder="fontFamily"
 					>
 						<el-option
-							v-for="item in fontFamilys"
+							v-for="item in fontFamilys.options"
 							:key="item.value"
 							:label="item.label"
 							:value="item.value"
 						>
 						</el-option>
 					</el-select>
-					<el-color-picker class="colorChoose shadow-color" v-model="color" />
+					<el-color-picker
+						class="colorChoose shadow-color"
+						v-model="fontColor"
+					/>
 				</div>
 				<div>
-					<div class="fontWeight"></div>
-					<div class="fontSize"></div>
+					<el-select
+						v-model="fontSizes.value"
+						class="fontSize"
+						placeholder="fontSize"
+					>
+						<el-option
+							v-for="item in fontSizes.options"
+							:key="item.value"
+							:label="item.value"
+							:value="item.value"
+						>
+						</el-option>
+					</el-select>
 				</div>
 				<div>
 					<span class="b"><i></i></span>
@@ -71,14 +85,20 @@
 				<div>
 					<el-color-picker
 						class="colorChoose background-color"
-						v-model="color"
+						v-model="BgColor"
 					/>
 					<em class="bg">背景</em>
-					<el-color-picker class="colorChoose border-color" v-model="color" />
+					<el-color-picker
+						class="colorChoose border-color"
+						v-model="borderColor"
+					/>
 					<em>边框</em>
 				</div>
 				<div>
-					<el-color-picker class="colorChoose shadow-color" v-model="color" />
+					<el-color-picker
+						class="colorChoose shadow-color"
+						v-model="shadowColor"
+					/>
 					<em>阴影</em>
 				</div>
 				<div class="alaph">
@@ -165,27 +185,63 @@
 				</div>
 			</div>
 		</div>
+		<div class="special text">
+			<h4 class="title"><span>特有 | </span><span>Text</span></h4>
+			<div class="core">
+				<div><b>内容</b> <input class="content" type="text" /></div>
+				<div>
+					<button class="confirm">确 定</button>
+					<button class="cancel">清 空</button>
+				</div>
+			</div>
+		</div>
 	</div>
 </template>
 
 <script>
 import { ref, reactive } from "vue";
+import { useStore } from "vuex";
 
 export default {
 	name: "AttrStyle",
 	setup() {
-		let fontFamilys = reactive[{ option: "", value: "" }];
+		// const store = useStore()
+		let fontFamilys = reactive({
+			options: [{ value: "微软雅黑" }],
+			value: "微软雅黑",
+		});
+		let fontColor = ref("#ffe793");
+		let fontSizes = reactive({
+			options: [
+				{ value: "8" },
+				{ value: "10" },
+				{ value: "12" },
+				{ value: "14" },
+				{ value: "16" },
+				{ value: "18" },
+				{ value: "20" },
+				{ value: "24" },
+				{ value: "26" },
+				{ value: "28" },
+			],
+			value: "16",
+		});
 		let text = reactive({});
-		const color = ref("#ffffff");
-		const colorRgba = ref("#eeeeee");
+		let BgColor = ref("#ffffff");
+		let borderColor = ref("#000000");
+		let shadowColor = ref("#ffffff");
 		const change = (e) => {
 			console.log(e);
 			colorRgba.value = e.rgba;
 		};
 		return {
-			color,
-			colorRgba,
 			change,
+			fontFamilys,
+			fontColor,
+			fontSizes,
+			BgColor,
+			borderColor,
+			shadowColor,
 		};
 	},
 };
@@ -247,7 +303,8 @@ export default {
 	font-weight: 400;
 }
 .attrStyle > div.childPosition .title > span:nth-of-type(2),
-.attrStyle > div.image .title > span:nth-of-type(2) {
+.attrStyle > div.image .title > span:nth-of-type(2),
+.attrStyle > div.text .title > span:nth-of-type(2) {
 	top: 3px;
 }
 
@@ -266,6 +323,16 @@ export default {
 	font-weight: normal;
 	margin-right: 10px;
 	color: #666666;
+}
+.text .core .fontFamily {
+	margin-top: 0;
+	width: 70%;
+	margin-right: 0.625rem;
+}
+.text .core div .fontSize {
+	/* width: 33px; */
+	width: 70%;
+	margin-top: 0;
 }
 /*  #region colorChoose  */
 .appearance .core div .bg {
@@ -439,14 +506,14 @@ export default {
 	width: 15px;
 	background-image: url("/img/EditIcons/appearance.png");
 	background-position: 0 0;
-	background-size: 281%;
+	background-size: 291%;
 }
 .appearance .core div > span:hover i,
 .appearance .core div > span.active i {
 	background-position-y: -14px;
 }
 .appearance .core div > span:nth-of-type(2) i {
-	background-position-x: -14px;
+	background-position-x: -15px;
 }
 
 /* 特有1 WholeLayout */
@@ -525,7 +592,7 @@ export default {
 .image .core div:nth-last-of-type(1) {
 	text-align: center;
 }
-.image .core div input.i-url {
+.core div input {
 	outline: none;
 	border: 1px solid #dddddd;
 	background-color: #fff;
@@ -537,5 +604,22 @@ export default {
 .image .core div button.i-uploading {
 	padding: 0.3125rem 1.25rem;
 	margin: 0 auto;
+}
+
+/* 特有5 image */
+
+.text .core div button {
+	padding: 0.3125rem 25px;
+	border: 1px solid #4a8af4;
+	/* margin-left: 10px; */
+	margin-left: 9px;
+}
+.text .core div button.cancel {
+	background-color: #fff;
+	color: #4a8af4;
+	border: 1px solid #dadce0;
+}
+.text .core div input {
+	width: 70%;
 }
 </style>
