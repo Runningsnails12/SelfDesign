@@ -22,19 +22,19 @@
 				"tag": "PositionLayout",
 				"style": {},
 				"children": [],
-				"events": []
+				"event": []
 			},
 			"HorizontalLayout": {
 				"tag": "HorizontalLayout",
 				"style": {},
 				"children": [],
-				"events": []
+				"event": []
 			},
 			"VerticalLayout": {
 				"tag": "VerticalLayout",
 				"style": {},
 				"children": [],
-				"events": []
+				"event": []
 			},
 			"Text": {
 				"tag": "Text",
@@ -42,7 +42,7 @@
 				"values": {
 					"content": "",
 				},
-				"events": []
+				"event": []
 			},
 			"Button": {
 				"tag": "Button",
@@ -50,7 +50,7 @@
 				"values": {
 					"content": "",
 				},
-				"events": []
+				"event": []
 			},
 			"Image": {
 				"tag": "Image",
@@ -58,7 +58,7 @@
 				"values": {
 					"url": "",
 				},
-				"events": []
+				"event": []
 			}
 		}
 	}
