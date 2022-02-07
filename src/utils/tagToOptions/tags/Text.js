@@ -1,32 +1,14 @@
-/** @type {import("..").ComponentOptions} */
-const options = {
-  width: ['string', 0],
-  height: ['string', 0],
-  border: ['string', 0],
-  'box-shadow': 'string',
-  'background-color': 'string',
-  'text-align': 'string',
-  'text-decoration': 'string',
-  'text-indent': 'string',
-  'font-family': 'string',
-  'font-size': 'string',
-  'font-weight': ['number', 'string']
-};
-
-const values = {
-  content: 'string'
-};
-
-const event = [
-  'click',
-  'dbclick',
-  'mousedown',
-  'mouseup'
-];
-
-/** @type {import("..").Result} */
+/** @type {import('..').Result} */
 export default {
-  options,
-  values,
-  event
+  text: true,  // true 文本样式
+  textContent: true, // true 文本内容
+  change: true, // true
+  appearance: true, //
+  align: false,  // true 对其方式 当前布局 flex 
+  image: false, // true tag == image
+  event: {
+    mouse: true, //可以添加鼠标事件
+    keydown: false,
+    keyup: false,
+  }
 };

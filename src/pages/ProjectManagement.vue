@@ -58,6 +58,8 @@
                 class="visually-hidden"
                 ref="importFileInputRef"
                 accept="application/json"
+                @click.stop
+                @change="onFileChange"
               />
             </div>
             <div class="create_project_item" @click="toggleCreateDialog">
@@ -90,14 +92,16 @@
 </template>
 <script setup>
 import {useStore} from 'vuex';
-import {ref, computed, watch, onUnmounted} from 'vue';
+import {ref, computed, watch} from 'vue';
 import {useRouter} from 'vue-router';
 import {ElMessageBox} from 'element-plus';
+import 'element-plus/es/components/message-box/style/css'
 import api from '@/api';
 import Message from '@/components/ShowMessage';
 import ProjectItem from '@/components/ProjectItem.vue';
 
 const store = useStore();
+const router = useRouter();
 
 const usernameSplit = computed(() => store.state.username?.slice(0, 2));
 
@@ -156,6 +160,9 @@ const prompt = async () => {
   }
 };
 
+/** @type {import('vue').Ref<HTMLInputElement>} */
+const importFileInputRef = ref(null);
+
 // FIXME: 应该有更好的传递导入项目名的方式
 /** @type {import('vue').Ref<string>} */
 const importProjectName = ref(null);
@@ -164,11 +171,8 @@ const onClickInputProject = async () => {
   if (importProjectName.value) importFileInputRef.value?.click();
 };
 
-/** @type {import('vue').Ref<HTMLInputElement>} */
-const importFileInputRef = ref(null);
-const stopPropagation = (/** @type {Event} */ e) => e.stopPropagation();
 const isValidType = (/** @type {File} */ file) => file.type == 'application/json';
-const router = useRouter();
+
 const onFileChange = async () => {
   const [file] = importFileInputRef.value.files;
   if (!file) {
@@ -194,25 +198,13 @@ const onFileChange = async () => {
     Message.error(resp.data.message);
   }
 };
-
-watch(importFileInputRef, (currRef, prevRef) => {
-  if (prevRef == null && currRef) {
-    currRef.addEventListener('click', stopPropagation);
-    currRef.addEventListener('change', onFileChange);
-    return;
-  }
-});
-
-onUnmounted(() => {
-  importFileInputRef.value?.removeEventListener('click', stopPropagation);
-  importFileInputRef.value?.removeEventListener('change', onFileChange);
-});
 </script>
 <style lang="scss">
 .management {
-  height: calc(100% - 60px);
+  height: calc(100vh - 60px);
   background-color: #dce7ea;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   .user_info_container {
     display: flex;
     justify-content: center;
