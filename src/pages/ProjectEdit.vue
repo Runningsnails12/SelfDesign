@@ -90,17 +90,22 @@ export default {
       // ctrl +
       if (e.ctrlKey && e.keyCode == 187) {
         increaseSize();
+        // 阻止默认事件
+        if (e && e.preventDefault) {
+          e.preventDefault();
+        } else {
+          window.event.returnValue = false;
+        }
       }
       // ctrl -
       if (e.ctrlKey && e.keyCode == 189) {
         reduceSize();
-      }
-
-      // 阻止默认事件
-      if (e && e.preventDefault) {
-        e.preventDefault();
-      } else {
-        window.event.returnValue = false;
+        // 阻止默认事件
+        if (e && e.preventDefault) {
+          e.preventDefault();
+        } else {
+          window.event.returnValue = false;
+        }
       }
     };
 

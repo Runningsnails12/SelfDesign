@@ -10,6 +10,8 @@
 <script>
 import {watch, inject} from 'vue';
 import TheRootComponent from '@/components/UserComponent/TheRootComponent.vue';
+// import {useRoute} from 'vue-router';
+// import api from '@/api';
 
 export default {
   name: 'CanvasPage',
@@ -43,6 +45,11 @@ export default {
     watch(scaleCoefficient, () => {
       modifyCoefficient();
     });
+
+    // const route = useRoute();
+    // api.getProjectContent({id: route.params.id}).then((data) => {
+    //   console.log(data);
+    // });
 
     return {
       scaleCoefficient,

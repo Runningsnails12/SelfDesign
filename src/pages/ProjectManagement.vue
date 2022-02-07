@@ -3,30 +3,24 @@
     <div class="user_info_container">
       <div class="user_info_bg">
         <div class="ava">
-          <img 
-            src="img/默认头像.png" 
-            alt="头像" 
-            class="ava_img" 
-            v-if="!store.state.token" 
-          >
-          <div 
-            v-else 
-            class="ava_text"
-          >
+          <img
+            src="img/默认头像.png"
+            alt="头像"
+            class="ava_img"
+            v-if="!store.state.token"
+          />
+          <div v-else class="ava_text">
             {{ usernameSplit }}
           </div>
         </div>
-        <div 
-          class="user_info" 
-          v-if="store.state.token"
-        >
+        <div class="user_info" v-if="store.state.token">
           {{ store.state.username }}
         </div>
         <div
           class="user_info"
           v-else
           @click="store.commit('handleLoginFormClose')"
-          style="cursor: pointer;"
+          style="cursor: pointer"
         >
           登录&nbsp;/&nbsp;注册
         </div>
@@ -46,58 +40,30 @@
         </div>
       </div>
     </div>
-    <div 
-      class="project_container" 
-      v-if="store.state.token"
-    >
+    <div class="project_container" v-if="store.state.token">
       <div class="projects">
         <div class="project create_project">
-          <img 
-            src="/img/添加.png" 
-            alt="添加" 
-            class="add_img" 
-          >
+          <img src="/img/添加.png" alt="添加" class="add_img" />
           <div class="create_project-hover">
-            <div 
-              class="create_project_item" 
-              @click="importProject"
-            >
-              <img 
-                src="/img/相关模板.png" 
-                alt="导入项目" 
+            <div class="create_project_item" @click="importProject">
+              <img
+                src="/img/相关模板.png"
+                alt="导入项目"
                 class="create_project_item_img"
-              >
+              />
               <span class="create_project_item_text">导入已有项目</span>
             </div>
-            <div 
-              class="create_project_item" 
-              @click="toggleCreateDialog"
-            >
-              <img 
-                src="/img/创建.png" 
-                alt="创建项目" 
-                class="create_project_item_img"
-              >
+            <div class="create_project_item" @click="toggleCreateDialog">
+              <img src="/img/创建.png" alt="创建项目" class="create_project_item_img" />
               <span class="create_project_item_text">创建空白文档</span>
             </div>
           </div>
-          <div 
-            class="create_project_dialog" 
-            v-show="handleDialogClose"
-          >
+          <div class="create_project_dialog" v-show="handleDialogClose">
             <label for="createProject">请输入项目名</label>
-            <input 
-              type="text" 
-              id="createProject" 
-              v-model="projectName"
-            >
+            <input type="text" id="createProject" v-model="projectName" />
             <div class="create_project_actions">
-              <div @click="createProjectConfirm">
-                确定
-              </div>
-              <div @click="createProjectCancel">
-                取消
-              </div>
+              <div @click="createProjectConfirm">确定</div>
+              <div @click="createProjectCancel">取消</div>
             </div>
           </div>
         </div>
@@ -110,20 +76,14 @@
         />
       </div>
     </div>
-    <div 
-      class="not_loginz_img" 
-      v-else
-    >
-      <img 
-        src="/img/404.png" 
-        alt="404"
-      >
+    <div class="not_loginz_img" v-else>
+      <img src="/img/404.png" alt="404" />
     </div>
   </div>
 </template>
 <script setup>
-import { useStore } from 'vuex';
-import { ref, computed, watch } from 'vue';
+import {useStore} from 'vuex';
+import {ref, computed, watch} from 'vue';
 import api from '@/api';
 import Message from '@/components/ShowMessage';
 import ProjectItem from '@/components/ProjectItem.vue';
@@ -134,10 +94,14 @@ const usernameSplit = computed(() => store.state.username?.slice(0, 2));
 
 const projectList = ref([]);
 const updateProject = async () => {
-  const { data } = await api.getUserProject();
+  const {data} = await api.getUserProject();
   projectList.value = data?.projectList || [];
 };
-watch(() => store.state.token, () => updateProject(), { immediate: true });
+watch(
+  () => store.state.token,
+  () => updateProject(),
+  {immediate: true}
+);
 
 //项目数量信息
 const project_count = computed(() => {
@@ -145,7 +109,9 @@ const project_count = computed(() => {
   else return '-';
 });
 const edited = computed(() => projectList.value.length - publiced.value);
-const publiced = computed(() => projectList.value.filter(project => project.url).length);
+const publiced = computed(
+  () => projectList.value.filter((project) => project.url).length
+);
 
 //创建项目对话框
 const handleDialogClose = ref(false);
@@ -154,7 +120,7 @@ const toggleCreateDialog = () => {
   handleDialogClose.value = !handleDialogClose.value;
 };
 const createProjectConfirm = async () => {
-  const { code , message } = await api.createProject({ projectName: projectName.value });
+  const {code, message} = await api.createProject({projectName: projectName.value});
   if (code === 2000) {
     updateProject();
     Message.success('创建成功');
@@ -167,13 +133,12 @@ const createProjectConfirm = async () => {
 const createProjectCancel = () => {
   toggleCreateDialog();
 };
-
 </script>
 <style lang="scss">
 .management {
   height: calc(100% - 60px);
   background-color: #dce7ea;
-  overflow: auto;
+  overflow: hidden;
   .user_info_container {
     display: flex;
     justify-content: center;
@@ -312,8 +277,8 @@ const createProjectCancel = () => {
           flex-direction: column;
           background-color: #fff;
           border-radius: 8px;
-          box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12),
-            0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+          box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 6px 16px 0 rgba(0, 0, 0, 0.08),
+            0 9px 28px 8px rgba(0, 0, 0, 0.05);
           input {
             margin: 8px 0;
           }
