@@ -1,11 +1,11 @@
 <script setup>
-import { computed } from 'vue';
+import {computed} from 'vue';
 
 const props = defineProps({
   text: {
     type: String,
-    default: ''
-  }
+    default: '',
+  },
 });
 
 const text = computed(() => props.text);
@@ -13,8 +13,8 @@ const text = computed(() => props.text);
 
 <script>
 export default {
-  name:'UserButton'
-}
+  name: 'UserButton',
+};
 </script>
 
 <template>
@@ -28,9 +28,9 @@ button {
   color: #666666;
   font-size: 16px;
 
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
   border-radius: 6px 6px 6px 6px;
-  border: 1px solid #DCDFE6;
+  border: 1px solid #dcdfe6;
   padding: 0.75em 1em;
 
   cursor: pointer;

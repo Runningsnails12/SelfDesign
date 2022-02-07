@@ -55,6 +55,7 @@ export default {
 			btnSrc.value = btnSrc.value == "L" ? "R" : "L";
 			let cPanel = document.getElementById("c-panel");
 			cPanel.style.left = cPanel.style.left != "0px" ? "0px" : "285px";
+			// cPanel.style.transform = 'translate(' + (cPanel.style.marginLeft != '0px' ? '0%' : '95%') + ')';
 			cPanel.style.marginLeft =
 				cPanel.style.marginLeft != "0px" ? "0px" : "-285px";
 		};

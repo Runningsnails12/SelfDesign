@@ -16,9 +16,12 @@
       :key="item.id"
       v-for="(item, index) in componentOptions"
     >
-      <!-- <p>{{ item.title }}</p> -->
       <ul>
-        <li v-for="p in item.componentData" :key="p.cid">
+        <li
+          v-for="p in item.componentData"
+          :key="p.cid"
+          @click="addComponent(p.template)"
+        >
           <img :src="p.img" />
           <span>{{ p.cname }}</span>
         </li>
@@ -28,7 +31,7 @@
 </template>
 <script>
 import {ref, reactive} from 'vue';
-
+import {useStore} from 'vuex';
 export default {
   name: 'ComponentPanel',
   setup() {
@@ -38,54 +41,94 @@ export default {
       {
         id: 1,
         tag: '容  器',
-        // title: '大组件',
         componentData: [
           {
             cid: 1,
-            cname: '布局',
+            cname: '定位布局',
             img: '/img/EditIcons/布局.png',
+            template: {
+              tag: 'PositionLayout',
+              style: {},
+              children: [],
+              event: [],
+            },
           },
           {
             cid: 2,
-            cname: '轮播图',
+            cname: '横向布局',
             img: '/img/EditIcons/轮播图.png',
+            template: {
+              tag: 'HorizontalLayout',
+              style: {},
+              children: [],
+              event: [],
+            },
           },
           {
             cid: 3,
-            cname: '二级导航',
+            cname: '纵向布局',
             img: '/img/EditIcons/二级导航.png',
+            template: {
+              tag: 'VerticalLayout',
+              style: {},
+              children: [],
+              event: [],
+            },
           },
-          {
-            cid: 4,
-            cname: '列表',
-            img: '/img/EditIcons/列表.png',
-          },
-          {
-            cid: 5,
-            cname: '表格',
-            img: '/img/EditIcons/表格.png',
-          },
+          // {
+          //   cid: 4,
+          //   cname: '列表',
+          //   img: '/img/EditIcons/列表.png',
+          // },
+          // {
+          //   cid: 5,
+          //   cname: '表格',
+          //   img: '/img/EditIcons/表格.png',
+          // },
         ],
       },
       {
         id: 2,
         tag: '组  件',
-        // title: '小组件',
         componentData: [
           {
             cid: 1,
             cname: '图片',
             img: '/img/EditIcons/图片.png',
+            template: {
+              tag: 'Image',
+              style: {},
+              values: {
+                url: '',
+              },
+              event: [],
+            },
           },
           {
             cid: 2,
             cname: '文本框',
             img: '/img/EditIcons/文本框.png',
+            template: {
+              tag: 'Text',
+              style: {},
+              values: {
+                content: '',
+              },
+              event: [],
+            },
           },
           {
             cid: 3,
             cname: '按钮',
             img: '/img/EditIcons/按钮.png',
+            template: {
+              tag: 'Button',
+              style: {},
+              values: {
+                content: '',
+              },
+              event: [],
+            },
           },
         ],
       },
@@ -96,10 +139,17 @@ export default {
       checkedOne.value = index;
     };
 
+    // 点击添加到画布
+    const store = useStore();
+    const addComponent = (node) => {
+      store.commit('editPage/addComponent', {node});
+    };
+
     return {
       checkedOne,
       componentOptions,
       tabChange,
+      addComponent,
     };
   },
 };

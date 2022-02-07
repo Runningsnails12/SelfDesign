@@ -108,6 +108,10 @@ export default {
 	width: 90px;
 }
 
+#user-msg:hover #user-msg ul {
+	display: block;
+}
+
 #user-msg ul {
 	display: none;
 	margin-top: -32px;

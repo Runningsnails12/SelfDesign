@@ -1,11 +1,11 @@
 <script setup>
-import { computed, ref, watch } from 'vue'
-import EMPTY_IMAGE from '@/assets/image_empty.png'
-import ERROR_IMAGE from '@/assets/image_error.png'
-import LOADING_IMAGE from '@/assets/image_loading.png'
+import {computed, ref, watch} from 'vue';
+import EMPTY_IMAGE from '@/assets/image_empty.png';
+import ERROR_IMAGE from '@/assets/image_error.png';
+import LOADING_IMAGE from '@/assets/image_loading.png';
 
-const DEFAULT_WIDTH = 120
-const DEFAULT_HEIGHT = 120
+const DEFAULT_WIDTH = 120;
+const DEFAULT_HEIGHT = 120;
 
 const props = defineProps({
   alt: {
@@ -32,52 +32,47 @@ const props = defineProps({
     type: [Function, null],
     default: null,
   },
-})
+});
 
-const width = computed(() => props.width ?? DEFAULT_WIDTH)
-const height = computed(() => props.height ?? DEFAULT_HEIGHT)
-
-/** @type {import('vue').Ref<boolean>} */
-const hasError = ref(false)
-
-const src = computed(() =>
-  hasError.value ? ERROR_IMAGE : props.src ?? EMPTY_IMAGE
-)
+const width = computed(() => props.width ?? DEFAULT_WIDTH);
+const height = computed(() => props.height ?? DEFAULT_HEIGHT);
 
 /** @type {import('vue').Ref<boolean>} */
-const loading = ref(true)
+const hasError = ref(false);
+
+const src = computed(() => (hasError.value ? ERROR_IMAGE : props.src ?? EMPTY_IMAGE));
+
+/** @type {import('vue').Ref<boolean>} */
+const loading = ref(true);
 
 const mergedErrorHandler = (e) => {
-  loading.value = false
-  hasError.value = true
-  props.onError && props.onError(e)
-}
+  loading.value = false;
+  hasError.value = true;
+  props.onError && props.onError(e);
+};
 
 watch(
   () => props.src,
   () => {
-    hasError.value = false
-    loading.value = true
+    hasError.value = false;
+    loading.value = true;
   }
-)
+);
 
 const mergedLoadHandler = (e) => {
-  loading.value = false
-  props.onLoad && props.onLoad(e)
-}
+  loading.value = false;
+  props.onLoad && props.onLoad(e);
+};
 </script>
 
 <script>
 export default {
   name: 'UserImage',
-}
+};
 </script>
 
-
 <template>
-  <div 
-    :style="{ display: 'inline-block' }"
-  >
+  <div :style="{display: 'inline-block'}">
     <img
       :src="src"
       :alt="props.alt"
@@ -85,7 +80,7 @@ export default {
       :height="height"
       :onload="mergedLoadHandler"
       :onerror="mergedErrorHandler"
-      :class="{ loading, error: hasError, empty: !props.src }"
+      :class="{loading, error: hasError, empty: !props.src}"
     />
   </div>
 </template>

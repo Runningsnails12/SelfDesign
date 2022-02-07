@@ -24,16 +24,24 @@ const userImage = (raw) => {
 const userLayoutHorizontal = (raw) => {
   return {
     componentId: raw.id,
-    myChildren: raw.children
-  }
-}
+    myChildren: raw.children,
+    width: raw.style.width,
+    height: raw.style.height,
+    justiyContent: raw.style.justifyContent ? raw.style.justifyContent : raw.style['justify-content'],
+    alignItems: raw.style.alignItems ? raw.style.alignItems : raw.style['align-items']
+  };
+};
 
 const userLayoutVertical = (raw) => {
   return {
     componentId: raw.id,
-    myChildren: raw.children
-  }
-}
+    myChildren: raw.children,
+    width: raw.style.width,
+    height: raw.style.height,
+    justiyContent: raw.style.justifyContent ? raw.style.justifyContent : raw.style['justify-content'],
+    alignItems: raw.style.alignItems ? raw.style.alignItems : raw.style['align-items']
+  };
+};
 
 /**
  * 在用到ComponentDecorator的那个组件setup里执行
@@ -46,7 +54,7 @@ const useUserComponentTransformer = () => {
     new Map([
       ['Image', userImage],
       ['Text', userText],
-      ['Button', userButton]
+      ['Button', userButton],
       ['HorizontalLayout',userLayoutHorizontal],
       ['VerticalLayout', userLayoutVertical]
     ])

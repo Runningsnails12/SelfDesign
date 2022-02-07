@@ -19,7 +19,7 @@ componentsTemplate = [
         style: {},
         events: [],
         values:{}
-      },
+      }, 
       {
         tag: 'Image',
         children: [],
@@ -78,6 +78,12 @@ export default {
   }
 }
 </script>
+```
+
+## 取消选中节点
+
+```js
+store.commit('editPage/resetActiveComponent')
 ```
 
 ## 获取被选中节点对象

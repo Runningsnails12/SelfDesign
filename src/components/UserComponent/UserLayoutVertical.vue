@@ -8,14 +8,14 @@
       v-for="child in myChildren"
       :key="child.id"
       :id="child.id"
-      v-slot="{data}"
+      v-slot="{ data }"
     >
       <component
         @click.stop
         :is="componentMap.get(child.tag)"
-        v-bind = "data"
+        v-bind="data"
         :id="'component' + child.id"
-        style="position:relative"
+        style="position: relative; user-select: none"
         :style="child.tempStyle"
       />
     </component-decorator>
@@ -35,14 +35,29 @@ export default {
       type: Number,
       required: true,
     },
-    myChildren:{
-      type:Array,
-      default: []
+    myChildren: {
+      type: Array,
+      default: [],
+    },
+    width: {
+      type: [String, Number, null],
+      default: '200px'
+    },
+    height: {
+      type: [String, Number, null],
+      default: '400px'
+    },
+    justifyContent:{
+      type: String,
+      default: 'flex-start'
+    },
+    alignItems: {
+      type: String,
+      default: 'center'
     }
   },
 
   setup(props) {
-
     const { componentId } = toRefs(props)
     const store = useStore()
     let isActive = computed(
@@ -50,22 +65,23 @@ export default {
     )
     return {
       isActive,
-      componentMap
+      componentMap,
     }
   },
 }
 </script>
 
-<style  scoped>
+<style scoped>
 .container {
   display: flex;
-  border: 1px solid #000;
   flex-direction: column;
-  justify-content: flex-start;
-  padding: 0 30px;
-  height: 200px;
+  justify-content: v-bind(justifyContent);
+  align-items: v-bind(alignItems);
+  height: v-bind(height);
+  width: v-bind(width);
+  outline: dashed #aaa;
 }
 .active {
-  outline: #00f solid 2px;
+  outline: #4A8AF4 solid 2px;
 }
 </style>
