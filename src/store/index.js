@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
 import editPage from './modules/editPage'
+import { historyPlugin, historyGlobalActions, historyGlobalMutations } from './plugins/history';
 export default createStore({
   state: {
     loginFormClose: false,
@@ -15,11 +16,18 @@ export default createStore({
     },
     setUsername(state, data) {
       state.username = data;
-    }
+    },
+
+    ...historyGlobalMutations
   },
-  actions: {},
+  actions: {
+    ...historyGlobalActions
+  },
   modules: {
     editPage
-  }
+  },
+  plugins: [
+    historyPlugin
+  ]
 })
 

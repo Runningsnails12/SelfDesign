@@ -14,8 +14,8 @@
           <input type="text" value="未命名文件" />
         </div>
         <div class="edit-operation">
-          <button id="revoke" />
-          <button id="recover" />
+          <button id="undo" @click="undo" />
+          <button id="redo" @click="redo" />
           <button id="edit-save" />
           <p id="edit-save-time">保存于 {{ lastSaveTime }}</p>
         </div>
@@ -32,6 +32,8 @@
 <script>
 import {ref} from 'vue';
 import DialogBox from '@/components/EditPageComponent/DialogBox.vue';
+import store from '../../store';
+import { REDO_KEY, UNDO_KEY } from '../../store/plugins/history';
 
 export default {
   name: 'ProjectEditNav',
@@ -53,12 +55,23 @@ export default {
 
     const publishMessage = () => {};
 
+    const undo = () => {
+      store.dispatch(UNDO_KEY);
+    };
+
+    const redo = () => {
+      store.dispatch(REDO_KEY);
+    };
+
     return {
       childData,
       dialogVisible,
       lastSaveTime,
       displaylDialog,
       publishMessage,
+
+      undo,
+      redo
     };
   },
 };
@@ -200,17 +213,17 @@ export default {
   cursor: pointer;
 }
 
-#revoke {
+#undo {
   background-position: -32px 0;
 }
-#revoke:hover {
+#undo:hover {
   background-position: -32px -32px;
 }
 
-#recover {
+#redo {
   background-position: -64px 0;
 }
-#recover:hover {
+#redo:hover {
   background-position: -64px -32px;
 }
 
