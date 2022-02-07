@@ -1,4 +1,3 @@
-import { reactive, ref } from 'vue';
 import { cloneDeep, cloneDeepWith, isMap } from 'lodash-es';
 
 const onlyCloneRootComponent = (value) => {
@@ -12,74 +11,108 @@ const onlyCloneRootComponent = (value) => {
 
 /** @typedef {import('vuex').Store<any>['subscribe']} Subscribe */
 
-const history = reactive([]);
-let i = ref(-1);
-
 const REPLACE_STATE_MUTATION_KEY = 'replaceEditPage';
 
 /**
  * Action: 撤销，返回上一个状态
  * @type {import('vuex').Action<any, any>}
  */
-const undo = ({ dispatch }) => {
-  if (i.value <= 0) {
+const undo = ({ state, dispatch, commit }) => {
+  /** @type {{ i: number; history: unknown[] }} */
+  const historyModule = state;
+
+  if (historyModule.i <= 0) {
     console.log('no more earlier history');
     return;
   }
 
-  const prev = history[i.value - 1];
+  const prev = historyModule.history[historyModule.i - 1];
   dispatch(REPLACE_STATE_MUTATION_KEY, { editPage: prev }, { root: true });
 
-  i.value -= 1;
+  commit('updateI', historyModule.i - 1);
 };
 
 /**
  * Action: 重做，回到下一个状态
  * @type {import('vuex').Action<any, any>}
  */
-const redo = ({ dispatch }) => {
-  if (i.value >= history.length - 1) {
+const redo = ({ state, dispatch, commit }) => {
+  /** @type {{ i: number; history: unknown[] }} */
+  const historyModule = state;
+
+  if (historyModule.i >= historyModule.history.length - 1) {
     console.log('no more history');
     return;
   }
   
-  const future = history[i.value + 1];
+  const future = historyModule.history[historyModule.i + 1];
   dispatch(REPLACE_STATE_MUTATION_KEY, { editPage: future }, { root: true });
 
-  i.value += 1;
+  commit('updateI', historyModule.i + 1);
 };
 
 const INTERNAL_FLAG_KEY = Symbol('isInternal');
 
-/** @type {Parameters<Subscribe>[0]} */
-const onEditPageMutation = (mutation, state) => {
-  if (state[MODULE_KEY][INTERNAL_FLAG_KEY]) return; // 插件内部调用`editPage`，不做操作
-
-  const prefixedMutationType = mutation.type;
-
-  if (!prefixedMutationType.startsWith('editPage/')) return;
-
-  const mutationType = prefixedMutationType.split('/')[1];
-
-  console.log(`${mutationType}: `);
-  console.log({ mutation, state });
-
-  if (i.value !== history.length - 1) {
-    // 指针后面有历史记录，指针之后的全部丢弃
-    history.length = i.value + 1;
-  }
-
-  const clonedWithRootOnly = cloneDeepWith(state.editPage, onlyCloneRootComponent);
-
-  history.push(clonedWithRootOnly);
-  i.value += 1;
-
-  console.log('plugin: ');
-  console.log(history);
-  console.log('pointer: ' + i.value);
-};
-
 const MODULE_KEY = 'history';
+
+const shouldPushInHistory = (type) => (
+  ![
+    'setActiveContainer',
+    'resetActiveContainer',
+    'setActiveComponentTempStyle',
+    'clearActiveComponentTempStyle',
+    'setActiveComponent',
+    'resetActiveComponent'
+  ].includes(type)
+);
+
+/** @typedef {Parameters<Subscribe>[0]} SubscribeHandler */
+
+const ADD_ITEM_TO_HISTORY_KEY = `${MODULE_KEY}/addItemToHistory`;
+const TRUNCATE_HISTORY_KEY = `${MODULE_KEY}/truncateHistory`;
+const UPDATE_I_KEY = `${MODULE_KEY}/updateI`;
+
+/**
+ * 创建一个订阅`editPage` Mutation的函数
+ * @param {import('vuex').Store} store Store实例
+ * @return {SubscribeHandler}
+ */
+const createEditPageMutationHandler = (store) => {
+  /** @type {SubscribeHandler} */
+  const onEditPageMutation = (mutation, state) => {
+    if (state[MODULE_KEY][INTERNAL_FLAG_KEY]) return; // 插件内部调用`editPage`，不做操作
+  
+    const prefixedMutationType = mutation.type;
+  
+    if (!prefixedMutationType.startsWith('editPage/')) return;
+  
+    const mutationType = prefixedMutationType.split('/')[1];
+
+    if (!shouldPushInHistory(mutationType)) return;
+  
+    console.log(`${mutationType}: `);
+    console.log({ mutation, state });
+  
+    /** @type {{ i: number; history: unknown[] }} */
+    const historyModule = state.history;
+  
+    if (historyModule.i !== historyModule.history.length - 1) {
+      // 指针后面有历史记录，指针之后的全部丢弃
+      store.commit(TRUNCATE_HISTORY_KEY, historyModule.i + 1);
+    }
+  
+    const clonedWithRootOnly = cloneDeepWith(state.editPage, onlyCloneRootComponent);
+  
+    store.commit(ADD_ITEM_TO_HISTORY_KEY, clonedWithRootOnly);
+    store.commit(UPDATE_I_KEY, historyModule.i + 1);
+  
+    console.log('plugin: ');
+    console.log(historyModule.history);
+    console.log('pointer: ' + historyModule.i);
+  };
+
+  return onEditPageMutation;
+};
 
 /**
  * 实现撤消重做的历史记录插件
@@ -87,7 +120,6 @@ const MODULE_KEY = 'history';
  */
 const historyPlugin = (store) => {
   console.log('history plugin');
-  store.subscribe(onEditPageMutation);
 
   console.log('register history module: ');
   store.registerModule(MODULE_KEY, {
@@ -98,9 +130,8 @@ const historyPlugin = (store) => {
       {
         [INTERNAL_FLAG_KEY]: false,
 
-        history,
-        /** @type {number} */
-        i
+        history: [],
+        i: -1
       }
     ),
 
@@ -116,6 +147,16 @@ const historyPlugin = (store) => {
        */
       setInternalFlag(state, payload) {
         state[INTERNAL_FLAG_KEY] = payload;
+      },
+
+      addItemToHistory(state, newItem) {
+        state.history.push(newItem);
+      },
+      truncateHistory(state, to) {
+        state.history.length = to;
+      },
+      updateI(state, newI) {
+        state.i = newI;
       }
     },
 
@@ -124,6 +165,9 @@ const historyPlugin = (store) => {
       redo
     }
   });
+
+  const onEditPageMutation = createEditPageMutationHandler(store);
+  store.subscribe(onEditPageMutation);
 
   console.log(store);
   console.log('history plugin installed');
