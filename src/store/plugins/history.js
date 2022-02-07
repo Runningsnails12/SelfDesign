@@ -1,3 +1,4 @@
+import { reactive, ref } from 'vue';
 import { cloneDeep, cloneDeepWith, isMap } from 'lodash-es';
 
 const onlyCloneRootComponent = (value) => {
@@ -11,8 +12,8 @@ const onlyCloneRootComponent = (value) => {
 
 /** @typedef {import('vuex').Store<any>['subscribe']} Subscribe */
 
-const history = [];
-let i = -1;
+const history = reactive([]);
+let i = ref(-1);
 
 const REPLACE_STATE_MUTATION_KEY = 'replaceEditPage';
 
@@ -21,15 +22,15 @@ const REPLACE_STATE_MUTATION_KEY = 'replaceEditPage';
  * @type {import('vuex').Action<any, any>}
  */
 const undo = ({ dispatch }) => {
-  if (i <= 0) {
+  if (i.value <= 0) {
     console.log('no more earlier history');
     return;
   }
 
-  const prev = history[i - 1];
+  const prev = history[i.value - 1];
   dispatch(REPLACE_STATE_MUTATION_KEY, { editPage: prev }, { root: true });
 
-  i -= 1;
+  i.value -= 1;
 };
 
 /**
@@ -37,15 +38,15 @@ const undo = ({ dispatch }) => {
  * @type {import('vuex').Action<any, any>}
  */
 const redo = ({ dispatch }) => {
-  if (i >= history.length - 1) {
+  if (i.value >= history.length - 1) {
     console.log('no more history');
     return;
   }
   
-  const future = history[i + 1];
+  const future = history[i.value + 1];
   dispatch(REPLACE_STATE_MUTATION_KEY, { editPage: future }, { root: true });
 
-  i += 1;
+  i.value += 1;
 };
 
 const INTERNAL_FLAG_KEY = Symbol('isInternal');
@@ -63,19 +64,19 @@ const onEditPageMutation = (mutation, state) => {
   console.log(`${mutationType}: `);
   console.log({ mutation, state });
 
-  if (i !== history.length - 1) {
+  if (i.value !== history.length - 1) {
     // 指针后面有历史记录，指针之后的全部丢弃
-    history.length = i + 1;
+    history.length = i.value + 1;
   }
 
   const clonedWithRootOnly = cloneDeepWith(state.editPage, onlyCloneRootComponent);
 
   history.push(clonedWithRootOnly);
-  i += 1;
+  i.value += 1;
 
   console.log('plugin: ');
   console.log(history);
-  console.log('pointer: ' + i);
+  console.log('pointer: ' + i.value);
 };
 
 const MODULE_KEY = 'history';
@@ -95,9 +96,18 @@ const historyPlugin = (store) => {
   
     state: () => (
       {
-        [INTERNAL_FLAG_KEY]: false
+        [INTERNAL_FLAG_KEY]: false,
+
+        history,
+        /** @type {number} */
+        i
       }
     ),
+
+    getters: {
+      canRedo: (state) => !(state.i >= state.history.length - 1),
+      canUndo: (state) => !(state.i <= 0)
+    },
 
     mutations: {
       /**
@@ -163,6 +173,9 @@ const historyGlobalActions = {
 const REDO_KEY = `${MODULE_KEY}/redo`;
 const UNDO_KEY = `${MODULE_KEY}/undo`;
 
+const CAN_REDO_KEY = `${MODULE_KEY}/canRedo`;
+const CAN_UNDO_KEY = `${MODULE_KEY}/canUndo`;
+
 const SET_INTERNAL_FLAG_KEY = `${MODULE_KEY}/setInternalFlag`;
 
 export {
@@ -174,6 +187,8 @@ export {
   MODULE_KEY,
   REDO_KEY,
   UNDO_KEY,
+  CAN_REDO_KEY,
+  CAN_UNDO_KEY,
 
   SET_INTERNAL_FLAG_KEY,
 };
