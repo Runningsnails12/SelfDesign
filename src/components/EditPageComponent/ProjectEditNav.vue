@@ -14,8 +14,8 @@
           <input type="text" value="未命名文件" />
         </div>
         <div class="edit-operation">
-          <button id="undo" @click="undo" />
-          <button id="redo" @click="redo" />
+          <button id="undo" @click="undo" :disabled="!canUndo" />
+          <button id="redo" @click="redo" :disabled="!canRedo" />
           <button id="edit-save" />
           <p id="edit-save-time">保存于 {{ lastSaveTime }}</p>
         </div>
@@ -30,10 +30,10 @@
 </template>
 
 <script>
-import {ref} from 'vue';
+import {computed, ref} from 'vue';
 import DialogBox from '@/components/EditPageComponent/DialogBox.vue';
-import store from '../../store';
-import { REDO_KEY, UNDO_KEY } from '../../store/plugins/history';
+import { CAN_REDO_KEY, CAN_UNDO_KEY, REDO_KEY, UNDO_KEY } from '../../store/plugins/history';
+import { useStore } from 'vuex';
 
 export default {
   name: 'ProjectEditNav',
@@ -55,6 +55,8 @@ export default {
 
     const publishMessage = () => {};
 
+    const store = useStore();
+
     const undo = () => {
       store.dispatch(UNDO_KEY);
     };
@@ -62,6 +64,11 @@ export default {
     const redo = () => {
       store.dispatch(REDO_KEY);
     };
+
+    /** @type {import('vue').ComputedRef<boolean>} */
+    const canUndo = computed(() => store.getters[CAN_UNDO_KEY]);
+    /** @type {import('vue').ComputedRef<boolean>} */
+    const canRedo = computed(() => store.getters[CAN_REDO_KEY]);
 
     return {
       childData,
@@ -71,7 +78,9 @@ export default {
       publishMessage,
 
       undo,
-      redo
+      redo,
+      canRedo,
+      canUndo
     };
   },
 };
@@ -219,12 +228,20 @@ export default {
 #undo:hover {
   background-position: -32px -32px;
 }
+#undo:disabled {
+  background-position: -32px 0;
+  cursor: not-allowed;
+}
 
 #redo {
   background-position: -64px 0;
 }
 #redo:hover {
   background-position: -64px -32px;
+}
+#redo:disabled {
+  background-position: -64px 0;
+  cursor: not-allowed;
 }
 
 /* 保存和保存时间 */
