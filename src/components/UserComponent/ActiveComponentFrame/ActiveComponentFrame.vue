@@ -71,11 +71,17 @@ export default {
           return false
         }
         isMouseDown = false
-      
-        store.commit('editPage/moveComponent')
-        store.commit('editPage/clearActiveComponentTempStyle')
+
+        const to = store.state.editPage.activeContainerId;
+        const targetId = store.state.editPage.activeComponentId
+        const from = store.state.editPage.components.get(targetId).parentId;
+     
         store.commit('editPage/resetActiveContainer')
         store.commit('editPage/resetActiveComponent')
+        store.commit('editPage/clearActiveComponentTempStyle', targetId)
+        store.commit('editPage/moveComponent', {to, from, targetId})
+      
+        
       
         document.onmousemove = null
      

@@ -1,5 +1,5 @@
 <template>
-  <div class="container" :class="{active: isActive}" style="position: relative">
+  <div class="container" :class="{active: isActive}">
     <component-decorator
       v-for="child in myChildren"
       :key="child.id"
@@ -11,8 +11,10 @@
         :is="componentMap.get(child.tag)"
         v-bind="data"
         :id="'component' + child.id"
-        style="position: relative; user-select: none"
-        :style="child.tempStyle"
+        :style="[child.tempStyle,{
+          position: 'relative',
+          'user-select': 'none'
+        }]"
       />
     </component-decorator>
   </div>
@@ -70,6 +72,7 @@ export default {
 
 <style scoped>
 .container {
+  position: relative;
   display: flex;
   justify-content: v-bind(justifyContent);
   align-items: v-bind(alignItems);

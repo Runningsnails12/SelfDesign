@@ -53,8 +53,8 @@ store.commit('editPage/addComponent', {node: nodeTemplate[i]})
 <!-- 画板.vue -->
 
 <template>
-  <div>
-    <!-- 根组件，已全局注册可直接使用 -->
+  <div v-if="!loading">
+    <!-- 根组件， 必须加载数据成功才渲染-->
     <the-root-component :root-node = "root"/>
   </div>
 </template>
