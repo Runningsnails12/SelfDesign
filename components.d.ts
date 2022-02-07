@@ -30,6 +30,7 @@ declare module 'vue' {
     UserButton: typeof import('./src/components/UserComponent/UserButton.vue')['default']
     UserImage: typeof import('./src/components/UserComponent/UserImage.vue')['default']
     UserLayoutHorizontal: typeof import('./src/components/UserComponent/UserLayoutHorizontal.vue')['default']
+    UserLayoutPosition: typeof import('./src/components/UserComponent/UserLayoutPosition.vue')['default']
     UserLayoutVertical: typeof import('./src/components/UserComponent/UserLayoutVertical.vue')['default']
     UserText: typeof import('./src/components/UserComponent/UserText.vue')['default']
   }

@@ -46,6 +46,14 @@ export default {
     height: {
       type: [String, Number, null],
       default: '400px'
+    },
+    justifyContent:{
+      type: String,
+      default: 'flex-start'
+    },
+    alignItems: {
+      type: String,
+      default: 'center'
     }
   },
 
@@ -67,7 +75,8 @@ export default {
 .container {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  justify-content: v-bind(justifyContent);
+  align-items: v-bind(alignItems);
   height: v-bind(height);
   width: v-bind(width);
   outline: dashed #aaa;

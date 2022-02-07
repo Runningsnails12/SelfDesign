@@ -26,7 +26,9 @@ const userLayoutHorizontal = (raw) => {
     componentId: raw.id,
     myChildren: raw.children,
     width: raw.style.width,
-    height: raw.style.height
+    height: raw.style.height,
+    justiyContent: raw.style.justifyContent ? raw.style.justifyContent : raw.style['justify-content'],
+    alignItems: raw.style.alignItems ? raw.style.alignItems : raw.style['align-items']
   };
 };
 
@@ -35,7 +37,9 @@ const userLayoutVertical = (raw) => {
     componentId: raw.id,
     myChildren: raw.children,
     width: raw.style.width,
-    height: raw.style.height
+    height: raw.style.height,
+    justiyContent: raw.style.justifyContent ? raw.style.justifyContent : raw.style['justify-content'],
+    alignItems: raw.style.alignItems ? raw.style.alignItems : raw.style['align-items']
   };
 };
 

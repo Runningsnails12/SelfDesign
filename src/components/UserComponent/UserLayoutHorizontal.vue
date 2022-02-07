@@ -43,7 +43,16 @@ export default {
     height: {
       type: [String, Number, null],
       default: '200px'
+    },
+    justifyContent:{
+      type: String,
+      default: 'flex-start'
+    },
+    alignItems: {
+      type: String,
+      default: 'center'
     }
+    
   },
   setup(props) {
     const {componentId} = toRefs(props);
@@ -62,8 +71,8 @@ export default {
 <style scoped>
 .container {
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
+  justify-content: v-bind(justifyContent);
+  align-items: v-bind(alignItems);
   height: v-bind(height);
   width:v-bind(width);
   outline:dashed #aaa;
