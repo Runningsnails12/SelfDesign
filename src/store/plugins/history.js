@@ -81,9 +81,7 @@ const onEditPageMutation = (mutation, state) => {
 const MODULE_KEY = 'history';
 
 /**
- * 实现撤消重做的历史记录插件。
- * 前提是，Store的根中存在名为 `REPLACE_STATE_MUTATION_KEY_IN_ROOT` 的 Mutation。
- * 且这个 Mutation 接受 `{ editPage: editPage类型; }` 一样的对象
+ * 实现撤消重做的历史记录插件
  * @param {import('vuex').Store} store Store实例
  */
 const historyPlugin = (store) => {
