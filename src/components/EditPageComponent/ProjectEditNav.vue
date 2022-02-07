@@ -22,8 +22,8 @@
 					<input type="text" value="未命名文件" />
 				</div>
 				<div class="edit-operation">
-					<button id="revoke" />
-					<button id="recover" />
+					<button id="undo" @click="undo" :disabled="!canUndo" />
+					<button id="redo" @click="redo" :disabled="!canRedo" />
 					<button id="edit-save" />
 					<p id="edit-save-time">保存于 {{ lastSaveTime }}</p>
 				</div>
@@ -38,9 +38,15 @@
 </template>
 
 <script>
-import { ref, computed } from "vue";
-import { useStore } from "vuex";
+import { computed, ref } from "vue";
 import DialogBox from "@/components/EditPageComponent/DialogBox.vue";
+import {
+	CAN_REDO_KEY,
+	CAN_UNDO_KEY,
+	REDO_KEY,
+	UNDO_KEY,
+} from "../../store/plugins/history";
+import { useStore } from "vuex";
 
 export default {
 	name: "ProjectEditNav",
@@ -62,11 +68,25 @@ export default {
 
 		// 预览 & 发布
 		const displaylDialog = () => {
-			confirm(111);
-			dialogVisible.value = !dialogVisible.value;
+			if (confirm("是否确定将本项目发布？")) {
+				dialogVisible.value = !dialogVisible.value;
+			}
 		};
 
 		const publishMessage = () => {};
+
+		const undo = () => {
+			store.dispatch(UNDO_KEY);
+		};
+
+		const redo = () => {
+			store.dispatch(REDO_KEY);
+		};
+
+		/** @type {import('vue').ComputedRef<boolean>} */
+		const canUndo = computed(() => store.getters[CAN_UNDO_KEY]);
+		/** @type {import('vue').ComputedRef<boolean>} */
+		const canRedo = computed(() => store.getters[CAN_REDO_KEY]);
 
 		return {
 			userIcon,
@@ -75,6 +95,11 @@ export default {
 			lastSaveTime,
 			displaylDialog,
 			publishMessage,
+
+			undo,
+			redo,
+			canRedo,
+			canUndo,
 		};
 	},
 };
@@ -121,7 +146,7 @@ export default {
 	border: 1.5px solid #5b9bc8;
 	box-sizing: border-box;
 	transition: ease-in-out all 0.5s;
-	z-index: 10;
+	z-index: 1;
 }
 
 /* 二级导航 */
@@ -225,18 +250,26 @@ export default {
 	cursor: pointer;
 }
 
-#revoke {
+#undo {
 	background-position: -32px 0;
 }
-#revoke:hover {
+#undo:hover {
 	background-position: -32px -32px;
 }
+#undo:disabled {
+	background-position: -32px 0;
+	cursor: not-allowed;
+}
 
-#recover {
+#redo {
 	background-position: -64px 0;
 }
-#recover:hover {
+#redo:hover {
 	background-position: -64px -32px;
+}
+#redo:disabled {
+	background-position: -64px 0;
+	cursor: not-allowed;
 }
 
 /* 保存和保存时间 */
