@@ -18,7 +18,7 @@
       <div class="actions">
         <div 
           style="background-color: rgb(91,155,200);" 
-          @click="editProject(project.id)"
+          @click="editProject(project.id,project.modifyTime)"
         >
           <img 
             src="/img/编辑.png" 
@@ -78,8 +78,8 @@ defineProps({
 });
 const emit = defineEmits(['update-project']);
 
-const editProject = (id) => {
-  router.push('/projectEdit/' + id);
+const editProject = (id,time) => {
+  router.push('/projectEdit/' + id +'?modifyTime='+ time);
 };
 const saveProject = async (id) => {
   await api.download(id);
