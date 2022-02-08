@@ -183,14 +183,13 @@ const onFileChange = async () => {
     Message.error('不是有效的JSON文件');
     return;
   }
-
   const resp = await api.importProject({
     importProjectName: importProjectName.value,
     file,
   });
 
   if (resp.flag) {
-    Message.info(resp.data.message);
+    Message.success(resp.data.message);
     setTimeout(() => {
       router.push('/projectEdit/' + resp.data.id);
     }, 2000);
