@@ -204,13 +204,13 @@
 			<div class="core">
 				<div class="i-percentage">
 					<b>比例</b>
-					<span class="11">
+					<span class="11" @click="uncultivated">
 						<b>1 : 1</b>
 					</span>
-					<span class="43">
+					<span class="43" @click="uncultivated">
 						<b>4 : 3</b>
 					</span>
-					<span class="169">
+					<span class="169" @click="uncultivated">
 						<b>16 : 9</b>
 					</span>
 				</div>
@@ -218,18 +218,13 @@
 					<b>图片地址[网络]</b>
 				</div>
 				<div>
-					<input class="i-url" type="text" />
+					<input ref="urlContent" class="i-url" type="text" :value="compData.values.url" />
 				</div>
 				<div>
-					<button class="i-changeImg">确认更改</button>
+					<button class="i-changeImg" @click="modifyUrl">确认更改</button>
 				</div>
 				<div>
-					<input
-						type="file"
-						class="uploading"
-						value="上传图片"
-						accept="image/*"
-					/>
+					<input type="file" class="uploading" accept="image/*" @change="changeImageFile" />
 					<button class="i-uploading">上传图片</button>
 				</div>
 			</div>
@@ -257,6 +252,7 @@
 import { ref, reactive, watch, watchEffect } from "vue";
 import { useStore } from "vuex";
 import { tagToOptions } from "@/utils/tagToOptions/index.js";
+import api from "@/api/index.js";
 
 export default {
 	name: "AttrStyle",
@@ -491,17 +487,47 @@ export default {
 			console.log(e);
 			colorRgba.value = e.rgba;
 		};
+
+		// #region 超旭start
+		let urlContent = ref(null);
+		function modifyUrl() {
+			store.commit('editPage/setActiveComponentValues', {
+				url: urlContent.value.value
+			});
+		}
+
+		function changeImageFile(e) {
+			console.log(e.target.files);
+			api.uploadImg(e.target.files[0]).then((data) => {
+				if (data.flag) {
+					store.commit('editPage/setActiveComponentValues', {
+						url: data.data.url
+					});
+				} else {
+					alert('上传失败');
+				}
+			});
+		}
+
+		// 未开发事件
+		function uncultivated() {
+			alert('敬请期待');
+		}
+		// #endregion 超旭end
+
 		return {
 			// #region 超旭start
 			tagOptions,
 			compData,
-			modifyText,
 			getBIUSAClass,
 			changeBIUSA,
 			opacity,
+			modifyUrl,
+			modifyText,
 
 			// ref dom元素
 			textContent,
+			urlContent,
 
 			// #endregion 超旭end
 
@@ -513,6 +539,12 @@ export default {
 			borderColor,
 			shadowColor,
 			units,
+
+
+			// #region 超旭start
+			changeImageFile,
+			uncultivated,
+			// #endregion 超旭end
 		};
 	},
 };
