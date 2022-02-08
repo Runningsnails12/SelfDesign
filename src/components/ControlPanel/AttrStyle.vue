@@ -156,7 +156,7 @@
 				</div>
 			</div>
 		</div>
-		<div v-if="false" class="special childLayout">
+		<div v-if="tagOptions.order" class="special childLayout">
 			<h4 class="title">
 				<span>特有 |</span>
 				<span>HorizontalLayout-childNode VerticalLayout-childNode</span>
@@ -172,7 +172,7 @@
 				</div>
 			</div>
 		</div>
-		<div v-if="false" class="special childPosition">
+		<div v-if="tagOptions.position" class="special childPosition">
 			<h4 class="title">
 				<span>特有 |</span>
 				<span>PositionLayout-childNode</span>
@@ -340,6 +340,7 @@ export default {
 
 		// #region 超旭start
 		let fontColor = ref(null);
+		fontColor.value = "#ffe793";
 		watch(
 			() => fontColor.value,
 			() => {
@@ -348,8 +349,6 @@ export default {
 				});
 			}
 		);
-
-		fontColor.value = "#ffe793";
 		// #endregion 超旭end
 
 		let fontSizes = reactive({
