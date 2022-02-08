@@ -16,6 +16,7 @@
       id="password" 
       placeholder="请输入8-20位以内的数字或字母" 
       v-model="pwd"
+      @keyup.enter="logon"
     >
     <div class="form_error">
       {{ pwdError }}
