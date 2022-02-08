@@ -25,6 +25,10 @@ export default defineConfig({
         target: 'http://159.75.249.227:8848',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, '')
+      },
+      '/other': {
+        target: 'http://159.75.249.227:8848',
+        changeOrigin: true,
       }
     }
   },
