@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 
-const emit = defineEmits(['sizeChange']);
+const emit = defineEmits(['sizeChange', 'resizeEnd']);
 
 const lastCoord = ref(null);
 
@@ -13,6 +13,13 @@ const onMouseDown = (e) => {
 
   console.log('mousedown:');
   console.log(e);
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', function f(e) {
+    onMouseUp(e);
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', f);
+  });
 };
 
 const onMouseMove = (e) => {
@@ -31,6 +38,8 @@ const onMouseUp = (e) => {
   isDragging.value = false;
   console.log('mouseup:');
   console.log(e);
+
+  emit('resizeEnd');
 };
 </script>
 
@@ -38,8 +47,6 @@ const onMouseUp = (e) => {
   <div
     class="resizer"
     @mousedown="onMouseDown"
-    @mousemove="onMouseMove"
-    @mouseup="onMouseUp"
   />
 </template>
 
@@ -48,12 +55,12 @@ const onMouseUp = (e) => {
   box-sizing: border-box;
   position: absolute;
 
-  width: 25px;
-  height: 25px;
+  width: 10px;
+  height: 10px;
 
-  background-color: black;
-  border-radius: 50%;
+  background-color: white;
+  border: 1px solid black;
 
-  cursor: all-scroll;
+  cursor: nw-resize;
 }
 </style>
