@@ -36,10 +36,10 @@ let newestId = -1;
 function generateNode(nodeTemplate, parentId) {
   // 没有 id 是 添加节点调用
   let id = -1;
-  if(!nodeTemplate.id){
+  if (!nodeTemplate.id) {
     newestId += 1;
     id = newestId;
-  }else{
+  } else {
     // 有 id 是 初始化节点调用
     id = nodeTemplate.id;
     newestId = id > newestId ? id : newestId;
@@ -48,10 +48,10 @@ function generateNode(nodeTemplate, parentId) {
   return {
     id,
     parentId,
-    tag:nodeTemplate.tag,
-    style: nodeTemplate.style? deepCopy(nodeTemplate.style) : {},
-    values: nodeTemplate.values? deepCopy(nodeTemplate.values) : {},
-    event: nodeTemplate.event? deepCopy(nodeTemplate.event) : [],
+    tag: nodeTemplate.tag,
+    style: nodeTemplate.style ? deepCopy(nodeTemplate.style) : {},
+    values: nodeTemplate.values ? deepCopy(nodeTemplate.values) : {},
+    event: nodeTemplate.event ? deepCopy(nodeTemplate.event) : [],
     tempStyle: {}, // 前端操作的时候有用
     children: [],
   };
@@ -66,16 +66,33 @@ function resetActiveComponent(state) {
 }
 
 // 添加节点
-function addComponent(state, {node, parentId = 1 }) {
+function addComponent(state, { node, parentId = 1 }) {
   const copyNode = generateNode(node, parentId);
   state.components.set(copyNode.id, copyNode); // 往 map 中添加节点
-  if(parentId !== 0){
+  if (parentId !== 0) {
     // 非根节点
     state.components.get(parentId).children.push(copyNode); // 构造树状数据
   }
-  if(node.children) {
+  if (node.children) {
     node.children.forEach(child => addComponent(state, { node: child, parentId: copyNode.id }));
   }
+}
+
+
+// 过滤节点
+function componentfilter(root){
+  const slimNode = {
+    id: root.id,
+    tag: root.tag,
+    style: deepCopy(root.style),
+    values: deepCopy(root.values),
+    event: deepCopy(root.event)
+  };
+  if(root.children){
+    slimNode.children = [];
+    root.children.forEach(child => slimNode.children.push(componentfilter(child)));
+  }
+  return slimNode;
 }
 
 
@@ -84,11 +101,24 @@ export default {
   state: {
     components: new Map(),
     activeComponentId: -1,
-    activeContainerId: -1
+    activeContainerId: -1,
+    slimComponents: null
   },
-  getters:{
-    activeComponent(state){
-      return state.activeComponentId !== -1 ? state.components.get(state.activeComponentId) : null;
+  getters: {
+    // 获取活动节点
+    activeComponent(state) {
+      if (state.activeComponentId === -1) {
+        return null;
+      }
+      const activeComponent = state.components.get(state.activeComponentId)
+      return Object.assign({}, activeComponent, {
+        parentTag: state.components.get(activeComponent.parentId).tag
+      });
+    },
+
+    // 全部节点 id
+    componnetsId(state){
+      return Array.from(state.components.keys()).filter((item) => item !== 1 && item !== state.activeComponentId);
     }
   },
 
@@ -109,7 +139,7 @@ export default {
     },
 
     // 移动组件
-    moveComponent(state, {to, from, targetId}) {
+    moveComponent(state, { to, from, targetId }) {
       if (to === -1) { return; }
       if (to !== from) {
         const comp = deleteComponentFromJson(state, { parentId: from, targetId });
@@ -120,7 +150,7 @@ export default {
 
     // 修改当前活动组件
     setActiveComponent(state, id) {
-      if(id === 1){ // 不能选中根组件
+      if (id === 1) { // 不能选中根组件
         return;
       }
       state.activeComponentId = id;
@@ -173,7 +203,7 @@ export default {
     },
 
     // 修改活动组件 values
-    setActiveComponentValues(state, values){
+    setActiveComponentValues(state, values) {
       if (state.activeComponentId === -1) {
         return;
       }
@@ -184,23 +214,31 @@ export default {
       }
     },
 
-    // 修改活动组件 events, 还在写。。。。。
-    setActiveComponentEvents(state, {event}){
+    // 修改活动组件 event， 传入 event 数组直接覆盖原来的就行
+    setActiveComponentEvents(state, { event }) {
       if (state.activeComponentId === -1) {
         return;
       }
-      const componentEvents = state.components.get(state.activeComponentId).event;
-      // 覆盖 style 原有属性值
-      // for (let key in event) {
-      //   componentEvents[key] = events[key];
-      // }
+      if(Array.isArray(event)){
+        state.components.get(state.activeComponentId).event = deepCopy(event);
+      }
     },
 
     // 清空 state 的所有状态
-    clearAllStates(state){
+    clearAllStates(state) {
       state.components = new Map();
       state.activeComponentId = -1;
       state.activeContainerId = -1;
+      state.slimComponents = null;
+    },
+
+    // 获取提交给后端的节点 json 数组，不写 getter 的原因是 getter 消耗性能，每个更新 components 都会更新
+    // 执行该操作值，最好执行用户发起其他行为
+    slimComponents(state){
+      if(state.components.size === 0){
+        return false;
+      }
+      state.slimComponents = componentfilter(state.components.get(1));
     }
   }
 };

@@ -81,8 +81,6 @@ export default {
         store.commit('editPage/clearActiveComponentTempStyle', targetId)
         store.commit('editPage/moveComponent', {to, from, targetId})
       
-        
-      
         document.onmousemove = null
      
       }

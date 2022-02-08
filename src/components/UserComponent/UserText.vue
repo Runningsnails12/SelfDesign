@@ -18,7 +18,7 @@ export default {
 </script>
 
 <template>
-  <p>{{ value }}</p>
+  <p><slot>{{ value }}</slot></p>
 </template>
 
 <style scoped>
