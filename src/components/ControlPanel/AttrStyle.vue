@@ -4,7 +4,11 @@
 			<h4 class="title">文本</h4>
 			<div class="core">
 				<div>
-					<el-select v-model="fontFamilys.value" class="fontFamily" placeholder="fontFamily">
+					<el-select
+						v-model="fontFamilys.value"
+						class="fontFamily"
+						placeholder="fontFamily"
+					>
 						<el-option
 							v-for="item in fontFamilys.options"
 							:key="item.value"
@@ -12,10 +16,17 @@
 							:value="item.value"
 						></el-option>
 					</el-select>
-					<el-color-picker class="colorChoose shadow-color" v-model="fontColor" />
+					<el-color-picker
+						class="colorChoose shadow-color"
+						v-model="fontColor"
+					/>
 				</div>
 				<div>
-					<el-select v-model="fontSizes.value" class="fontSize" placeholder="fontSize">
+					<el-select
+						v-model="fontSizes.value"
+						class="fontSize"
+						placeholder="fontSize"
+					>
 						<el-option
 							v-for="item in fontSizes.options"
 							:key="item.value"
@@ -89,32 +100,74 @@
 			<h4 class="title">外观</h4>
 			<div class="core">
 				<div>
-					<span class="square">
+					<span class="square" @click="uncultivated">
 						<i></i>
 					</span>
-					<span class="foursquare">
+					<span class="foursquare" @click="uncultivated">
 						<i></i>
 					</span>
 					<input class="editable" contenteditable="true" />
 					<input class="editable" contenteditable="true" />
 					<input class="editable" contenteditable="true" />
 					<input class="editable" contenteditable="true" />
-				</div>
-				<div>
-					<el-color-picker class="colorChoose background-color" v-model="BgColor" />
-					<em class="bg">背景</em>
-					<el-color-picker class="colorChoose border-color" v-model="borderColor" />
-					<em>边框</em>
-				</div>
-				<div>
-					<el-color-picker class="colorChoose shadow-color" v-model="shadowColor" />
-					<em>阴影</em>
 				</div>
 				<div class="alaph">
+					<el-color-picker
+						class="colorChoose background-color"
+						v-model="BgColor"
+					/>
+					<em class="bg">背景</em>
+
 					<i class="water"></i>
 					<input class="editable" contenteditable="true" />
 					<em class="per">%</em>
 					<b>不透明度</b>
+				</div>
+
+				<div>
+					<input type="checkbox" />
+					<b>边框</b>
+					<el-color-picker
+						class="colorChoose border-color"
+						v-model="borderColor"
+					/>
+				</div>
+				<div class="border">
+					<b>粗细</b>
+					<input class="editable" contenteditable="true" />
+					<b>类型</b>
+					<el-select
+						v-model="borderTypes.value"
+						class="borderType"
+						placeholder="borderType"
+					>
+						<el-option
+							v-for="item in borderTypes.options"
+							:key="item.value"
+							:label="item.label"
+							:value="item.value"
+						></el-option>
+					</el-select>
+				</div>
+				<div>
+					<input type="checkbox" />
+					<b>阴影</b>
+					<el-color-picker
+						class="colorChoose shadow-color"
+						v-model="shadowColor"
+					/>
+				</div>
+				<div>
+					<b>X轴</b>
+					<b>Y轴</b>
+					<b>模糊</b>
+					<b>尺寸</b>
+				</div>
+				<div>
+					<input class="editable" contenteditable="true" />
+					<input class="editable" contenteditable="true" />
+					<input class="editable" contenteditable="true" />
+					<input class="editable" contenteditable="true" />
 				</div>
 			</div>
 		</div>
@@ -242,7 +295,12 @@
 			<div class="core">
 				<div>
 					<b>内容</b>
-					<input ref="textContent" class="content" type="text" :value="compData.values.content" />
+					<input
+						ref="textContent"
+						class="content"
+						type="text"
+						:value="compData.values.content"
+					/>
 				</div>
 				<div>
 					<button class="confirm" @click="modifyText(true)">确 定</button>
@@ -384,10 +442,13 @@ export default {
 		);
 
 		let units = reactive({
-			options: [{ value: "px" }, { value: "em" }, { value: "%" }],
+			options: [{ value: "px" }, { value: "%" }],
 			value: "px",
 		});
-
+		let borderTypes = reactive({
+			options: [{ value: "dashed" }, { value: "dottod" }, { value: "solid" }],
+			value: "solid",
+		});
 		// BIUSA解释：
 		// BIUSA分别代表B(加粗), I(斜体), U(下划线), S(删除线), A(英文变大写)
 		// 由于text-align和这个操作方式相同
@@ -467,21 +528,27 @@ export default {
 
 		// 背景色
 		let BgColor = ref(null);
-		BgColor.value = '#fff';
-		watch(() => BgColor.value, () => {
-			setStyle({
-				'background-color': BgColor
-			});
-		});
+		BgColor.value = "#fff";
+		watch(
+			() => BgColor.value,
+			() => {
+				setStyle({
+					"background-color": BgColor,
+				});
+			}
+		);
 
 		// 透明度
 		let opacity = ref(null);
 		opacity.value = 100;
-		watch(() => opacity.value, () => {
-			setStyle({
-				'opacity': opacity / 100
-			});
-		});
+		watch(
+			() => opacity.value,
+			() => {
+				setStyle({
+					opacity: opacity / 100,
+				});
+			}
+		);
 
 		// #endregion 超旭end
 
@@ -513,6 +580,7 @@ export default {
 			borderColor,
 			shadowColor,
 			units,
+			borderTypes,
 		};
 	},
 };
@@ -535,6 +603,8 @@ export default {
 .el-input__inner {
 	height: 25px;
 	border-radius: 0.125rem;
+	padding-right: 20px;
+	padding-left: 5px;
 }
 .el-select--default {
 	margin-top: 0;
@@ -613,8 +683,8 @@ export default {
 	margin-top: 0;
 }
 /*  #region colorChoose  */
-.appearance .core div .bg {
-	margin-right: 20px;
+.appearance .core div em.bg {
+	/* margin-right: 10px; */
 }
 /*  #endregion  */
 
@@ -654,6 +724,7 @@ export default {
 	height: 17px;
 	background: url("/img/EditIcons/appearance.png") no-repeat -31px 2px;
 	background-size: 300%;
+	margin-left: 10px;
 }
 .appearance .core div:nth-of-type(1) > input.editable {
 	margin-right: 0.1875rem;
@@ -661,14 +732,35 @@ export default {
 .appearance .core div:nth-of-type(1) > input.editable:nth-of-type(1) {
 	margin-left: 8px;
 }
+
 .appearance .core div.alaph em.per {
 	color: #bbbbbb;
+	position: relative;
+	left: -5px;
 }
 .appearance .core div.alaph em {
 	margin-right: 0;
 }
 .appearance .core div.alaph b {
-	margin-left: 0.3125rem;
+	margin-left: 2px;
+	margin-right: 0;
+}
+.appearance .core div.alaph .editable {
+	margin-right: 3px;
+}
+.appearance .core div input[type="checkbox"] {
+	margin-right: 10px;
+}
+
+.appearance .core div.border .borderType {
+	width: 80px;
+	margin-top: 0;
+}
+.appearance .core > div:nth-last-of-type(2) {
+	margin-bottom: 0;
+}
+.appearance .core > div:nth-last-of-type(1) {
+	margin-top: 0;
 }
 /* #endregion */
 
@@ -878,7 +970,7 @@ export default {
 .image .core div:nth-last-of-type(1) {
 	text-align: center;
 }
-.core div input {
+.core div input[type="text"] {
 	outline: none;
 	border: 1px solid #dddddd;
 	background-color: #fff;
