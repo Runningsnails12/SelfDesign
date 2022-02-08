@@ -4,7 +4,11 @@
 			<h4 class="title">文本</h4>
 			<div class="core">
 				<div>
-					<el-select v-model="fontFamilys.value" class="fontFamily" placeholder="fontFamily">
+					<el-select
+						v-model="fontFamilys.value"
+						class="fontFamily"
+						placeholder="fontFamily"
+					>
 						<el-option
 							v-for="item in fontFamilys.options"
 							:key="item.value"
@@ -12,10 +16,17 @@
 							:value="item.value"
 						></el-option>
 					</el-select>
-					<el-color-picker class="colorChoose shadow-color" v-model="fontColor" />
+					<el-color-picker
+						class="colorChoose shadow-color"
+						v-model="fontColor"
+					/>
 				</div>
 				<div>
-					<el-select v-model="fontSizes.value" class="fontSize" placeholder="fontSize">
+					<el-select
+						v-model="fontSizes.value"
+						class="fontSize"
+						placeholder="fontSize"
+					>
 						<el-option
 							v-for="item in fontSizes.options"
 							:key="item.value"
@@ -65,16 +76,19 @@
 					<em>H</em>
 					<em class="editable" contenteditable="true">0</em>
 
-					<i class="rotate"></i>
-					<em class="editable" contenteditable="true">0°</em>
+					<el-select v-model="units.value" class="unit" placeholder="units">
+						<el-option
+							v-for="item in units.options"
+							:key="item.value"
+							:label="item.label"
+							:value="item.value"
+						></el-option>
+					</el-select>
 				</div>
 				<div class="whole">
-					<span class="topBottom">
-						<i></i>
-					</span>
-					<span class="leftRight">
-						<i></i>
-					</span>
+					<b>旋转</b>
+					<i class="rotate"></i>
+					<em class="editable" contenteditable="true">0°</em>
 
 					<span class="scale">
 						<i></i>
@@ -98,13 +112,22 @@
 					<em class="editable" contenteditable="true">0</em>
 				</div>
 				<div>
-					<el-color-picker class="colorChoose background-color" v-model="BgColor" />
+					<el-color-picker
+						class="colorChoose background-color"
+						v-model="BgColor"
+					/>
 					<em class="bg">背景</em>
-					<el-color-picker class="colorChoose border-color" v-model="borderColor" />
+					<el-color-picker
+						class="colorChoose border-color"
+						v-model="borderColor"
+					/>
 					<em>边框</em>
 				</div>
 				<div>
-					<el-color-picker class="colorChoose shadow-color" v-model="shadowColor" />
+					<el-color-picker
+						class="colorChoose shadow-color"
+						v-model="shadowColor"
+					/>
 					<em>阴影</em>
 				</div>
 				<div class="alaph">
@@ -230,7 +253,12 @@
 			<div class="core">
 				<div>
 					<b>内容</b>
-					<input ref="textContent" class="content" type="text" :value="compData.values.content" />
+					<input
+						ref="textContent"
+						class="content"
+						type="text"
+						:value="compData.values.content"
+					/>
 				</div>
 				<div>
 					<button class="confirm" @click="modifyText(true)">确 定</button>
@@ -249,13 +277,12 @@ import { tagToOptions } from "@/utils/tagToOptions/index.js";
 export default {
 	name: "AttrStyle",
 	setup() {
-
 		// #region 超旭start
 		const store = useStore();
 
 		// 给当前组件设置样式
 		function setStyle(obj) {
-			store.commit('editPage/setActiveComponentStyle', obj);
+			store.commit("editPage/setActiveComponentStyle", obj);
 		}
 
 		// 这个就是判断组件都可以改那些值的对象
@@ -266,7 +293,7 @@ export default {
 			event: {
 				mouse: false,
 				keydown: false,
-				keyup: false
+				keyup: false,
 			},
 			image: false,
 			order: false,
@@ -280,16 +307,24 @@ export default {
 		let textContent = ref(null);
 
 		// 监听当前选择节点变化
-		watch(() => store.getters['editPage/activeComponent'], () => {
-			compData.value = store.getters['editPage/activeComponent'];
-			if (compData.value != null) {
-				tagOptions.value = tagToOptions(compData.value.tag);
-				tagOptions.value.order = ['VerticalLayout', 'HorizontalLayout'].includes(compData.value.parentTag);
-				tagOptions.value.position = ['PositionLayout'].includes(compData.value.parentTag);
-			} else {
-				tagOptions.value = {};
+		watch(
+			() => store.getters["editPage/activeComponent"],
+			() => {
+				compData.value = store.getters["editPage/activeComponent"];
+				if (compData.value != null) {
+					tagOptions.value = tagToOptions(compData.value.tag);
+					tagOptions.value.order = [
+						"VerticalLayout",
+						"HorizontalLayout",
+					].includes(compData.value.parentTag);
+					tagOptions.value.position = ["PositionLayout"].includes(
+						compData.value.parentTag
+					);
+				} else {
+					tagOptions.value = {};
+				}
 			}
-		});
+		);
 
 		watch(tagOptions, () => {
 			console.log(tagOptions);
@@ -297,8 +332,8 @@ export default {
 
 		// 修改文本内容
 		function modifyText(flag) {
-			store.commit('editPage/setActiveComponentValues', {
-				content: flag ? textContent.value.value : ''
+			store.commit("editPage/setActiveComponentValues", {
+				content: flag ? textContent.value.value : "",
 			});
 		}
 
@@ -306,33 +341,35 @@ export default {
 
 		// #region 超旭start
 		let fontFamilys = reactive({
-			options: [
-				{ value: "微软雅黑" },
-				{ value: "宋体" },
-				{ value: "黑体" },
-			],
+			options: [{ value: "微软雅黑" }, { value: "宋体" }, { value: "黑体" }],
 			value: "微软雅黑",
 		});
 		// #endregion 超旭end
 
 		// #region 超旭start
 		// 监听字体变化
-		watch(() => fontFamilys.value, () => {
-			setStyle({
-				"font-family": fontFamilys.value
-			});
-		});
+		watch(
+			() => fontFamilys.value,
+			() => {
+				setStyle({
+					"font-family": fontFamilys.value,
+				});
+			}
+		);
 		// #endregion 超旭end
 
 		// #region 超旭start
 		let fontColor = ref(null);
-		watch(() => fontColor.value, () => {
-			setStyle({
-				color: fontColor.value
-			});
-		});
+		watch(
+			() => fontColor.value,
+			() => {
+				setStyle({
+					color: fontColor.value,
+				});
+			}
+		);
 
-		fontColor.value = '#ffe793';
+		fontColor.value = "#ffe793";
 		// #endregion 超旭end
 
 		let fontSizes = reactive({
@@ -353,10 +390,18 @@ export default {
 
 		// #region 超旭start
 		// 监听文字大小变化
-		watch(() => fontSizes.value, () => {
-			setStyle({
-				"font-size": fontSizes.value + 'px'
-			});
+		watch(
+			() => fontSizes.value,
+			() => {
+				setStyle({
+					"font-size": fontSizes.value + "px",
+				});
+			}
+		);
+
+		let units = reactive({
+			options: [{ value: "px" }, { value: "em" }, { value: "%" }],
+			value: "px",
 		});
 
 		// BIUSA解释：
@@ -366,22 +411,22 @@ export default {
 
 		// 判断BIUSA的状态
 		function checkBIUSA(attr) {
-			if (attr == 'b') {
-				return compData.value.style['font-weight'] == '700';
-			} else if (attr == 'i') {
-				return compData.value.style['font-style'] == 'italic';
-			} else if (attr == 'u') {
-				return compData.value.style['text-decoration'] == 'underline';
-			} else if (attr == 's') {
-				return compData.value.style['text-decoration'] == 'line-through';
-			} else if (attr == 'a') {
-				return compData.value.style['text-transform'] == 'uppercase';
-			} else if (attr == 'left') {
-				return compData.value.style['text-align'] == 'left';
-			} else if (attr == 'center') {
-				return compData.value.style['text-align'] == 'center';
-			} else if (attr == 'right') {
-				return compData.value.style['text-align'] == 'right';
+			if (attr == "b") {
+				return compData.value.style["font-weight"] == "700";
+			} else if (attr == "i") {
+				return compData.value.style["font-style"] == "italic";
+			} else if (attr == "u") {
+				return compData.value.style["text-decoration"] == "underline";
+			} else if (attr == "s") {
+				return compData.value.style["text-decoration"] == "line-through";
+			} else if (attr == "a") {
+				return compData.value.style["text-transform"] == "uppercase";
+			} else if (attr == "left") {
+				return compData.value.style["text-align"] == "left";
+			} else if (attr == "center") {
+				return compData.value.style["text-align"] == "center";
+			} else if (attr == "right") {
+				return compData.value.style["text-align"] == "right";
 			} else {
 				return false;
 			}
@@ -391,7 +436,7 @@ export default {
 		function getBIUSAClass(attr) {
 			let res = [attr];
 			if (checkBIUSA(attr)) {
-				res.push('active');
+				res.push("active");
 			}
 			return res;
 		}
@@ -399,34 +444,34 @@ export default {
 		// 切换BIUSA
 		function changeBIUSA(attr) {
 			if (checkBIUSA(attr)) {
-				if (attr == 'b') {
-					setStyle({ 'font-weight': '400' });
-				} else if (attr == 'i') {
-					setStyle({ 'font-style': "normal" });
-				} else if (attr == 'u') {
-					setStyle({ 'text-decoration': "none" });
-				} else if (attr == 's') {
-					setStyle({ 'text-decoration': "none" });
-				} else if (attr == 'a') {
-					setStyle({ 'text-transform': "none" });
+				if (attr == "b") {
+					setStyle({ "font-weight": "400" });
+				} else if (attr == "i") {
+					setStyle({ "font-style": "normal" });
+				} else if (attr == "u") {
+					setStyle({ "text-decoration": "none" });
+				} else if (attr == "s") {
+					setStyle({ "text-decoration": "none" });
+				} else if (attr == "a") {
+					setStyle({ "text-transform": "none" });
 				}
 			} else {
-				if (attr == 'b') {
-					setStyle({ 'font-weight': '700' });
-				} else if (attr == 'i') {
-					setStyle({ 'font-style': "italic" });
-				} else if (attr == 'u') {
-					setStyle({ 'text-decoration': "underline" });
-				} else if (attr == 's') {
-					setStyle({ 'text-decoration': "line-through" });
-				} else if (attr == 'a') {
-					setStyle({ 'text-transform': "uppercase" });
-				} else if (attr == 'left') {
-					setStyle({ 'text-align': "left" });
-				} else if (attr == 'center') {
-					setStyle({ 'text-align': "center" });
-				} else if (attr == 'right') {
-					setStyle({ 'text-align': "right" });
+				if (attr == "b") {
+					setStyle({ "font-weight": "700" });
+				} else if (attr == "i") {
+					setStyle({ "font-style": "italic" });
+				} else if (attr == "u") {
+					setStyle({ "text-decoration": "underline" });
+				} else if (attr == "s") {
+					setStyle({ "text-decoration": "line-through" });
+				} else if (attr == "a") {
+					setStyle({ "text-transform": "uppercase" });
+				} else if (attr == "left") {
+					setStyle({ "text-align": "left" });
+				} else if (attr == "center") {
+					setStyle({ "text-align": "center" });
+				} else if (attr == "right") {
+					setStyle({ "text-align": "right" });
 				}
 			}
 		}
@@ -441,7 +486,6 @@ export default {
 			colorRgba.value = e.rgba;
 		};
 		return {
-
 			// #region 超旭start
 			tagOptions,
 			compData,
@@ -461,6 +505,7 @@ export default {
 			BgColor,
 			borderColor,
 			shadowColor,
+			units,
 		};
 	},
 };
@@ -483,6 +528,9 @@ export default {
 .el-input__inner {
 	height: 25px;
 	border-radius: 0.125rem;
+}
+.el-select--default {
+	margin-top: 0;
 }
 </style>
 
@@ -551,6 +599,10 @@ export default {
 .text .core div .fontSize {
 	/* width: 33px; */
 	width: 70%;
+	margin-top: 0;
+}
+.change .core div div.unit {
+	width: 70px;
 	margin-top: 0;
 }
 /*  #region colorChoose  */
