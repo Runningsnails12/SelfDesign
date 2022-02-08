@@ -7,12 +7,7 @@
         </h3>
         <div class="link-box">
           <img src="/img/EditIcons/链接.png" />
-          <input
-            id="online-link"
-            type="text"
-            :value="linkValue"
-            placeholder="https://www.baidu.com"
-          />
+          <input id="online-link" type="text" :value="linkValue" />
         </div>
         <button :class="btn ? 'publishCopyBtn' : 'copyBtn'" @click="copyPublishLink">
           复 &nbsp; 制
@@ -47,7 +42,6 @@ export default {
     );
 
     const btn = inject('isPublishBtn'); // 是否是发布的按钮
-    let copyedUrl = inject('onlineUrl'); // 返回的访问地址
 
     // 取消
     const cancelDialog = () => {
@@ -55,7 +49,7 @@ export default {
     };
 
     // 点击复制，复制链接
-    let linkValue = ref('https://github.com/Runningsnails12/SelfDesign');
+    let linkValue = inject('onlineUrl'); // 返回的访问地址
     const copyPublishLink = () => {
       let onlineLink = document.getElementById('online-link');
       onlineLink.select();
