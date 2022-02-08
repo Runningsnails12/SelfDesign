@@ -145,6 +145,7 @@ const saveUsername=async()=>{
       display: flex;
       margin-right: 32px;
       align-items: center;
+      cursor: pointer;
       .nav_img {
         width: 33px;
         height: 33px;

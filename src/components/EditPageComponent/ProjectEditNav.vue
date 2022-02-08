@@ -65,17 +65,16 @@ export default {
     // 保存
     const route = useRoute();
     let isSaveProject = ref(false);
+    // let saveTime = ref('');       // 此次保存时间
     const saveProject = () => {
       store.commit('editPage/slimComponents');
-      const json = store.state.editPage.slimComponents;
-      // console.log(json);
-      // console.log(JSON.stringify(json));
+      const canvasPageContent = store.state.editPage.slimComponents;
       api
-        .modifyContent({id: route.params.id, content: JSON.stringify(json)})
+        .modifyContent({id: route.params.id, content: JSON.stringify(canvasPageContent)})
         .then((res) => {
-          console.log('保存');
           if (res.code === 2000) {
             isSaveProject.value = true;
+            // saveTime.value = new Date(res.data.midifyTime).toLocaleString().replace(/年|月/g, '-').replace(/日/g, ' ');;
           }
         });
     };
@@ -87,31 +86,26 @@ export default {
       // 发布
       if (isPublish) {
         if (confirm('是否确定将本项目发布？')) {
-          dialogVisible.value = !dialogVisible.value;
           isPublishBtn.value = isPublish;
           // 先保存后发布
           saveProject();
           api.release({id: route.params.id, temp: false}).then((res) => {
-            console.log('发布');
-            console.log(res);
-            // console.log(res.data.data.url);
+            onlineUrl.value = res.data.data.url;
           });
+          dialogVisible.value = !dialogVisible.value;
         }
       } else {
         // 预览
-        dialogVisible.value = !dialogVisible.value;
         isPublishBtn.value = isPublish;
         api.release({id: route.params.id, temp: true}).then((res) => {
-          console.log('预览');
-          console.log(res);
           onlineUrl.value = res.data.data.url;
-          // console.log(res.data.data.url);
         });
+        dialogVisible.value = !dialogVisible.value;
       }
     };
 
-    provide('isPublishBtn', isPublishBtn);
-    provide('onlineUrl', onlineUrl);
+    provide('isPublishBtn', isPublishBtn); // 是否为发布的按钮
+    provide('onlineUrl', onlineUrl); // 预览和发布的链接
 
     const publishMessage = () => {};
 
