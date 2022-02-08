@@ -23,8 +23,8 @@
         </div>
       </div>
       <div class="right-part">
-        <button id="preview">预览</button>
-        <button id="publish" @click="displaylDialog">发 &nbsp; 布</button>
+        <button id="preview" @click="displaylDialog(false)">预览</button>
+        <button id="publish" @click="displaylDialog(true)">发 &nbsp; 布</button>
       </div>
     </div>
   </div>
@@ -32,10 +32,15 @@
 </template>
 
 <script>
-import {computed, ref} from 'vue';
+import {computed, ref, provide} from 'vue';
 import DialogBox from '@/components/EditPageComponent/DialogBox.vue';
-import { CAN_REDO_KEY, CAN_UNDO_KEY, REDO_KEY, UNDO_KEY } from '../../store/plugins/history';
-import { useStore } from 'vuex';
+import {
+  CAN_REDO_KEY,
+  CAN_UNDO_KEY,
+  REDO_KEY,
+  UNDO_KEY,
+} from '../../store/plugins/history';
+import {useStore} from 'vuex';
 
 export default {
   name: 'ProjectEditNav',
@@ -56,10 +61,22 @@ export default {
     const userIcon = computed(() => store.state.username?.slice(0, 2));
 
     // 预览 & 发布
-    const displaylDialog = () => {
-      confirm(111);
-      dialogVisible.value = !dialogVisible.value;
+    let isPublishBtn = ref(true);
+    const displaylDialog = (isPublish) => {
+      // 发布
+      if (isPublish) {
+        if (confirm('是否确定将本项目发布？')) {
+          dialogVisible.value = !dialogVisible.value;
+          isPublishBtn.value = isPublish;
+        }
+      } else {
+        // 预览
+        dialogVisible.value = !dialogVisible.value;
+        isPublishBtn.value = isPublish;
+      }
     };
+
+    provide('isPublishBtn', isPublishBtn);
 
     const publishMessage = () => {};
 
@@ -87,7 +104,7 @@ export default {
       undo,
       redo,
       canRedo,
-      canUndo
+      canUndo,
     };
   },
 };
@@ -134,7 +151,7 @@ export default {
   border: 1.5px solid #5b9bc8;
   box-sizing: border-box;
   transition: ease-in-out all 0.5s;
-  z-index: 10;
+  z-index: 1;
 }
 
 /* 二级导航 */

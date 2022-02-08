@@ -139,7 +139,7 @@ button {
 	color: #fff;
 	background-color: #4a8af4;
 	font-size: 0.75rem;
-
+	border: 1px solid #4a8af4;
 	display: inline-block;
 	padding: 0.1875rem 0.5rem;
 	border-radius: 1.25rem;
