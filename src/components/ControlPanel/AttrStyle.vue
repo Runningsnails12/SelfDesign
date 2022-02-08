@@ -4,50 +4,53 @@
 			<h4 class="title">文本</h4>
 			<div class="core">
 				<div>
-					<el-select
-						v-model="fontFamilys.value"
-						class="fontFamily"
-						placeholder="fontFamily"
-					>
+					<el-select v-model="fontFamilys.value" class="fontFamily" placeholder="fontFamily">
 						<el-option
 							v-for="item in fontFamilys.options"
 							:key="item.value"
 							:label="item.label"
 							:value="item.value"
-						>
-						</el-option>
+						></el-option>
 					</el-select>
-					<el-color-picker
-						class="colorChoose shadow-color"
-						v-model="fontColor"
-					/>
+					<el-color-picker class="colorChoose shadow-color" v-model="fontColor" />
 				</div>
 				<div>
-					<el-select
-						v-model="fontSizes.value"
-						class="fontSize"
-						placeholder="fontSize"
-					>
+					<el-select v-model="fontSizes.value" class="fontSize" placeholder="fontSize">
 						<el-option
 							v-for="item in fontSizes.options"
 							:key="item.value"
 							:label="item.value"
 							:value="item.value"
-						>
-						</el-option>
+						></el-option>
 					</el-select>
 				</div>
 				<div>
-					<span class="b"><i></i></span>
-					<span class="i"><i></i></span>
-					<span class="u"><i></i></span>
-					<span class="s"><i></i></span>
-					<span class="a"><i></i></span>
+					<span class="b">
+						<i></i>
+					</span>
+					<span class="i">
+						<i></i>
+					</span>
+					<span class="u">
+						<i></i>
+					</span>
+					<span class="s">
+						<i></i>
+					</span>
+					<span class="a">
+						<i></i>
+					</span>
 				</div>
 				<div class="align">
-					<span class="left"><i></i></span>
-					<span class="center"><i></i></span>
-					<span class="right"><i></i></span>
+					<span class="left">
+						<i></i>
+					</span>
+					<span class="center">
+						<i></i>
+					</span>
+					<span class="right">
+						<i></i>
+					</span>
 				</div>
 			</div>
 		</div>
@@ -56,18 +59,26 @@
 			<div class="core">
 				<div>
 					<b>形状</b>
-					<em>W</em> <em class="editable" contenteditable="true">0</em>
+					<em>W</em>
+					<em class="editable" contenteditable="true">0</em>
 
-					<em>H</em> <em class="editable" contenteditable="true">0</em>
+					<em>H</em>
+					<em class="editable" contenteditable="true">0</em>
 
 					<i class="rotate"></i>
 					<em class="editable" contenteditable="true">0°</em>
 				</div>
 				<div class="whole">
-					<span class="topBottom"><i></i></span>
-					<span class="leftRight"><i></i></span>
+					<span class="topBottom">
+						<i></i>
+					</span>
+					<span class="leftRight">
+						<i></i>
+					</span>
 
-					<span class="scale"><i></i></span>
+					<span class="scale">
+						<i></i>
+					</span>
 				</div>
 			</div>
 		</div>
@@ -75,65 +86,77 @@
 			<h4 class="title">外观</h4>
 			<div class="core">
 				<div>
-					<span class="square"><i></i></span>
-					<span class="foursquare"><i></i></span>
+					<span class="square">
+						<i></i>
+					</span>
+					<span class="foursquare">
+						<i></i>
+					</span>
 					<em class="editable" contenteditable="true">0</em>
 					<em class="editable" contenteditable="true">0</em>
 					<em class="editable" contenteditable="true">0</em>
 					<em class="editable" contenteditable="true">0</em>
 				</div>
 				<div>
-					<el-color-picker
-						class="colorChoose background-color"
-						v-model="BgColor"
-					/>
+					<el-color-picker class="colorChoose background-color" v-model="BgColor" />
 					<em class="bg">背景</em>
-					<el-color-picker
-						class="colorChoose border-color"
-						v-model="borderColor"
-					/>
+					<el-color-picker class="colorChoose border-color" v-model="borderColor" />
 					<em>边框</em>
 				</div>
 				<div>
-					<el-color-picker
-						class="colorChoose shadow-color"
-						v-model="shadowColor"
-					/>
+					<el-color-picker class="colorChoose shadow-color" v-model="shadowColor" />
 					<em>阴影</em>
 				</div>
 				<div class="alaph">
 					<i class="water"></i>
 					<em class="editable" contenteditable="true">0</em>
 					<em class="per">%</em>
-					<b> 不透明度</b>
+					<b>不透明度</b>
 				</div>
 			</div>
 		</div>
 		<div class="special WholeLayout">
 			<h4 class="title">
-				<span>特有 | </span><span>HorizontalLayout VerticalLayout</span>
+				<span>特有 |</span>
+				<span>HorizontalLayout VerticalLayout</span>
 			</h4>
 			<div class="core">
 				<div class="vertical">
 					<b>垂直方向</b>
-					<span class="v-top"><i></i></span>
-					<span class="v-center"><i></i></span>
-					<span class="v-bottom"><i></i></span>
-					<span class="v-justify"><i></i></span>
+					<span class="v-top">
+						<i></i>
+					</span>
+					<span class="v-center">
+						<i></i>
+					</span>
+					<span class="v-bottom">
+						<i></i>
+					</span>
+					<span class="v-justify">
+						<i></i>
+					</span>
 				</div>
 				<div class="align">
 					<b>水平方向</b>
-					<span class="a-left"><i></i></span>
-					<span class="a-center"><i></i></span>
-					<span class="a-right"><i></i></span>
-					<span class="a-justify"><i></i></span>
+					<span class="a-left">
+						<i></i>
+					</span>
+					<span class="a-center">
+						<i></i>
+					</span>
+					<span class="a-right">
+						<i></i>
+					</span>
+					<span class="a-justify">
+						<i></i>
+					</span>
 				</div>
 			</div>
 		</div>
 		<div class="special childLayout">
 			<h4 class="title">
-				<span>特有 | </span
-				><span>HorizontalLayout-childNode VerticalLayout-childNode</span>
+				<span>特有 |</span>
+				<span>HorizontalLayout-childNode VerticalLayout-childNode</span>
 			</h4>
 			<div class="core">
 				<div>
@@ -148,14 +171,17 @@
 		</div>
 		<div class="special childPosition">
 			<h4 class="title">
-				<span>特有 | </span><span>PositionLayout-childNode</span>
+				<span>特有 |</span>
+				<span>PositionLayout-childNode</span>
 			</h4>
 			<div class="core">
 				<div>
 					<b>位置</b>
-					<em>X</em><em class="editable" contenteditable="true">0</em>
+					<em>X</em>
+					<em class="editable" contenteditable="true">0</em>
 
-					<em>Y</em><em class="editable" contenteditable="true">0</em>
+					<em>Y</em>
+					<em class="editable" contenteditable="true">0</em>
 				</div>
 				<div>
 					<button class="toup">上移一层</button>
@@ -168,15 +194,26 @@
 			</div>
 		</div>
 		<div class="special image">
-			<h4 class="title"><span>特有 | </span><span>Image</span></h4>
+			<h4 class="title">
+				<span>特有 |</span>
+				<span>Image</span>
+			</h4>
 			<div class="core">
 				<div class="i-percentage">
 					<b>比例</b>
-					<span class="11"><b>1 : 1</b></span>
-					<span class="43"><b>4 : 3</b></span>
-					<span class="169"><b>16 : 9</b></span>
+					<span class="11">
+						<b>1 : 1</b>
+					</span>
+					<span class="43">
+						<b>4 : 3</b>
+					</span>
+					<span class="169">
+						<b>16 : 9</b>
+					</span>
 				</div>
-				<div><b>图片地址[网络]</b></div>
+				<div>
+					<b>图片地址[网络]</b>
+				</div>
 				<div>
 					<input class="i-url" type="text" />
 				</div>
@@ -186,9 +223,15 @@
 			</div>
 		</div>
 		<div class="special text">
-			<h4 class="title"><span>特有 | </span><span>Text</span></h4>
+			<h4 class="title">
+				<span>特有 |</span>
+				<span>Text</span>
+			</h4>
 			<div class="core">
-				<div><b>内容</b> <input class="content" type="text" /></div>
+				<div>
+					<b>内容</b>
+					<input class="content" type="text" />
+				</div>
 				<div>
 					<button class="confirm">确 定</button>
 					<button class="cancel">清 空</button>
@@ -199,13 +242,42 @@
 </template>
 
 <script>
-import { ref, reactive } from "vue";
+import { ref, reactive, watch, watchEffect } from "vue";
 import { useStore } from "vuex";
+import { tagToOptions } from "@/utils/tagToOptions/index.js";
 
 export default {
 	name: "AttrStyle",
 	setup() {
-		// const store = useStore()
+		// #region 超旭start
+		const store = useStore();
+		let tagOptions = ref({
+			align: false,
+			appearance: false,
+			change: false,
+			event: {
+				mouse: false,
+				keydown: false,
+				keyup: false
+			},
+			image: false,
+			text: false,
+			textContent: false,
+		});
+		watch(() => store.getters['editPage/activeComponent'], () => {
+			let compData = store.getters['editPage/activeComponent'];
+			if (compData != null) {
+				console.log(tagToOptions(compData.tag));
+				tagOptions.value = tagToOptions(compData.tag);
+			} else {
+				tagOptions.value = {};
+			}
+		});
+		watch(tagOptions, () => {
+			console.log(tagOptions);
+		});
+		// #endregion 超旭end
+
 		let fontFamilys = reactive({
 			options: [{ value: "微软雅黑" }],
 			value: "微软雅黑",
