@@ -51,6 +51,16 @@ const redo = ({ state, dispatch, commit }) => {
   commit('updateI', historyModule.i + 1);
 };
 
+
+/**
+ * Action: 清空历史记录
+ * @type {import('vuex').Action<any, any>}
+ */
+const resetHistory = ({ commit }) => {
+  commit('truncateHistory', 0);
+  console.log('history reset.');
+};
+
 const INTERNAL_FLAG_KEY = Symbol('isInternal');
 
 const MODULE_KEY = 'history';
@@ -62,7 +72,9 @@ const shouldPushInHistory = (type) => (
     'setActiveComponentTempStyle',
     'clearActiveComponentTempStyle',
     'setActiveComponent',
-    'resetActiveComponent'
+    'resetActiveComponent',
+    'setActiveComponentSize',
+    'clearAllStates'
   ].includes(type)
 );
 
@@ -162,7 +174,9 @@ const historyPlugin = (store) => {
 
     actions: {
       undo,
-      redo
+      redo,
+
+      resetHistory
     }
   });
 
@@ -220,6 +234,8 @@ const UNDO_KEY = `${MODULE_KEY}/undo`;
 const CAN_REDO_KEY = `${MODULE_KEY}/canRedo`;
 const CAN_UNDO_KEY = `${MODULE_KEY}/canUndo`;
 
+const RESET_HISTORY_KEY = `${MODULE_KEY}/resetHistory`;
+
 const SET_INTERNAL_FLAG_KEY = `${MODULE_KEY}/setInternalFlag`;
 
 export {
@@ -233,6 +249,8 @@ export {
   UNDO_KEY,
   CAN_REDO_KEY,
   CAN_UNDO_KEY,
+
+  RESET_HISTORY_KEY,
 
   SET_INTERNAL_FLAG_KEY,
 };

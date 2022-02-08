@@ -4,7 +4,11 @@
 			<h4 class="title">文本</h4>
 			<div class="core">
 				<div>
-					<el-select v-model="fontFamilys.value" class="fontFamily" placeholder="fontFamily">
+					<el-select
+						v-model="fontFamilys.value"
+						class="fontFamily"
+						placeholder="fontFamily"
+					>
 						<el-option
 							v-for="item in fontFamilys.options"
 							:key="item.value"
@@ -12,10 +16,17 @@
 							:value="item.value"
 						></el-option>
 					</el-select>
-					<el-color-picker class="colorChoose shadow-color" v-model="fontColor" />
+					<el-color-picker
+						class="colorChoose shadow-color"
+						v-model="fontColor"
+					/>
 				</div>
 				<div>
-					<el-select v-model="fontSizes.value" class="fontSize" placeholder="fontSize">
+					<el-select
+						v-model="fontSizes.value"
+						class="fontSize"
+						placeholder="fontSize"
+					>
 						<el-option
 							v-for="item in fontSizes.options"
 							:key="item.value"
@@ -60,21 +71,24 @@
 				<div>
 					<b>形状</b>
 					<em>W</em>
-					<em class="editable" contenteditable="true">0</em>
+					<input class="editable" contenteditable="true" />
 
 					<em>H</em>
-					<em class="editable" contenteditable="true">0</em>
+					<input class="editable" contenteditable="true" />
 
-					<i class="rotate"></i>
-					<em class="editable" contenteditable="true">0°</em>
+					<el-select v-model="units.value" class="unit" placeholder="units">
+						<el-option
+							v-for="item in units.options"
+							:key="item.value"
+							:label="item.label"
+							:value="item.value"
+						></el-option>
+					</el-select>
 				</div>
 				<div class="whole">
-					<span class="topBottom">
-						<i></i>
-					</span>
-					<span class="leftRight">
-						<i></i>
-					</span>
+					<b>旋转</b>
+					<i class="rotate"></i>
+					<input class="editable" contenteditable="true" />
 
 					<span class="scale">
 						<i></i>
@@ -86,32 +100,74 @@
 			<h4 class="title">外观</h4>
 			<div class="core">
 				<div>
-					<span class="square">
+					<span class="square" @click="uncultivated">
 						<i></i>
 					</span>
-					<span class="foursquare">
+					<span class="foursquare" @click="uncultivated">
 						<i></i>
 					</span>
-					<em class="editable" contenteditable="true">0</em>
-					<em class="editable" contenteditable="true">0</em>
-					<em class="editable" contenteditable="true">0</em>
-					<em class="editable" contenteditable="true">0</em>
-				</div>
-				<div>
-					<el-color-picker class="colorChoose background-color" v-model="BgColor" />
-					<em class="bg">背景</em>
-					<el-color-picker class="colorChoose border-color" v-model="borderColor" />
-					<em>边框</em>
-				</div>
-				<div>
-					<el-color-picker class="colorChoose shadow-color" v-model="shadowColor" />
-					<em>阴影</em>
+					<input class="editable" contenteditable="true" />
+					<input class="editable" contenteditable="true" />
+					<input class="editable" contenteditable="true" />
+					<input class="editable" contenteditable="true" />
 				</div>
 				<div class="alaph">
+					<el-color-picker
+						class="colorChoose background-color"
+						v-model="BgColor"
+					/>
+					<em class="bg">背景</em>
+
 					<i class="water"></i>
-					<em class="editable" contenteditable="true">0</em>
+					<input class="editable" contenteditable="true" />
 					<em class="per">%</em>
 					<b>不透明度</b>
+				</div>
+
+				<div>
+					<input type="checkbox" />
+					<b>边框</b>
+					<el-color-picker
+						class="colorChoose border-color"
+						v-model="borderColor"
+					/>
+				</div>
+				<div class="border">
+					<b>粗细</b>
+					<input class="editable" contenteditable="true" />
+					<b>类型</b>
+					<el-select
+						v-model="borderTypes.value"
+						class="borderType"
+						placeholder="borderType"
+					>
+						<el-option
+							v-for="item in borderTypes.options"
+							:key="item.value"
+							:label="item.label"
+							:value="item.value"
+						></el-option>
+					</el-select>
+				</div>
+				<div>
+					<input type="checkbox" />
+					<b>阴影</b>
+					<el-color-picker
+						class="colorChoose shadow-color"
+						v-model="shadowColor"
+					/>
+				</div>
+				<div>
+					<b>X轴</b>
+					<b>Y轴</b>
+					<b>模糊</b>
+					<b>尺寸</b>
+				</div>
+				<div>
+					<input class="editable" contenteditable="true" />
+					<input class="editable" contenteditable="true" />
+					<input class="editable" contenteditable="true" />
+					<input class="editable" contenteditable="true" />
 				</div>
 			</div>
 		</div>
@@ -153,7 +209,7 @@
 				</div>
 			</div>
 		</div>
-		<div v-if="false" class="special childLayout">
+		<div v-if="tagOptions.order" class="special childLayout">
 			<h4 class="title">
 				<span>特有 |</span>
 				<span>HorizontalLayout-childNode VerticalLayout-childNode</span>
@@ -169,7 +225,7 @@
 				</div>
 			</div>
 		</div>
-		<div v-if="false" class="special childPosition">
+		<div v-if="tagOptions.position" class="special childPosition">
 			<h4 class="title">
 				<span>特有 |</span>
 				<span>PositionLayout-childNode</span>
@@ -178,10 +234,10 @@
 				<div>
 					<b>位置</b>
 					<em>X</em>
-					<em class="editable" contenteditable="true">0</em>
+					<input class="editable" contenteditable="true" />
 
 					<em>Y</em>
-					<em class="editable" contenteditable="true">0</em>
+					<input class="editable" contenteditable="true" />
 				</div>
 				<div>
 					<button class="toup">上移一层</button>
@@ -201,13 +257,13 @@
 			<div class="core">
 				<div class="i-percentage">
 					<b>比例</b>
-					<span class="11">
+					<span class="11" @click="uncultivated">
 						<b>1 : 1</b>
 					</span>
-					<span class="43">
+					<span class="43" @click="uncultivated">
 						<b>4 : 3</b>
 					</span>
-					<span class="169">
+					<span class="169" @click="uncultivated">
 						<b>16 : 9</b>
 					</span>
 				</div>
@@ -215,10 +271,24 @@
 					<b>图片地址[网络]</b>
 				</div>
 				<div>
-					<input class="i-url" type="text" />
+					<input
+						ref="urlContent"
+						class="i-url"
+						type="text"
+						:value="compData.values.url"
+					/>
 				</div>
 				<div>
-					<button class="i-uploading">图片上传</button>
+					<button class="i-changeImg" @click="modifyUrl">确认更改</button>
+				</div>
+				<div>
+					<input
+						type="file"
+						class="uploading"
+						accept="image/*"
+						@change="changeImageFile"
+					/>
+					<button class="i-uploading">上传图片</button>
 				</div>
 			</div>
 		</div>
@@ -230,7 +300,12 @@
 			<div class="core">
 				<div>
 					<b>内容</b>
-					<input ref="textContent" class="content" type="text" :value="compData.values.content" />
+					<input
+						ref="textContent"
+						class="content"
+						type="text"
+						:value="compData.values.content"
+					/>
 				</div>
 				<div>
 					<button class="confirm" @click="modifyText(true)">确 定</button>
@@ -245,17 +320,17 @@
 import { ref, reactive, watch, watchEffect } from "vue";
 import { useStore } from "vuex";
 import { tagToOptions } from "@/utils/tagToOptions/index.js";
+import api from "@/api/index.js";
 
 export default {
 	name: "AttrStyle",
 	setup() {
-
 		// #region 超旭start
 		const store = useStore();
 
 		// 给当前组件设置样式
 		function setStyle(obj) {
-			store.commit('editPage/setActiveComponentStyle', obj);
+			store.commit("editPage/setActiveComponentStyle", obj);
 		}
 
 		// 这个就是判断组件都可以改那些值的对象
@@ -266,7 +341,7 @@ export default {
 			event: {
 				mouse: false,
 				keydown: false,
-				keyup: false
+				keyup: false,
 			},
 			image: false,
 			order: false,
@@ -280,16 +355,24 @@ export default {
 		let textContent = ref(null);
 
 		// 监听当前选择节点变化
-		watch(() => store.getters['editPage/activeComponent'], () => {
-			compData.value = store.getters['editPage/activeComponent'];
-			if (compData.value != null) {
-				tagOptions.value = tagToOptions(compData.value.tag);
-				tagOptions.value.order = ['VerticalLayout', 'HorizontalLayout'].includes(compData.value.parentTag);
-				tagOptions.value.position = ['PositionLayout'].includes(compData.value.parentTag);
-			} else {
-				tagOptions.value = {};
+		watch(
+			() => store.getters["editPage/activeComponent"],
+			() => {
+				compData.value = store.getters["editPage/activeComponent"];
+				if (compData.value != null) {
+					tagOptions.value = tagToOptions(compData.value.tag);
+					tagOptions.value.order = [
+						"VerticalLayout",
+						"HorizontalLayout",
+					].includes(compData.value.parentTag);
+					tagOptions.value.position = ["PositionLayout"].includes(
+						compData.value.parentTag
+					);
+				} else {
+					tagOptions.value = {};
+				}
 			}
-		});
+		);
 
 		watch(tagOptions, () => {
 			console.log(tagOptions);
@@ -297,8 +380,8 @@ export default {
 
 		// 修改文本内容
 		function modifyText(flag) {
-			store.commit('editPage/setActiveComponentValues', {
-				content: flag ? textContent.value.value : ''
+			store.commit("editPage/setActiveComponentValues", {
+				content: flag ? textContent.value.value : "",
 			});
 		}
 
@@ -306,33 +389,34 @@ export default {
 
 		// #region 超旭start
 		let fontFamilys = reactive({
-			options: [
-				{ value: "微软雅黑" },
-				{ value: "宋体" },
-				{ value: "黑体" },
-			],
+			options: [{ value: "微软雅黑" }, { value: "宋体" }, { value: "黑体" }],
 			value: "微软雅黑",
 		});
 		// #endregion 超旭end
 
 		// #region 超旭start
 		// 监听字体变化
-		watch(() => fontFamilys.value, () => {
-			setStyle({
-				"font-family": fontFamilys.value
-			});
-		});
+		watch(
+			() => fontFamilys.value,
+			() => {
+				setStyle({
+					"font-family": fontFamilys.value,
+				});
+			}
+		);
 		// #endregion 超旭end
 
 		// #region 超旭start
 		let fontColor = ref(null);
-		watch(() => fontColor.value, () => {
-			setStyle({
-				color: fontColor.value
-			});
-		});
-
-		fontColor.value = '#ffe793';
+		fontColor.value = "#ffe793";
+		watch(
+			() => fontColor.value,
+			() => {
+				setStyle({
+					color: fontColor.value,
+				});
+			}
+		);
 		// #endregion 超旭end
 
 		let fontSizes = reactive({
@@ -353,12 +437,23 @@ export default {
 
 		// #region 超旭start
 		// 监听文字大小变化
-		watch(() => fontSizes.value, () => {
-			setStyle({
-				"font-size": fontSizes.value + 'px'
-			});
-		});
+		watch(
+			() => fontSizes.value,
+			() => {
+				setStyle({
+					"font-size": fontSizes.value + "px",
+				});
+			}
+		);
 
+		let units = reactive({
+			options: [{ value: "px" }, { value: "%" }],
+			value: "px",
+		});
+		let borderTypes = reactive({
+			options: [{ value: "dashed" }, { value: "dottod" }, { value: "solid" }],
+			value: "solid",
+		});
 		// BIUSA解释：
 		// BIUSA分别代表B(加粗), I(斜体), U(下划线), S(删除线), A(英文变大写)
 		// 由于text-align和这个操作方式相同
@@ -366,22 +461,22 @@ export default {
 
 		// 判断BIUSA的状态
 		function checkBIUSA(attr) {
-			if (attr == 'b') {
-				return compData.value.style['font-weight'] == '700';
-			} else if (attr == 'i') {
-				return compData.value.style['font-style'] == 'italic';
-			} else if (attr == 'u') {
-				return compData.value.style['text-decoration'] == 'underline';
-			} else if (attr == 's') {
-				return compData.value.style['text-decoration'] == 'line-through';
-			} else if (attr == 'a') {
-				return compData.value.style['text-transform'] == 'uppercase';
-			} else if (attr == 'left') {
-				return compData.value.style['text-align'] == 'left';
-			} else if (attr == 'center') {
-				return compData.value.style['text-align'] == 'center';
-			} else if (attr == 'right') {
-				return compData.value.style['text-align'] == 'right';
+			if (attr == "b") {
+				return compData.value.style["font-weight"] == "700";
+			} else if (attr == "i") {
+				return compData.value.style["font-style"] == "italic";
+			} else if (attr == "u") {
+				return compData.value.style["text-decoration"] == "underline";
+			} else if (attr == "s") {
+				return compData.value.style["text-decoration"] == "line-through";
+			} else if (attr == "a") {
+				return compData.value.style["text-transform"] == "uppercase";
+			} else if (attr == "left") {
+				return compData.value.style["text-align"] == "left";
+			} else if (attr == "center") {
+				return compData.value.style["text-align"] == "center";
+			} else if (attr == "right") {
+				return compData.value.style["text-align"] == "right";
 			} else {
 				return false;
 			}
@@ -391,7 +486,7 @@ export default {
 		function getBIUSAClass(attr) {
 			let res = [attr];
 			if (checkBIUSA(attr)) {
-				res.push('active');
+				res.push("active");
 			}
 			return res;
 		}
@@ -399,58 +494,116 @@ export default {
 		// 切换BIUSA
 		function changeBIUSA(attr) {
 			if (checkBIUSA(attr)) {
-				if (attr == 'b') {
-					setStyle({ 'font-weight': '400' });
-				} else if (attr == 'i') {
-					setStyle({ 'font-style': "normal" });
-				} else if (attr == 'u') {
-					setStyle({ 'text-decoration': "none" });
-				} else if (attr == 's') {
-					setStyle({ 'text-decoration': "none" });
-				} else if (attr == 'a') {
-					setStyle({ 'text-transform': "none" });
+				if (attr == "b") {
+					setStyle({ "font-weight": "400" });
+				} else if (attr == "i") {
+					setStyle({ "font-style": "normal" });
+				} else if (attr == "u") {
+					setStyle({ "text-decoration": "none" });
+				} else if (attr == "s") {
+					setStyle({ "text-decoration": "none" });
+				} else if (attr == "a") {
+					setStyle({ "text-transform": "none" });
 				}
 			} else {
-				if (attr == 'b') {
-					setStyle({ 'font-weight': '700' });
-				} else if (attr == 'i') {
-					setStyle({ 'font-style': "italic" });
-				} else if (attr == 'u') {
-					setStyle({ 'text-decoration': "underline" });
-				} else if (attr == 's') {
-					setStyle({ 'text-decoration': "line-through" });
-				} else if (attr == 'a') {
-					setStyle({ 'text-transform': "uppercase" });
-				} else if (attr == 'left') {
-					setStyle({ 'text-align': "left" });
-				} else if (attr == 'center') {
-					setStyle({ 'text-align': "center" });
-				} else if (attr == 'right') {
-					setStyle({ 'text-align': "right" });
+				if (attr == "b") {
+					setStyle({ "font-weight": "700" });
+				} else if (attr == "i") {
+					setStyle({ "font-style": "italic" });
+				} else if (attr == "u") {
+					setStyle({ "text-decoration": "underline" });
+				} else if (attr == "s") {
+					setStyle({ "text-decoration": "line-through" });
+				} else if (attr == "a") {
+					setStyle({ "text-transform": "uppercase" });
+				} else if (attr == "left") {
+					setStyle({ "text-align": "left" });
+				} else if (attr == "center") {
+					setStyle({ "text-align": "center" });
+				} else if (attr == "right") {
+					setStyle({ "text-align": "right" });
 				}
 			}
 		}
 		// #endregion 超旭end
 
 		let text = reactive({});
-		let BgColor = ref("#ffffff");
+
+		// #region 超旭start
+
+		// 背景色
+		let BgColor = ref(null);
+		BgColor.value = "#fff";
+		watch(
+			() => BgColor.value,
+			() => {
+				setStyle({
+					"background-color": BgColor,
+				});
+			}
+		);
+
+		// 透明度
+		let opacity = ref(null);
+		opacity.value = 100;
+		watch(
+			() => opacity.value,
+			() => {
+				setStyle({
+					opacity: opacity / 100,
+				});
+			}
+		);
+
+		// #endregion 超旭end
+
 		let borderColor = ref("#000000");
 		let shadowColor = ref("#ffffff");
 		const change = (e) => {
 			console.log(e);
 			colorRgba.value = e.rgba;
 		};
-		return {
 
+		// #region 超旭start
+		let urlContent = ref(null);
+		function modifyUrl() {
+			store.commit("editPage/setActiveComponentValues", {
+				url: urlContent.value.value,
+			});
+		}
+
+		function changeImageFile(e) {
+			console.log(e.target.files);
+			api.uploadImg(e.target.files[0]).then((data) => {
+				if (data.flag) {
+					store.commit("editPage/setActiveComponentValues", {
+						url: data.data.url,
+					});
+				} else {
+					alert("上传失败");
+				}
+			});
+		}
+
+		// 未开发事件
+		function uncultivated() {
+			alert("敬请期待");
+		}
+		// #endregion 超旭end
+
+		return {
 			// #region 超旭start
 			tagOptions,
 			compData,
-			modifyText,
 			getBIUSAClass,
 			changeBIUSA,
+			opacity,
+			modifyUrl,
+			modifyText,
 
 			// ref dom元素
 			textContent,
+			urlContent,
 
 			// #endregion 超旭end
 
@@ -461,6 +614,13 @@ export default {
 			BgColor,
 			borderColor,
 			shadowColor,
+			units,
+			borderTypes,
+
+			// #region 超旭start
+			changeImageFile,
+			uncultivated,
+			// #endregion 超旭end
 		};
 	},
 };
@@ -483,6 +643,11 @@ export default {
 .el-input__inner {
 	height: 25px;
 	border-radius: 0.125rem;
+	padding-right: 20px;
+	padding-left: 5px;
+}
+.el-select--default {
+	margin-top: 0;
 }
 </style>
 
@@ -553,25 +718,37 @@ export default {
 	width: 70%;
 	margin-top: 0;
 }
+.change .core div div.unit {
+	width: 65px;
+	margin-top: 0;
+}
 /*  #region colorChoose  */
-.appearance .core div .bg {
-	margin-right: 20px;
+.appearance .core div em.bg {
+	/* margin-right: 10px; */
 }
 /*  #endregion  */
 
-/* #region       em em.editable              */
+/* #region       em input.editable              */
 .core div em {
 	font-style: normal;
 	font-size: 0.75rem;
 	color: #666666;
 	margin-right: 2px;
 }
-.core div em.editable {
+.core div input.editable {
+	min-width: 10px;
+	max-width: 19px;
+	height: 25px;
+	font-style: normal;
+	font-size: 0.75rem;
+	color: #666666;
 	display: inline-block;
-	padding: 2px 6px;
+	padding: 2px 2px;
+	border: 0;
 	border-bottom: 2px #bbbbbb solid;
 	margin-right: 10px;
 	outline: none;
+	background-color: transparent;
 }
 
 .change .core div i.rotate {
@@ -587,21 +764,43 @@ export default {
 	height: 17px;
 	background: url("/img/EditIcons/appearance.png") no-repeat -31px 2px;
 	background-size: 300%;
+	margin-left: 10px;
 }
-.appearance .core div:nth-of-type(1) > em.editable {
+.appearance .core div:nth-of-type(1) > input.editable {
 	margin-right: 0.1875rem;
 }
-.appearance .core div:nth-of-type(1) > em.editable:nth-of-type(1) {
+.appearance .core div:nth-of-type(1) > input.editable:nth-of-type(1) {
 	margin-left: 8px;
 }
+
 .appearance .core div.alaph em.per {
 	color: #bbbbbb;
+	position: relative;
+	left: -5px;
 }
 .appearance .core div.alaph em {
 	margin-right: 0;
 }
 .appearance .core div.alaph b {
-	margin-left: 0.3125rem;
+	margin-left: 2px;
+	margin-right: 0;
+}
+.appearance .core div.alaph .editable {
+	margin-right: 3px;
+}
+.appearance .core div input[type="checkbox"] {
+	margin-right: 10px;
+}
+
+.appearance .core div.border .borderType {
+	width: 80px;
+	margin-top: 0;
+}
+.appearance .core > div:nth-last-of-type(2) {
+	margin-bottom: 0;
+}
+.appearance .core > div:nth-last-of-type(1) {
+	margin-top: 0;
 }
 /* #endregion */
 
@@ -634,7 +833,7 @@ export default {
 	background-size: 502%;
 }
 /* 字体形状 */
-.text .core div > span:hover i,
+/* .text .core div > span:hover i, */
 .text .core div > span.active i {
 	background-position-y: -13px;
 }
@@ -642,28 +841,28 @@ export default {
 .text .core div > span:nth-of-type(2) i {
 	background-position-x: -13px;
 }
-.text .core div > span:nth-of-type(2):hover i,
+/* .text .core div > span:nth-of-type(2):hover i, */
 .text .core div > span:nth-of-type(2).active i {
 	background-position-y: -12px;
 }
 .text .core div > span:nth-of-type(3) i {
 	background-position-x: -28px;
 }
-.text .core div > span:nth-of-type(3):hover i,
+/* .text .core div > span:nth-of-type(3):hover i, */
 .text .core div > span:nth-of-type(3).active i {
 	background-position-y: -13px;
 }
 .text .core div > span:nth-of-type(4) i {
 	background-position-x: -41px;
 }
-.text .core div > span:nth-of-type(4):hover i,
+/* .text .core div > span:nth-of-type(4):hover i, */
 .text .core div > span:nth-of-type(4).active i {
 	background-position-y: -13px;
 }
 .text .core div > span:nth-of-type(5) i {
 	background-position-x: -56px;
 }
-.text .core div > span:nth-of-type(5):hover i,
+/* .text .core div > span:nth-of-type(5):hover i, */
 .text .core div > span:nth-of-type(5).active i {
 	background-position-y: -14px;
 }
@@ -672,21 +871,21 @@ export default {
 .text .core div.align > span i {
 	background-position-y: -28px;
 }
-.text .core div.align > span:hover i,
+/* .text .core div.align > span:hover i, */
 .text .core div.align > span.active i {
 	background-position-y: -41px;
 }
 .text .core div.align > span:nth-of-type(2) i {
 	background-position-y: -27px;
 }
-.text .core div.align > span:nth-of-type(2):hover i,
+/* .text .core div.align > span:nth-of-type(2):hover i, */
 .text .core div.align > span:nth-of-type(2).active i {
 	background-position-y: -41px;
 }
 .text .core div.align > span:nth-of-type(3) i {
 	background-position-y: -28px;
 }
-.text .core div.align > span:nth-of-type(3):hover i,
+/* .text .core div.align > span:nth-of-type(3):hover i, */
 .text .core div.align > span:nth-of-type(3).active i {
 	background-position-y: -42px;
 }
@@ -696,7 +895,7 @@ export default {
 	background-image: url("/img/EditIcons/change.png");
 	background-position-y: -55px;
 }
-.change .core div.whole > span:hover i,
+/* .change .core div.whole > span:hover i, */
 .change .core div.whole > span.active i {
 	background-position-y: -70px;
 }
@@ -715,7 +914,7 @@ export default {
 	background-position: -61px -31px;
 	background-size: 540%;
 }
-.change .core div.whole > span:nth-last-of-type(1):hover i,
+/* .change .core div.whole > span:nth-last-of-type(1):hover i, */
 .change .core div.whole > span:nth-last-of-type(1).active i {
 	background-position: -61px -45px;
 }
@@ -727,7 +926,7 @@ export default {
 	background-position: 0 0;
 	background-size: 291%;
 }
-.appearance .core div > span:hover i,
+/* .appearance .core div > span:hover i, */
 .appearance .core div > span.active i {
 	background-position-y: -14px;
 }
@@ -742,14 +941,14 @@ export default {
 	background-size: 700%;
 	background-position: -2px -2px;
 }
-.WholeLayout .core div > span:hover i,
+/* .WholeLayout .core div > span:hover i, */
 .WholeLayout .core div > span.active i {
 	background-position-y: -21px;
 }
 .WholeLayout .core div:nth-of-type(1) > span i {
 	background-position-y: -41px;
 }
-.WholeLayout .core div:nth-of-type(1) > span:hover i,
+/* .WholeLayout .core div:nth-of-type(1) > span:hover i, */
 .WholeLayout .core div:nth-of-type(1) > span.active i {
 	background-position-y: -61px;
 }
@@ -763,7 +962,7 @@ export default {
 	background-position: -52px -1px;
 	background-size: 600%;
 }
-.WholeLayout .core div > span:nth-of-type(4):hover i,
+/* .WholeLayout .core div > span:nth-of-type(4):hover i, */
 .WholeLayout .core div > span:nth-of-type(4).active i {
 	background-position-y: -17px;
 }
@@ -772,7 +971,7 @@ export default {
 	background-size: 600%;
 }
 
-.WholeLayout .core div:nth-of-type(2) > span:nth-of-type(4):hover i,
+/* .WholeLayout .core div:nth-of-type(2) > span:nth-of-type(4):hover i, */
 .WholeLayout .core div:nth-of-type(2) > span:nth-of-type(4).active i {
 	background-position: -52px -51px;
 	background-size: 600%;
@@ -811,7 +1010,7 @@ export default {
 .image .core div:nth-last-of-type(1) {
 	text-align: center;
 }
-.core div input {
+.core div input[type="text"] {
 	outline: none;
 	border: 1px solid #dddddd;
 	background-color: #fff;
@@ -820,12 +1019,24 @@ export default {
 	padding: 0 0.625rem;
 	color: #333;
 }
-.image .core div button.i-uploading {
-	padding: 0.3125rem 1.25rem;
+.image .core div button {
+	padding: 0.3125rem 20px;
 	margin: 0 auto;
 }
+.image .core div {
+	position: relative;
+}
+.image .core div input.uploading {
+	width: 88%;
+	height: 25px;
+	position: absolute;
+	box-sizing: border-box;
+	left: -26px;
+	opacity: 0;
+	cursor: pointer;
+}
 
-/* 特有5 image */
+/* 特有5 text */
 
 .text .core div button {
 	padding: 0.3125rem 25px;

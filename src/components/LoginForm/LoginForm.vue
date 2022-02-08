@@ -49,7 +49,7 @@ const toggleLoginForm = () => store.commit('handleLoginFormClose');
 
 <style lang="scss" scoped>
 .mask {
-  position: absolute;
+  position: fixed;
   top: 0;
   width: 100vw;
   height: 100vh;
@@ -59,7 +59,7 @@ const toggleLoginForm = () => store.commit('handleLoginFormClose');
 .login_form {
   display: flex;
   flex-direction: column;
-  position: absolute;
+  position: fixed;
   top: 75px;
   left: 536px;
   width: 400px;
