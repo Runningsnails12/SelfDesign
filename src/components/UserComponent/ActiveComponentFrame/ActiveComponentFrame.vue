@@ -39,6 +39,9 @@ export default {
       let isMouseDown = true;
       let activeContainerId = -1;
 
+      // 获取 鼠标在 目标组件的 left 和 top
+      const{offsetX: mouseLeft, offsetY: mouseTop} = e;
+
       const style = {
         'z-index': 100,
         'pointer-events':'none'
@@ -65,7 +68,7 @@ export default {
         store.commit('editPage/setActiveComponentTempStyle', style)
       })
 
-      document.onmouseup = function () {
+      document.onmouseup = function (e) {
         // 放下后，让组件添加到当前鼠标执行容器
         if (!isMouseDown) {
           return false
@@ -73,18 +76,16 @@ export default {
         isMouseDown = false
 
         const to = store.state.editPage.activeContainerId;
-        const targetId = store.state.editPage.activeComponentId
+        const targetId = store.state.editPage.activeComponentId;
         const from = store.state.editPage.components.get(targetId).parentId;
-     
+
         store.commit('editPage/resetActiveContainer')
         store.commit('editPage/resetActiveComponent')
         store.commit('editPage/clearActiveComponentTempStyle', targetId)
-        store.commit('editPage/moveComponent', {to, from, targetId})
-      
-        
-      
-        document.onmousemove = null
-     
+
+        store.commit('editPage/moveComponent', {to, from, targetId, position: {left: e.offsetX - mouseLeft, top: e.offsetY - mouseTop}})
+        document.onmousemove = null;
+        document.onmouseup = null;
       }
     }
 

@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="container"
-    :class="{ active: isActive }"
-  >
+  <div class="container" :class="{ active: isActive }">
     <component-decorator
       v-for="child in myChildren"
       :key="child.id"
@@ -14,10 +11,14 @@
         :is="componentMap.get(child.tag)"
         v-bind="data"
         :id="'component' + child.id"
-        :style="[child.tempStyle,{
-          position:'relative',
-          'user-select': 'none'
-        }]"
+        :style="[
+          child.style,
+          child.tempStyle,
+          {
+            position: 'relative',
+            'user-select': 'none',
+          },
+        ]"
       />
     </component-decorator>
   </div>
@@ -42,20 +43,20 @@ export default {
     },
     width: {
       type: [String, Number, null],
-      default: '200px'
+      default: '200px',
     },
     height: {
       type: [String, Number, null],
-      default: '400px'
+      default: '400px',
     },
-    justifyContent:{
+    justifyContent: {
       type: String,
-      default: 'flex-start'
+      default: 'flex-start',
     },
     alignItems: {
       type: String,
-      default: 'center'
-    }
+      default: 'center',
+    },
   },
 
   setup(props) {
@@ -84,6 +85,6 @@ export default {
   outline: dashed #aaa;
 }
 .active {
-  outline: #4A8AF4 solid 2px;
+  outline: #4a8af4 solid 2px;
 }
 </style>

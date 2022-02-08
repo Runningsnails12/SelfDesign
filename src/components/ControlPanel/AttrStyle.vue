@@ -1,119 +1,162 @@
 <template>
 	<div class="attrStyle">
-		<div class="text">
+		<div v-if="tagOptions.text" class="text">
 			<h4 class="title">文本</h4>
 			<div class="core">
 				<div>
-					<el-select
-						v-model="value"
-						class="fontFamily"
-						placeholder="fontFamily"
-					>
+					<el-select v-model="fontFamilys.value" class="fontFamily" placeholder="fontFamily">
 						<el-option
-							v-for="item in fontFamilys"
+							v-for="item in fontFamilys.options"
 							:key="item.value"
 							:label="item.label"
 							:value="item.value"
-						>
-						</el-option>
+						></el-option>
 					</el-select>
-					<el-color-picker class="colorChoose shadow-color" v-model="color" />
+					<el-color-picker class="colorChoose shadow-color" v-model="fontColor" />
 				</div>
 				<div>
-					<div class="fontWeight"></div>
-					<div class="fontSize"></div>
+					<el-select v-model="fontSizes.value" class="fontSize" placeholder="fontSize">
+						<el-option
+							v-for="item in fontSizes.options"
+							:key="item.value"
+							:label="item.value"
+							:value="item.value"
+						></el-option>
+					</el-select>
 				</div>
 				<div>
-					<span class="b"><i></i></span>
-					<span class="i"><i></i></span>
-					<span class="u"><i></i></span>
-					<span class="s"><i></i></span>
-					<span class="a"><i></i></span>
+					<span :class="getBIUSAClass('b')" @click="changeBIUSA('b')">
+						<i></i>
+					</span>
+					<span :class="getBIUSAClass('i')" @click="changeBIUSA('i')">
+						<i></i>
+					</span>
+					<span :class="getBIUSAClass('u')" @click="changeBIUSA('u')">
+						<i></i>
+					</span>
+					<span :class="getBIUSAClass('s')" @click="changeBIUSA('s')">
+						<i></i>
+					</span>
+					<span :class="getBIUSAClass('a')" @click="changeBIUSA('a')">
+						<i></i>
+					</span>
 				</div>
 				<div class="align">
-					<span class="left"><i></i></span>
-					<span class="center"><i></i></span>
-					<span class="right"><i></i></span>
+					<span :class="getBIUSAClass('left')" @click="changeBIUSA('left')">
+						<i></i>
+					</span>
+					<span :class="getBIUSAClass('center')" @click="changeBIUSA('center')">
+						<i></i>
+					</span>
+					<span :class="getBIUSAClass('right')" @click="changeBIUSA('right')">
+						<i></i>
+					</span>
 				</div>
 			</div>
 		</div>
-		<div class="change">
+		<div v-if="tagOptions.change" class="change">
 			<h4 class="title">变换</h4>
 			<div class="core">
 				<div>
 					<b>形状</b>
-					<em>W</em> <em class="editable" contenteditable="true">0</em>
+					<em>W</em>
+					<em class="editable" contenteditable="true">0</em>
 
-					<em>H</em> <em class="editable" contenteditable="true">0</em>
+					<em>H</em>
+					<em class="editable" contenteditable="true">0</em>
 
 					<i class="rotate"></i>
 					<em class="editable" contenteditable="true">0°</em>
 				</div>
 				<div class="whole">
-					<span class="topBottom"><i></i></span>
-					<span class="leftRight"><i></i></span>
+					<span class="topBottom">
+						<i></i>
+					</span>
+					<span class="leftRight">
+						<i></i>
+					</span>
 
-					<span class="scale"><i></i></span>
+					<span class="scale">
+						<i></i>
+					</span>
 				</div>
 			</div>
 		</div>
-		<div class="appearance">
+		<div v-if="tagOptions.appearance" class="appearance">
 			<h4 class="title">外观</h4>
 			<div class="core">
 				<div>
-					<span class="square"><i></i></span>
-					<span class="foursquare"><i></i></span>
+					<span class="square">
+						<i></i>
+					</span>
+					<span class="foursquare">
+						<i></i>
+					</span>
 					<em class="editable" contenteditable="true">0</em>
 					<em class="editable" contenteditable="true">0</em>
 					<em class="editable" contenteditable="true">0</em>
 					<em class="editable" contenteditable="true">0</em>
 				</div>
 				<div>
-					<el-color-picker
-						class="colorChoose background-color"
-						v-model="color"
-					/>
+					<el-color-picker class="colorChoose background-color" v-model="BgColor" />
 					<em class="bg">背景</em>
-					<el-color-picker class="colorChoose border-color" v-model="color" />
+					<el-color-picker class="colorChoose border-color" v-model="borderColor" />
 					<em>边框</em>
 				</div>
 				<div>
-					<el-color-picker class="colorChoose shadow-color" v-model="color" />
+					<el-color-picker class="colorChoose shadow-color" v-model="shadowColor" />
 					<em>阴影</em>
 				</div>
 				<div class="alaph">
 					<i class="water"></i>
 					<em class="editable" contenteditable="true">0</em>
 					<em class="per">%</em>
-					<b> 不透明度</b>
+					<b>不透明度</b>
 				</div>
 			</div>
 		</div>
-		<div class="special WholeLayout">
+		<div v-if="tagOptions.align" class="special WholeLayout">
 			<h4 class="title">
-				<span>特有 | </span><span>HorizontalLayout VerticalLayout</span>
+				<span>特有 |</span>
+				<span>HorizontalLayout VerticalLayout</span>
 			</h4>
 			<div class="core">
 				<div class="vertical">
 					<b>垂直方向</b>
-					<span class="v-top"><i></i></span>
-					<span class="v-center"><i></i></span>
-					<span class="v-bottom"><i></i></span>
-					<span class="v-justify"><i></i></span>
+					<span class="v-top">
+						<i></i>
+					</span>
+					<span class="v-center">
+						<i></i>
+					</span>
+					<span class="v-bottom">
+						<i></i>
+					</span>
+					<span class="v-justify">
+						<i></i>
+					</span>
 				</div>
 				<div class="align">
 					<b>水平方向</b>
-					<span class="a-left"><i></i></span>
-					<span class="a-center"><i></i></span>
-					<span class="a-right"><i></i></span>
-					<span class="a-justify"><i></i></span>
+					<span class="a-left">
+						<i></i>
+					</span>
+					<span class="a-center">
+						<i></i>
+					</span>
+					<span class="a-right">
+						<i></i>
+					</span>
+					<span class="a-justify">
+						<i></i>
+					</span>
 				</div>
 			</div>
 		</div>
-		<div class="special childLayout">
+		<div v-if="false" class="special childLayout">
 			<h4 class="title">
-				<span>特有 | </span
-				><span>HorizontalLayout-childNode VerticalLayout-childNode</span>
+				<span>特有 |</span>
+				<span>HorizontalLayout-childNode VerticalLayout-childNode</span>
 			</h4>
 			<div class="core">
 				<div>
@@ -126,16 +169,19 @@
 				</div>
 			</div>
 		</div>
-		<div class="special childPosition">
+		<div v-if="false" class="special childPosition">
 			<h4 class="title">
-				<span>特有 | </span><span>PositionLayout-childNode</span>
+				<span>特有 |</span>
+				<span>PositionLayout-childNode</span>
 			</h4>
 			<div class="core">
 				<div>
 					<b>位置</b>
-					<em>X</em><em class="editable" contenteditable="true">0</em>
+					<em>X</em>
+					<em class="editable" contenteditable="true">0</em>
 
-					<em>Y</em><em class="editable" contenteditable="true">0</em>
+					<em>Y</em>
+					<em class="editable" contenteditable="true">0</em>
 				</div>
 				<div>
 					<button class="toup">上移一层</button>
@@ -147,16 +193,27 @@
 				</div>
 			</div>
 		</div>
-		<div class="special image">
-			<h4 class="title"><span>特有 | </span><span>Image</span></h4>
+		<div v-if="tagOptions.image" class="special image">
+			<h4 class="title">
+				<span>特有 |</span>
+				<span>Image</span>
+			</h4>
 			<div class="core">
 				<div class="i-percentage">
 					<b>比例</b>
-					<span class="11"><b>1 : 1</b></span>
-					<span class="43"><b>4 : 3</b></span>
-					<span class="169"><b>16 : 9</b></span>
+					<span class="11">
+						<b>1 : 1</b>
+					</span>
+					<span class="43">
+						<b>4 : 3</b>
+					</span>
+					<span class="169">
+						<b>16 : 9</b>
+					</span>
 				</div>
-				<div><b>图片地址[网络]</b></div>
+				<div>
+					<b>图片地址[网络]</b>
+				</div>
 				<div>
 					<input class="i-url" type="text" />
 				</div>
@@ -165,27 +222,245 @@
 				</div>
 			</div>
 		</div>
+		<div v-if="tagOptions.textContent" class="special text">
+			<h4 class="title">
+				<span>特有 |</span>
+				<span>Text</span>
+			</h4>
+			<div class="core">
+				<div>
+					<b>内容</b>
+					<input ref="textContent" class="content" type="text" :value="compData.values.content" />
+				</div>
+				<div>
+					<button class="confirm" @click="modifyText(true)">确 定</button>
+					<button class="cancel" @click="modifyText(false)">清 空</button>
+				</div>
+			</div>
+		</div>
 	</div>
 </template>
 
 <script>
-import { ref, reactive } from "vue";
+import { ref, reactive, watch, watchEffect } from "vue";
+import { useStore } from "vuex";
+import { tagToOptions } from "@/utils/tagToOptions/index.js";
 
 export default {
 	name: "AttrStyle",
 	setup() {
-		let fontFamilys = reactive[{ option: "", value: "" }];
+
+		// #region 超旭start
+		const store = useStore();
+
+		// 给当前组件设置样式
+		function setStyle(obj) {
+			store.commit('editPage/setActiveComponentStyle', obj);
+		}
+
+		// 这个就是判断组件都可以改那些值的对象
+		let tagOptions = ref({
+			align: false,
+			appearance: false,
+			change: false,
+			event: {
+				mouse: false,
+				keydown: false,
+				keyup: false
+			},
+			image: false,
+			order: false,
+			position: false,
+			text: false,
+			textContent: false,
+		});
+
+		let compData = ref();
+
+		let textContent = ref(null);
+
+		// 监听当前选择节点变化
+		watch(() => store.getters['editPage/activeComponent'], () => {
+			compData.value = store.getters['editPage/activeComponent'];
+			if (compData.value != null) {
+				tagOptions.value = tagToOptions(compData.value.tag);
+				tagOptions.value.order = ['VerticalLayout', 'HorizontalLayout'].includes(compData.value.parentTag);
+				tagOptions.value.position = ['PositionLayout'].includes(compData.value.parentTag);
+			} else {
+				tagOptions.value = {};
+			}
+		});
+
+		watch(tagOptions, () => {
+			console.log(tagOptions);
+		});
+
+		// 修改文本内容
+		function modifyText(flag) {
+			store.commit('editPage/setActiveComponentValues', {
+				content: flag ? textContent.value.value : ''
+			});
+		}
+
+		// #endregion 超旭end
+
+		// #region 超旭start
+		let fontFamilys = reactive({
+			options: [
+				{ value: "微软雅黑" },
+				{ value: "宋体" },
+				{ value: "黑体" },
+			],
+			value: "微软雅黑",
+		});
+		// #endregion 超旭end
+
+		// #region 超旭start
+		// 监听字体变化
+		watch(() => fontFamilys.value, () => {
+			setStyle({
+				"font-family": fontFamilys.value
+			});
+		});
+		// #endregion 超旭end
+
+		// #region 超旭start
+		let fontColor = ref(null);
+		watch(() => fontColor.value, () => {
+			setStyle({
+				color: fontColor.value
+			});
+		});
+
+		fontColor.value = '#ffe793';
+		// #endregion 超旭end
+
+		let fontSizes = reactive({
+			options: [
+				{ value: "8" },
+				{ value: "10" },
+				{ value: "12" },
+				{ value: "14" },
+				{ value: "16" },
+				{ value: "18" },
+				{ value: "20" },
+				{ value: "24" },
+				{ value: "26" },
+				{ value: "28" },
+			],
+			value: "16",
+		});
+
+		// #region 超旭start
+		// 监听文字大小变化
+		watch(() => fontSizes.value, () => {
+			setStyle({
+				"font-size": fontSizes.value + 'px'
+			});
+		});
+
+		// BIUSA解释：
+		// BIUSA分别代表B(加粗), I(斜体), U(下划线), S(删除线), A(英文变大写)
+		// 由于text-align和这个操作方式相同
+		// 所以text-align直接使用了BIUSA相关函数
+
+		// 判断BIUSA的状态
+		function checkBIUSA(attr) {
+			if (attr == 'b') {
+				return compData.value.style['font-weight'] == '700';
+			} else if (attr == 'i') {
+				return compData.value.style['font-style'] == 'italic';
+			} else if (attr == 'u') {
+				return compData.value.style['text-decoration'] == 'underline';
+			} else if (attr == 's') {
+				return compData.value.style['text-decoration'] == 'line-through';
+			} else if (attr == 'a') {
+				return compData.value.style['text-transform'] == 'uppercase';
+			} else if (attr == 'left') {
+				return compData.value.style['text-align'] == 'left';
+			} else if (attr == 'center') {
+				return compData.value.style['text-align'] == 'center';
+			} else if (attr == 'right') {
+				return compData.value.style['text-align'] == 'right';
+			} else {
+				return false;
+			}
+		}
+
+		// 获取BIUSA的class
+		function getBIUSAClass(attr) {
+			let res = [attr];
+			if (checkBIUSA(attr)) {
+				res.push('active');
+			}
+			return res;
+		}
+
+		// 切换BIUSA
+		function changeBIUSA(attr) {
+			if (checkBIUSA(attr)) {
+				if (attr == 'b') {
+					setStyle({ 'font-weight': '400' });
+				} else if (attr == 'i') {
+					setStyle({ 'font-style': "normal" });
+				} else if (attr == 'u') {
+					setStyle({ 'text-decoration': "none" });
+				} else if (attr == 's') {
+					setStyle({ 'text-decoration': "none" });
+				} else if (attr == 'a') {
+					setStyle({ 'text-transform': "none" });
+				}
+			} else {
+				if (attr == 'b') {
+					setStyle({ 'font-weight': '700' });
+				} else if (attr == 'i') {
+					setStyle({ 'font-style': "italic" });
+				} else if (attr == 'u') {
+					setStyle({ 'text-decoration': "underline" });
+				} else if (attr == 's') {
+					setStyle({ 'text-decoration': "line-through" });
+				} else if (attr == 'a') {
+					setStyle({ 'text-transform': "uppercase" });
+				} else if (attr == 'left') {
+					setStyle({ 'text-align': "left" });
+				} else if (attr == 'center') {
+					setStyle({ 'text-align': "center" });
+				} else if (attr == 'right') {
+					setStyle({ 'text-align': "right" });
+				}
+			}
+		}
+		// #endregion 超旭end
+
 		let text = reactive({});
-		const color = ref("#ffffff");
-		const colorRgba = ref("#eeeeee");
+		let BgColor = ref("#ffffff");
+		let borderColor = ref("#000000");
+		let shadowColor = ref("#ffffff");
 		const change = (e) => {
 			console.log(e);
 			colorRgba.value = e.rgba;
 		};
 		return {
-			color,
-			colorRgba,
+
+			// #region 超旭start
+			tagOptions,
+			compData,
+			modifyText,
+			getBIUSAClass,
+			changeBIUSA,
+
+			// ref dom元素
+			textContent,
+
+			// #endregion 超旭end
+
 			change,
+			fontFamilys,
+			fontColor,
+			fontSizes,
+			BgColor,
+			borderColor,
+			shadowColor,
 		};
 	},
 };
@@ -247,7 +522,8 @@ export default {
 	font-weight: 400;
 }
 .attrStyle > div.childPosition .title > span:nth-of-type(2),
-.attrStyle > div.image .title > span:nth-of-type(2) {
+.attrStyle > div.image .title > span:nth-of-type(2),
+.attrStyle > div.text .title > span:nth-of-type(2) {
 	top: 3px;
 }
 
@@ -266,6 +542,16 @@ export default {
 	font-weight: normal;
 	margin-right: 10px;
 	color: #666666;
+}
+.text .core .fontFamily {
+	margin-top: 0;
+	width: 70%;
+	margin-right: 0.625rem;
+}
+.text .core div .fontSize {
+	/* width: 33px; */
+	width: 70%;
+	margin-top: 0;
 }
 /*  #region colorChoose  */
 .appearance .core div .bg {
@@ -439,14 +725,14 @@ export default {
 	width: 15px;
 	background-image: url("/img/EditIcons/appearance.png");
 	background-position: 0 0;
-	background-size: 281%;
+	background-size: 291%;
 }
 .appearance .core div > span:hover i,
 .appearance .core div > span.active i {
 	background-position-y: -14px;
 }
 .appearance .core div > span:nth-of-type(2) i {
-	background-position-x: -14px;
+	background-position-x: -15px;
 }
 
 /* 特有1 WholeLayout */
@@ -525,7 +811,7 @@ export default {
 .image .core div:nth-last-of-type(1) {
 	text-align: center;
 }
-.image .core div input.i-url {
+.core div input {
 	outline: none;
 	border: 1px solid #dddddd;
 	background-color: #fff;
@@ -537,5 +823,22 @@ export default {
 .image .core div button.i-uploading {
 	padding: 0.3125rem 1.25rem;
 	margin: 0 auto;
+}
+
+/* 特有5 image */
+
+.text .core div button {
+	padding: 0.3125rem 25px;
+	border: 1px solid #4a8af4;
+	/* margin-left: 10px; */
+	margin-left: 9px;
+}
+.text .core div button.cancel {
+	background-color: #fff;
+	color: #4a8af4;
+	border: 1px solid #dadce0;
+}
+.text .core div input {
+	width: 70%;
 }
 </style>
