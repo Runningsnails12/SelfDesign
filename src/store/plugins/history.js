@@ -62,7 +62,8 @@ const shouldPushInHistory = (type) => (
     'setActiveComponentTempStyle',
     'clearActiveComponentTempStyle',
     'setActiveComponent',
-    'resetActiveComponent'
+    'resetActiveComponent',
+    'setActiveComponentSize'
   ].includes(type)
 );
 

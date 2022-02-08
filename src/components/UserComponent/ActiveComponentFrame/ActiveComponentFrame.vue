@@ -8,6 +8,7 @@
         @click.stop
         @mousedown.stop="startDragComponent"
       >
+        <component-resizer @mousedown.stop :id="$store.state.editPage.activeComponentId" />
         <delete-component/>
       </div>
     </teleport>
