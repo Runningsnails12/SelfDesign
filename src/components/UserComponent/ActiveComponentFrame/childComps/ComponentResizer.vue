@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, computed } from 'vue';
+import { computed } from 'vue';
 import { useStore } from 'vuex';
 import ResizeWidget from './ResizeWidget.vue';
 
@@ -14,15 +14,39 @@ const emit = defineEmits(['sizeChange']);
 
 const store = useStore();
 
-const activeComponent = computed(() => store.state.components.get(props.id) ?? null);
+const activeComponent = computed(() => store.state.editPage.components.get(props.id) ?? null);
 
-const widthInPx = computed(() => activeComponent.value?.style.width ?? 0);
-const heightInPx = computed(() => activeComponent.value?.style.height ?? 0);
+const idPrefix = 'component';
+const activeComponentDOMRef = computed(() => document.getElementById(`${idPrefix}${props.id}`));
+const activeComponentStyle = computed(() =>
+  activeComponentDOMRef.value ?
+    (
+      {
+        width: `${activeComponentDOMRef.value.offsetWidth}px`,
+        height: `${activeComponentDOMRef.value.offsetHeight}px`
+      }
+    ) :
+    null
+);
 
-const resizerPosition = reactive({ left: widthInPx.value, top: heightInPx.value });
+const widthInPx = computed(() => {
+  /** @type {string} */
+  let tryWidth;
+  tryWidth = activeComponent.value?.style.width;
+  if ((!tryWidth || tryWidth.endsWith('%')) && activeComponentStyle.value) tryWidth = activeComponentStyle.value.width;
+  return tryWidth ?? '0px';
+});
+
+const heightInPx = computed(() => {
+  /** @type {string} */
+  let tryHeight;
+  tryHeight = activeComponent.value?.style.height;
+  if ((!tryHeight || tryHeight.endsWith('%')) && activeComponentStyle.value) tryHeight = activeComponentStyle.value.height;
+  return tryHeight ?? '0px';
+});
 
 const changeComponentSizeTo = ({ width, height }) => {
-  store.commit('setActiveComponentStyle', { width, height });
+  store.commit('editPage/setActiveComponentSize', { widthInPx: width, heightInPx: height });
 };
 
 const onSizeChange = (delta) => {
@@ -30,24 +54,30 @@ const onSizeChange = (delta) => {
   console.log(delta);
 
   const { deltaX, deltaY } = delta;
-  resizerPosition.left += deltaX;
-  resizerPosition.top += deltaY;
 
-  changeComponentSizeTo({ width: widthInPx.value + deltaX, height: heightInPx.value + deltaY });
+  let nextWidth = parseInt(widthInPx.value) + deltaX;
+  if (nextWidth < 0) nextWidth = 0;
+  let nextHeight = parseInt(heightInPx.value) + deltaY;
+  if (nextHeight < 0) nextHeight = 0;
+  changeComponentSizeTo({
+    width: `${nextWidth}px`,
+    height: `${nextHeight}px`
+  });
+};
 
-  const nextLeft = resizerPosition.left + deltaX;
-  const nextTop = resizerPosition.top + deltaY;
+const onResizeEnd = () => {
+  store.commit('editPage/setActiveComponentStyle', {});
 
-  console.log(`nextLeft: ${nextLeft}, nextTop: ${nextTop}`);
-
-  emit('sizeChange', { nextLeft, nextTop });
+  emit('sizeChange');
 };
 
 </script>
 
 <template>
   <ResizeWidget
-    :style="resizerPosition"
+    style="z-index: 1; top: 100%; left: 100%; transform: translate(-50%, -50%);"
     @size-change="onSizeChange"
+
+    @resize-end="onResizeEnd"
   />
 </template>

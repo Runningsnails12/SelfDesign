@@ -250,6 +250,12 @@ export default {
         return false;
       }
       state.slimComponents = componentfilter(state.components.get(1));
+    },
+
+    setActiveComponentSize(state, { widthInPx, heightInPx }) {
+      const id = state.activeComponentId;
+      state.components.get(id).style.width = widthInPx;
+      state.components.get(id).style.height = heightInPx;
     }
   }
 };

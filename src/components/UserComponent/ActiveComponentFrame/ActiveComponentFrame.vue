@@ -10,6 +10,7 @@
         @mousedown.stop="startDragComponent"
       >
         <delete-component @deleteHover="setDanger" @deleteLeave="setNormal" class='deleteButton'/>
+        <component-resizer @mousedown.stop :id="$store.state.editPage.activeComponentId" />
       </div>
     </teleport>
   </div>
