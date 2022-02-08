@@ -4,11 +4,7 @@
 			<h4 class="title">文本</h4>
 			<div class="core">
 				<div>
-					<el-select
-						v-model="fontFamilys.value"
-						class="fontFamily"
-						placeholder="fontFamily"
-					>
+					<el-select v-model="fontFamilys.value" class="fontFamily" placeholder="fontFamily">
 						<el-option
 							v-for="item in fontFamilys.options"
 							:key="item.value"
@@ -16,17 +12,10 @@
 							:value="item.value"
 						></el-option>
 					</el-select>
-					<el-color-picker
-						class="colorChoose shadow-color"
-						v-model="fontColor"
-					/>
+					<el-color-picker class="colorChoose shadow-color" v-model="fontColor" />
 				</div>
 				<div>
-					<el-select
-						v-model="fontSizes.value"
-						class="fontSize"
-						placeholder="fontSize"
-					>
+					<el-select v-model="fontSizes.value" class="fontSize" placeholder="fontSize">
 						<el-option
 							v-for="item in fontSizes.options"
 							:key="item.value"
@@ -112,22 +101,13 @@
 					<em class="editable" contenteditable="true">0</em>
 				</div>
 				<div>
-					<el-color-picker
-						class="colorChoose background-color"
-						v-model="BgColor"
-					/>
+					<el-color-picker class="colorChoose background-color" v-model="BgColor" />
 					<em class="bg">背景</em>
-					<el-color-picker
-						class="colorChoose border-color"
-						v-model="borderColor"
-					/>
+					<el-color-picker class="colorChoose border-color" v-model="borderColor" />
 					<em>边框</em>
 				</div>
 				<div>
-					<el-color-picker
-						class="colorChoose shadow-color"
-						v-model="shadowColor"
-					/>
+					<el-color-picker class="colorChoose shadow-color" v-model="shadowColor" />
 					<em>阴影</em>
 				</div>
 				<div class="alaph">
@@ -253,12 +233,7 @@
 			<div class="core">
 				<div>
 					<b>内容</b>
-					<input
-						ref="textContent"
-						class="content"
-						type="text"
-						:value="compData.values.content"
-					/>
+					<input ref="textContent" class="content" type="text" :value="compData.values.content" />
 				</div>
 				<div>
 					<button class="confirm" @click="modifyText(true)">确 定</button>
@@ -478,7 +453,29 @@ export default {
 		// #endregion 超旭end
 
 		let text = reactive({});
-		let BgColor = ref("#ffffff");
+
+		// #region 超旭start
+
+		// 背景色
+		let BgColor = ref(null);
+		BgColor.value = '#fff';
+		watch(() => BgColor.value, () => {
+			setStyle({
+				'background-color': BgColor
+			});
+		});
+
+		// 透明度
+		let opacity = ref(null);
+		opacity.value = 100;
+		watch(() => opacity.value, () => {
+			setStyle({
+				'opacity': opacity / 100
+			});
+		});
+
+		// #endregion 超旭end
+
 		let borderColor = ref("#000000");
 		let shadowColor = ref("#ffffff");
 		const change = (e) => {
@@ -492,6 +489,7 @@ export default {
 			modifyText,
 			getBIUSAClass,
 			changeBIUSA,
+			opacity,
 
 			// ref dom元素
 			textContent,
