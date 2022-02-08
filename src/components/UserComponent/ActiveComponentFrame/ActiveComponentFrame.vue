@@ -5,10 +5,11 @@
         @keydown="deleteComp"
         v-show="isShow"
         class="frame"
+        :class="{danger: isDanger}"
         @click.stop
         @mousedown.stop="startDragComponent"
       >
-        <delete-component/>
+        <delete-component @deleteHover="setDanger" @deleteLeave="setNormal" class='deleteButton'/>
       </div>
     </teleport>
   </div>
@@ -30,7 +31,6 @@ export default {
         : 'body'
     )
     let isShow = computed(() => store.state.editPage.activeComponentId !== -1);
-
   
     function startDragComponent(e) {
      
@@ -91,10 +91,18 @@ export default {
 
     return { activeComponentId, isShow,startDragComponent }
   },
+  data(){
+    return {
+      isDanger: false
+    }
+  },
   components:{ DeleteComponent},
   methods:{
-    deleteComp(e){
-      console.log(e);
+    setDanger(){
+      this.isDanger = true;
+    },
+    setNormal(){
+      this.isDanger = false;
     }
   }
 }
@@ -107,10 +115,23 @@ export default {
   right: 0;
   bottom: 0;
   left: 0;
-  color: #fff;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0);
+  transition:box-shadow 0.1s ease;
+  box-shadow: 0 0 5px 0 #4a8af4;
 }
+
+.danger {
+  box-shadow: 0 0 5px 0 #e63946;
+}
+
 .frame:hover{
   cursor: move;
+}
+
+.deleteButton{
+  position:absolute;
+  top:0;
+  right:0;
+  transform: translate(50%, -50%);
 }
 </style>
