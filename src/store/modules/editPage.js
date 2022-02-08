@@ -139,8 +139,19 @@ export default {
     },
 
     // 移动组件
-    moveComponent(state, { to, from, targetId }) {
+    moveComponent(state, { to, from, targetId, position }) {
       if (to === -1) { return; }
+
+      // 如果是position容器就移动位置
+      if(state.components.get(to).tag === 'PositionLayout'){
+        state.components.get(targetId).style.left = position.left + 'px';
+        state.components.get(targetId).style.top = position.top + 'px';
+      }else{
+        delete state.components.get(targetId).style.left;
+        delete state.components.get(targetId).style.top;
+      }
+
+      // 替换容器
       if (to !== from) {
         const comp = deleteComponentFromJson(state, { parentId: from, targetId });
         comp.parentId = to;

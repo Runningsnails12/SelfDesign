@@ -1,5 +1,5 @@
 <template>
-  <div class="container" :class="{active: isActive}">
+  <div class="container positionLayout" :class="{active: isActive}">
     <component-decorator
       v-for="child in myChildren"
       :key="child.id"
