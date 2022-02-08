@@ -34,8 +34,23 @@ const props = defineProps({
   },
 });
 
-const width = computed(() => props.width ?? DEFAULT_WIDTH);
-const height = computed(() => props.height ?? DEFAULT_HEIGHT);
+const width = computed(() => {
+  if (typeof props.width == 'number') return `${props.width}`;
+  if (typeof props.width == 'string') {
+    let tryParse = +props.width;
+    if (Number.isFinite(tryParse)) return tryParse;
+  }
+  return props.width ?? DEFAULT_WIDTH;
+});
+
+const height = computed(() => {
+  if (typeof props.height == 'number') return `${props.height}`;
+  if (typeof props.height == 'string') {
+    let tryParse = +props.height;
+    if (Number.isFinite(tryParse)) return tryParse;
+  }
+  return props.height ?? DEFAULT_HEIGHT;
+});
 
 /** @type {import('vue').Ref<boolean>} */
 const hasError = ref(false);
@@ -87,8 +102,8 @@ export default {
 
 <style scoped>
 img {
-  width: v-bind('`${width}px`');
-  height: v-bind('`${height}px`');
+  width: v-bind(width);
+  height: v-bind(height);
 
   display: inline-block;
   background: #ffffff;
