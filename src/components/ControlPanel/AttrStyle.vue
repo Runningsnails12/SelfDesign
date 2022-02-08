@@ -241,7 +241,16 @@
 					<input class="i-url" type="text" />
 				</div>
 				<div>
-					<button class="i-uploading">图片上传</button>
+					<button class="i-changeImg">确认更改</button>
+				</div>
+				<div>
+					<input
+						type="file"
+						class="uploading"
+						value="上传图片"
+						accept="image/*"
+					/>
+					<button class="i-uploading">上传图片</button>
 				</div>
 			</div>
 		</div>
@@ -686,7 +695,7 @@ export default {
 	background-size: 502%;
 }
 /* 字体形状 */
-.text .core div > span:hover i,
+/* .text .core div > span:hover i, */
 .text .core div > span.active i {
 	background-position-y: -13px;
 }
@@ -694,28 +703,28 @@ export default {
 .text .core div > span:nth-of-type(2) i {
 	background-position-x: -13px;
 }
-.text .core div > span:nth-of-type(2):hover i,
+/* .text .core div > span:nth-of-type(2):hover i, */
 .text .core div > span:nth-of-type(2).active i {
 	background-position-y: -12px;
 }
 .text .core div > span:nth-of-type(3) i {
 	background-position-x: -28px;
 }
-.text .core div > span:nth-of-type(3):hover i,
+/* .text .core div > span:nth-of-type(3):hover i, */
 .text .core div > span:nth-of-type(3).active i {
 	background-position-y: -13px;
 }
 .text .core div > span:nth-of-type(4) i {
 	background-position-x: -41px;
 }
-.text .core div > span:nth-of-type(4):hover i,
+/* .text .core div > span:nth-of-type(4):hover i, */
 .text .core div > span:nth-of-type(4).active i {
 	background-position-y: -13px;
 }
 .text .core div > span:nth-of-type(5) i {
 	background-position-x: -56px;
 }
-.text .core div > span:nth-of-type(5):hover i,
+/* .text .core div > span:nth-of-type(5):hover i, */
 .text .core div > span:nth-of-type(5).active i {
 	background-position-y: -14px;
 }
@@ -724,21 +733,21 @@ export default {
 .text .core div.align > span i {
 	background-position-y: -28px;
 }
-.text .core div.align > span:hover i,
+/* .text .core div.align > span:hover i, */
 .text .core div.align > span.active i {
 	background-position-y: -41px;
 }
 .text .core div.align > span:nth-of-type(2) i {
 	background-position-y: -27px;
 }
-.text .core div.align > span:nth-of-type(2):hover i,
+/* .text .core div.align > span:nth-of-type(2):hover i, */
 .text .core div.align > span:nth-of-type(2).active i {
 	background-position-y: -41px;
 }
 .text .core div.align > span:nth-of-type(3) i {
 	background-position-y: -28px;
 }
-.text .core div.align > span:nth-of-type(3):hover i,
+/* .text .core div.align > span:nth-of-type(3):hover i, */
 .text .core div.align > span:nth-of-type(3).active i {
 	background-position-y: -42px;
 }
@@ -748,7 +757,7 @@ export default {
 	background-image: url("/img/EditIcons/change.png");
 	background-position-y: -55px;
 }
-.change .core div.whole > span:hover i,
+/* .change .core div.whole > span:hover i, */
 .change .core div.whole > span.active i {
 	background-position-y: -70px;
 }
@@ -767,7 +776,7 @@ export default {
 	background-position: -61px -31px;
 	background-size: 540%;
 }
-.change .core div.whole > span:nth-last-of-type(1):hover i,
+/* .change .core div.whole > span:nth-last-of-type(1):hover i, */
 .change .core div.whole > span:nth-last-of-type(1).active i {
 	background-position: -61px -45px;
 }
@@ -779,7 +788,7 @@ export default {
 	background-position: 0 0;
 	background-size: 291%;
 }
-.appearance .core div > span:hover i,
+/* .appearance .core div > span:hover i, */
 .appearance .core div > span.active i {
 	background-position-y: -14px;
 }
@@ -794,14 +803,14 @@ export default {
 	background-size: 700%;
 	background-position: -2px -2px;
 }
-.WholeLayout .core div > span:hover i,
+/* .WholeLayout .core div > span:hover i, */
 .WholeLayout .core div > span.active i {
 	background-position-y: -21px;
 }
 .WholeLayout .core div:nth-of-type(1) > span i {
 	background-position-y: -41px;
 }
-.WholeLayout .core div:nth-of-type(1) > span:hover i,
+/* .WholeLayout .core div:nth-of-type(1) > span:hover i, */
 .WholeLayout .core div:nth-of-type(1) > span.active i {
 	background-position-y: -61px;
 }
@@ -815,7 +824,7 @@ export default {
 	background-position: -52px -1px;
 	background-size: 600%;
 }
-.WholeLayout .core div > span:nth-of-type(4):hover i,
+/* .WholeLayout .core div > span:nth-of-type(4):hover i, */
 .WholeLayout .core div > span:nth-of-type(4).active i {
 	background-position-y: -17px;
 }
@@ -824,7 +833,7 @@ export default {
 	background-size: 600%;
 }
 
-.WholeLayout .core div:nth-of-type(2) > span:nth-of-type(4):hover i,
+/* .WholeLayout .core div:nth-of-type(2) > span:nth-of-type(4):hover i, */
 .WholeLayout .core div:nth-of-type(2) > span:nth-of-type(4).active i {
 	background-position: -52px -51px;
 	background-size: 600%;
@@ -872,12 +881,24 @@ export default {
 	padding: 0 0.625rem;
 	color: #333;
 }
-.image .core div button.i-uploading {
-	padding: 0.3125rem 1.25rem;
+.image .core div button {
+	padding: 0.3125rem 20px;
 	margin: 0 auto;
 }
+.image .core div {
+	position: relative;
+}
+.image .core div input.uploading {
+	width: 88%;
+	height: 25px;
+	position: absolute;
+	box-sizing: border-box;
+	left: -26px;
+	opacity: 0;
+	cursor: pointer;
+}
 
-/* 特有5 image */
+/* 特有5 text */
 
 .text .core div button {
 	padding: 0.3125rem 25px;
