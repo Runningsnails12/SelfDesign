@@ -229,16 +229,16 @@ export default {
       state.components = new Map();
       state.activeComponentId = -1;
       state.activeContainerId = -1;
+      state.slimComponents = null;
     },
 
     // 获取提交给后端的节点 json 数组，不写 getter 的原因是 getter 消耗性能，每个更新 components 都会更新
     // 执行该操作值，最好执行用户发起其他行为
     slimComponents(state){
-      if(state.components.size() === 0){
+      if(state.components.size === 0){
         return false;
       }
       state.slimComponents = componentfilter(state.components.get(1));
-      return true;
     }
   }
 };

@@ -50,10 +50,10 @@ export default {
     return request({
       url:'/project/export',
       method:'GET',
-      data:params,
+      data:{ id:params },
       responseType: 'blob'
     }).then(res=>{
-      fileDownload(res.data, params + '.json');
+      fileDownload(res, params + '.json');
     });
   },
   async deleteProject(params){
@@ -99,13 +99,22 @@ export default {
     });
   },
   importProject({ projectName, file }) {
+    const form=new FormData();
+    form.append('projectName',projectName);
+    form.append('file',file);
     return request({
       url: '/project/import',
       method: 'post',
-      data: {
-        projectName,
-        file
-      }
+      data: form
     });
-  }
+  },
+  uploadImg(file){     //file就是图片文件
+    const form=new FormData();
+    form.append('file',file);
+    return request({
+      url:'/other/uploadImg',
+      method:'POST',
+      data:form
+    });
+  },
 };
