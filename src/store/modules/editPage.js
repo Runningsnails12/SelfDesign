@@ -102,7 +102,7 @@ export default {
     components: new Map(),
     activeComponentId: -1,
     activeContainerId: -1,
-    fileContent: null, // 保存后端返回的 content 
+    fileContent: {}, // 保存后端返回的 content 
     slimComponents: null
   },
   getters: {
@@ -241,7 +241,7 @@ export default {
       state.components = new Map();
       state.activeComponentId = -1;
       state.activeContainerId = -1;
-      state.fileContent = null;
+      state.fileContent = {};
       state.slimComponents = null;
     },
 
@@ -261,7 +261,7 @@ export default {
     },
 
     setFileContent(state, content){
-      for(key in content){
+      for(let key in content){
         if(key !== 'root'){
           state.fileContent[key] = content[key];
         }
