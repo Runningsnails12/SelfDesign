@@ -46,9 +46,10 @@ export default {
       }
     );
 
-    // 是否是发布的按钮
-    const btn = inject('isPublishBtn');
+    const btn = inject('isPublishBtn'); // 是否是发布的按钮
+    let copyedUrl = inject('onlineUrl'); // 返回的访问地址
 
+    // 取消
     const cancelDialog = () => {
       emit('dialogVisible', dialogDisvisible.value);
     };

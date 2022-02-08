@@ -110,7 +110,7 @@ export default {
       if (state.activeComponentId === -1) {
         return null;
       }
-      const activeComponent = state.components.get(state.activeComponentId)
+      const activeComponent = state.components.get(state.activeComponentId);
       return Object.assign({}, activeComponent, {
         parentTag: state.components.get(activeComponent.parentId).tag
       });
