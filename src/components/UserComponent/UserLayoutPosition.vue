@@ -12,6 +12,7 @@
         v-bind="data"
         :id="'component' + child.id"
         :style="[
+          child.style,
           child.tempStyle,
           {
             position: 'absolute',

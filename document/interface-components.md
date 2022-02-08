@@ -148,3 +148,25 @@ store.commit('editPage/resetActiveComponent')
   })
 
 ```
+
+## 获取所有组件 id
+
+```js
+  store.getters['editPage/componentsId']
+  // 不包含活动组件id和根组件id 
+```
+
+## 获取发布时需要的 json 对象，返回 根节点对象
+
+```js
+
+ // 比较耗时，执行函数期间最好禁止用户发起其他操作
+  new Promise((resolve, reject) => {
+    if(store.commit('editPage/slimComponents')){
+      resolve(store.state.editPage.slimComponents)
+    }else{
+      reject(null);
+    }
+  })
+ 
+```
