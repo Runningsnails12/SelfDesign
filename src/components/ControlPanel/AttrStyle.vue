@@ -25,30 +25,30 @@
 					</el-select>
 				</div>
 				<div>
-					<span class="b">
+					<span :class="getBIUSAClass('b')" @click="changeBIUSA('b')">
 						<i></i>
 					</span>
-					<span class="i">
+					<span :class="getBIUSAClass('i')" @click="changeBIUSA('i')">
 						<i></i>
 					</span>
-					<span class="u">
+					<span :class="getBIUSAClass('u')" @click="changeBIUSA('u')">
 						<i></i>
 					</span>
-					<span class="s">
+					<span :class="getBIUSAClass('s')" @click="changeBIUSA('s')">
 						<i></i>
 					</span>
-					<span class="a">
+					<span :class="getBIUSAClass('a')" @click="changeBIUSA('a')">
 						<i></i>
 					</span>
 				</div>
 				<div class="align">
-					<span class="left">
+					<span :class="getBIUSAClass('left')" @click="changeBIUSA('left')">
 						<i></i>
 					</span>
-					<span class="center">
+					<span :class="getBIUSAClass('center')" @click="changeBIUSA('center')">
 						<i></i>
 					</span>
-					<span class="right">
+					<span :class="getBIUSAClass('right')" @click="changeBIUSA('right')">
 						<i></i>
 					</span>
 				</div>
@@ -253,6 +253,11 @@ export default {
 		// #region 超旭start
 		const store = useStore();
 
+		// 给当前组件设置样式
+		function setStyle(obj) {
+			store.commit('editPage/setActiveComponentStyle', obj);
+		}
+
 		// 这个就是判断组件都可以改那些值的对象
 		let tagOptions = ref({
 			align: false,
@@ -299,11 +304,37 @@ export default {
 
 		// #endregion 超旭end
 
+		// #region 超旭start
 		let fontFamilys = reactive({
-			options: [{ value: "微软雅黑" }],
+			options: [
+				{ value: "微软雅黑" },
+				{ value: "宋体" },
+				{ value: "黑体" },
+			],
 			value: "微软雅黑",
 		});
-		let fontColor = ref("#ffe793");
+		// #endregion 超旭end
+
+		// #region 超旭start
+		// 监听字体变化
+		watch(() => fontFamilys.value, () => {
+			setStyle({
+				"font-family": fontFamilys.value
+			});
+		});
+		// #endregion 超旭end
+
+		// #region 超旭start
+		let fontColor = ref(null);
+		watch(() => fontColor.value, () => {
+			setStyle({
+				color: fontColor.value
+			});
+		});
+
+		fontColor.value = '#ffe793';
+		// #endregion 超旭end
+
 		let fontSizes = reactive({
 			options: [
 				{ value: "8" },
@@ -319,6 +350,88 @@ export default {
 			],
 			value: "16",
 		});
+
+		// #region 超旭start
+		// 监听文字大小变化
+		watch(() => fontSizes.value, () => {
+			setStyle({
+				"font-size": fontSizes.value + 'px'
+			});
+		});
+
+		// BIUSA解释：
+		// BIUSA分别代表B(加粗), I(斜体), U(下划线), S(删除线), A(英文变大写)
+		// 由于text-align和这个操作方式相同
+		// 所以text-align直接使用了BIUSA相关函数
+
+		// 判断BIUSA的状态
+		function checkBIUSA(attr) {
+			if (attr == 'b') {
+				return compData.value.style['font-weight'] == '700';
+			} else if (attr == 'i') {
+				return compData.value.style['font-style'] == 'italic';
+			} else if (attr == 'u') {
+				return compData.value.style['text-decoration'] == 'underline';
+			} else if (attr == 's') {
+				return compData.value.style['text-decoration'] == 'line-through';
+			} else if (attr == 'a') {
+				return compData.value.style['text-transform'] == 'uppercase';
+			} else if (attr == 'left') {
+				return compData.value.style['text-align'] == 'left';
+			} else if (attr == 'center') {
+				return compData.value.style['text-align'] == 'center';
+			} else if (attr == 'right') {
+				return compData.value.style['text-align'] == 'right';
+			} else {
+				return false;
+			}
+		}
+
+		// 获取BIUSA的class
+		function getBIUSAClass(attr) {
+			let res = [attr];
+			if (checkBIUSA(attr)) {
+				res.push('active');
+			}
+			return res;
+		}
+
+		// 切换BIUSA
+		function changeBIUSA(attr) {
+			if (checkBIUSA(attr)) {
+				if (attr == 'b') {
+					setStyle({ 'font-weight': '400' });
+				} else if (attr == 'i') {
+					setStyle({ 'font-style': "normal" });
+				} else if (attr == 'u') {
+					setStyle({ 'text-decoration': "none" });
+				} else if (attr == 's') {
+					setStyle({ 'text-decoration': "none" });
+				} else if (attr == 'a') {
+					setStyle({ 'text-transform': "none" });
+				}
+			} else {
+				if (attr == 'b') {
+					setStyle({ 'font-weight': '700' });
+				} else if (attr == 'i') {
+					setStyle({ 'font-style': "italic" });
+				} else if (attr == 'u') {
+					setStyle({ 'text-decoration': "underline" });
+				} else if (attr == 's') {
+					setStyle({ 'text-decoration': "line-through" });
+				} else if (attr == 'a') {
+					setStyle({ 'text-transform': "uppercase" });
+				} else if (attr == 'left') {
+					setStyle({ 'text-align': "left" });
+				} else if (attr == 'center') {
+					setStyle({ 'text-align': "center" });
+				} else if (attr == 'right') {
+					setStyle({ 'text-align': "right" });
+				}
+			}
+		}
+		// #endregion 超旭end
+
 		let text = reactive({});
 		let BgColor = ref("#ffffff");
 		let borderColor = ref("#000000");
@@ -333,6 +446,8 @@ export default {
 			tagOptions,
 			compData,
 			modifyText,
+			getBIUSAClass,
+			changeBIUSA,
 
 			// ref dom元素
 			textContent,
