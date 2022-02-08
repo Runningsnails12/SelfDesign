@@ -1,6 +1,6 @@
 <template>
 	<div class="attrStyle">
-		<div class="text">
+		<div v-if="tagOptions.text" class="text">
 			<h4 class="title">文本</h4>
 			<div class="core">
 				<div>
@@ -54,7 +54,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="change">
+		<div v-if="tagOptions.change" class="change">
 			<h4 class="title">变换</h4>
 			<div class="core">
 				<div>
@@ -82,7 +82,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="appearance">
+		<div v-if="tagOptions.appearance" class="appearance">
 			<h4 class="title">外观</h4>
 			<div class="core">
 				<div>
@@ -115,7 +115,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="special WholeLayout">
+		<div v-if="tagOptions.align" class="special WholeLayout">
 			<h4 class="title">
 				<span>特有 |</span>
 				<span>HorizontalLayout VerticalLayout</span>
@@ -153,7 +153,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="special childLayout">
+		<div v-if="false" class="special childLayout">
 			<h4 class="title">
 				<span>特有 |</span>
 				<span>HorizontalLayout-childNode VerticalLayout-childNode</span>
@@ -169,7 +169,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="special childPosition">
+		<div v-if="false" class="special childPosition">
 			<h4 class="title">
 				<span>特有 |</span>
 				<span>PositionLayout-childNode</span>
@@ -193,7 +193,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="special image">
+		<div v-if="tagOptions.image" class="special image">
 			<h4 class="title">
 				<span>特有 |</span>
 				<span>Image</span>
@@ -222,7 +222,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="special text">
+		<div v-if="tagOptions.textContent" class="special text">
 			<h4 class="title">
 				<span>特有 |</span>
 				<span>Text</span>
@@ -249,8 +249,11 @@ import { tagToOptions } from "@/utils/tagToOptions/index.js";
 export default {
 	name: "AttrStyle",
 	setup() {
+
 		// #region 超旭start
 		const store = useStore();
+
+		// 这个就是判断组件都可以改那些值的对象
 		let tagOptions = ref({
 			align: false,
 			appearance: false,
@@ -307,6 +310,11 @@ export default {
 			colorRgba.value = e.rgba;
 		};
 		return {
+
+			// #region 超旭start
+			tagOptions,
+			// #endregion 超旭end
+
 			change,
 			fontFamilys,
 			fontColor,
