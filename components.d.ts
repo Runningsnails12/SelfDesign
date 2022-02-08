@@ -14,6 +14,7 @@ declare module 'vue' {
     ControlPanel: typeof import('./src/components/EditPageComponent/ControlPanel.vue')['default']
     DeleteComponent: typeof import('./src/components/UserComponent/ActiveComponentFrame/childComps/DeleteComponent.vue')['default']
     DialogBox: typeof import('./src/components/EditPageComponent/DialogBox.vue')['default']
+    DragComponet: typeof import('./src/components/UserComponent/ActiveComponentFrame/childComps/DragComponet.vue')['default']
     ElColorPicker: typeof import('element-plus/es')['ElColorPicker']
     ElOption: typeof import('element-plus/es')['ElOption']
     ElSelect: typeof import('element-plus/es')['ElSelect']
