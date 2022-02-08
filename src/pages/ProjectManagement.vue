@@ -184,12 +184,12 @@ const onFileChange = async () => {
     return;
   }
   const resp = await api.importProject({
-    importProjectName: importProjectName.value,
+    projectName: importProjectName.value,
     file,
   });
 
   if (resp.flag) {
-    Message.success(resp.data.message);
+    Message.success(resp.message);
     setTimeout(() => {
       router.push('/projectEdit/' + resp.data.id);
     }, 2000);
