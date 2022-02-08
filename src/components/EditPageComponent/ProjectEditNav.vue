@@ -18,7 +18,7 @@
         <div class="edit-operation">
           <button id="undo" @click="undo" :disabled="!canUndo" />
           <button id="redo" @click="redo" :disabled="!canRedo" />
-          <button id="edit-save" />
+          <button id="edit-save" @click="saveProject" />
           <p id="edit-save-time">保存于 {{ lastSaveTime }}</p>
         </div>
       </div>
@@ -28,11 +28,12 @@
       </div>
     </div>
   </div>
-  <dialog-box v-show="dialogVisible" @dialog-visible="childData" />
+  <dialog-box v-if="dialogVisible" @dialog-visible="childData" />
 </template>
 
 <script>
 import {computed, ref, provide} from 'vue';
+import {useRoute} from 'vue-router';
 import DialogBox from '@/components/EditPageComponent/DialogBox.vue';
 import {
   CAN_REDO_KEY,
@@ -41,6 +42,7 @@ import {
   UNDO_KEY,
 } from '../../store/plugins/history';
 import {useStore} from 'vuex';
+import api from '@/api';
 
 export default {
   name: 'ProjectEditNav',
@@ -60,23 +62,56 @@ export default {
     const store = useStore();
     const userIcon = computed(() => store.state.username?.slice(0, 2));
 
+    // 保存
+    const route = useRoute();
+    let isSaveProject = ref(false);
+    const saveProject = () => {
+      store.commit('editPage/slimComponents');
+      const json = store.state.editPage.slimComponents;
+      // console.log(json);
+      // console.log(JSON.stringify(json));
+      api
+        .modifyContent({id: route.params.id, content: JSON.stringify(json)})
+        .then((res) => {
+          console.log('保存');
+          if (res.code === 2000) {
+            isSaveProject.value = true;
+          }
+        });
+    };
+
     // 预览 & 发布
     let isPublishBtn = ref(true);
+    let onlineUrl = ref('');
     const displaylDialog = (isPublish) => {
       // 发布
       if (isPublish) {
         if (confirm('是否确定将本项目发布？')) {
           dialogVisible.value = !dialogVisible.value;
           isPublishBtn.value = isPublish;
+          // 先保存后发布
+          saveProject();
+          api.release({id: route.params.id, temp: false}).then((res) => {
+            console.log('发布');
+            console.log(res);
+            // console.log(res.data.data.url);
+          });
         }
       } else {
         // 预览
         dialogVisible.value = !dialogVisible.value;
         isPublishBtn.value = isPublish;
+        api.release({id: route.params.id, temp: true}).then((res) => {
+          console.log('预览');
+          console.log(res);
+          onlineUrl.value = res.data.data.url;
+          // console.log(res.data.data.url);
+        });
       }
     };
 
     provide('isPublishBtn', isPublishBtn);
+    provide('onlineUrl', onlineUrl);
 
     const publishMessage = () => {};
 
@@ -98,6 +133,8 @@ export default {
       childData,
       dialogVisible,
       lastSaveTime,
+      isSaveProject,
+      saveProject,
       displaylDialog,
       publishMessage,
 
