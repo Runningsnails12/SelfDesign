@@ -230,11 +230,11 @@
 			<div class="core">
 				<div>
 					<b>内容</b>
-					<input class="content" type="text" />
+					<input ref="textContent" class="content" type="text" :value="compData.values.content" />
 				</div>
 				<div>
-					<button class="confirm">确 定</button>
-					<button class="cancel">清 空</button>
+					<button class="confirm" @click="modifyText(true)">确 定</button>
+					<button class="cancel" @click="modifyText(false)">清 空</button>
 				</div>
 			</div>
 		</div>
@@ -264,21 +264,39 @@ export default {
 				keyup: false
 			},
 			image: false,
+			order: false,
+			position: false,
 			text: false,
 			textContent: false,
 		});
+
+		let compData = ref();
+
+		let textContent = ref(null);
+
+		// 监听当前选择节点变化
 		watch(() => store.getters['editPage/activeComponent'], () => {
-			let compData = store.getters['editPage/activeComponent'];
-			if (compData != null) {
-				console.log(tagToOptions(compData.tag));
-				tagOptions.value = tagToOptions(compData.tag);
+			compData.value = store.getters['editPage/activeComponent'];
+			if (compData.value != null) {
+				tagOptions.value = tagToOptions(compData.value.tag);
+				tagOptions.value.order = ['VerticalLayout', 'HorizontalLayout'].includes(compData.value.parentTag);
+				tagOptions.value.position = ['PositionLayout'].includes(compData.value.parentTag);
 			} else {
 				tagOptions.value = {};
 			}
 		});
+
 		watch(tagOptions, () => {
 			console.log(tagOptions);
 		});
+
+		// 修改文本内容
+		function modifyText(flag) {
+			store.commit('editPage/setActiveComponentValues', {
+				content: flag ? textContent.value.value : ''
+			});
+		}
+
 		// #endregion 超旭end
 
 		let fontFamilys = reactive({
@@ -313,6 +331,12 @@ export default {
 
 			// #region 超旭start
 			tagOptions,
+			compData,
+			modifyText,
+
+			// ref dom元素
+			textContent,
+
 			// #endregion 超旭end
 
 			change,
