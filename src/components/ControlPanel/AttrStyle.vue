@@ -60,10 +60,10 @@
 				<div>
 					<b>形状</b>
 					<em>W</em>
-					<em class="editable" contenteditable="true">0</em>
+					<input class="editable" contenteditable="true" />
 
 					<em>H</em>
-					<em class="editable" contenteditable="true">0</em>
+					<input class="editable" contenteditable="true" />
 
 					<el-select v-model="units.value" class="unit" placeholder="units">
 						<el-option
@@ -77,7 +77,7 @@
 				<div class="whole">
 					<b>旋转</b>
 					<i class="rotate"></i>
-					<em class="editable" contenteditable="true">0°</em>
+					<input class="editable" contenteditable="true" />
 
 					<span class="scale">
 						<i></i>
@@ -95,10 +95,10 @@
 					<span class="foursquare">
 						<i></i>
 					</span>
-					<em class="editable" contenteditable="true">0</em>
-					<em class="editable" contenteditable="true">0</em>
-					<em class="editable" contenteditable="true">0</em>
-					<em class="editable" contenteditable="true">0</em>
+					<input class="editable" contenteditable="true" />
+					<input class="editable" contenteditable="true" />
+					<input class="editable" contenteditable="true" />
+					<input class="editable" contenteditable="true" />
 				</div>
 				<div>
 					<el-color-picker class="colorChoose background-color" v-model="BgColor" />
@@ -112,7 +112,7 @@
 				</div>
 				<div class="alaph">
 					<i class="water"></i>
-					<em class="editable" contenteditable="true">0</em>
+					<input class="editable" contenteditable="true" />
 					<em class="per">%</em>
 					<b>不透明度</b>
 				</div>
@@ -181,10 +181,10 @@
 				<div>
 					<b>位置</b>
 					<em>X</em>
-					<em class="editable" contenteditable="true">0</em>
+					<input class="editable" contenteditable="true" />
 
 					<em>Y</em>
-					<em class="editable" contenteditable="true">0</em>
+					<input class="editable" contenteditable="true" />
 				</div>
 				<div>
 					<button class="toup">上移一层</button>
@@ -641,7 +641,7 @@ export default {
 	margin-top: 0;
 }
 .change .core div div.unit {
-	width: 70px;
+	width: 65px;
 	margin-top: 0;
 }
 /*  #region colorChoose  */
@@ -650,19 +650,27 @@ export default {
 }
 /*  #endregion  */
 
-/* #region       em em.editable              */
+/* #region       em input.editable              */
 .core div em {
 	font-style: normal;
 	font-size: 0.75rem;
 	color: #666666;
 	margin-right: 2px;
 }
-.core div em.editable {
+.core div input.editable {
+	min-width: 10px;
+	max-width: 19px;
+	height: 25px;
+	font-style: normal;
+	font-size: 0.75rem;
+	color: #666666;
 	display: inline-block;
-	padding: 2px 6px;
+	padding: 2px 2px;
+	border: 0;
 	border-bottom: 2px #bbbbbb solid;
 	margin-right: 10px;
 	outline: none;
+	background-color: transparent;
 }
 
 .change .core div i.rotate {
@@ -679,10 +687,10 @@ export default {
 	background: url("/img/EditIcons/appearance.png") no-repeat -31px 2px;
 	background-size: 300%;
 }
-.appearance .core div:nth-of-type(1) > em.editable {
+.appearance .core div:nth-of-type(1) > input.editable {
 	margin-right: 0.1875rem;
 }
-.appearance .core div:nth-of-type(1) > em.editable:nth-of-type(1) {
+.appearance .core div:nth-of-type(1) > input.editable:nth-of-type(1) {
 	margin-left: 8px;
 }
 .appearance .core div.alaph em.per {
