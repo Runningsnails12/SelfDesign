@@ -195,8 +195,8 @@ const replaceState = ({ commit }, { editPage }) => {
   // 标记是插件在调用`editPage`的 Mutation
   commit(SET_INTERNAL_FLAG_KEY, true);
 
-  commit('editPage/setActiveComponent', editPage.activeComponentId);
-  commit('editPage/setActiveContainer', editPage.activeContainerId);
+  commit('editPage/resetActiveComponent');
+  commit('editPage/resetActiveContainer');
 
   const root = editPage.components.get(1);
 
