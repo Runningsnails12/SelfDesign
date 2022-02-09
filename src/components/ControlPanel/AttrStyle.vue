@@ -125,51 +125,88 @@
 				</div>
 
 				<div>
-					<input type="checkbox" />
-					<b>边框</b>
-					<el-color-picker
-						class="colorChoose border-color"
-						v-model="borderColor"
-					/>
-				</div>
-				<div class="border">
-					<b>粗细</b>
-					<input class="editable" contenteditable="true" />
-					<b>类型</b>
-					<el-select
-						v-model="borderTypes.value"
-						class="borderType"
-						placeholder="borderType"
-					>
-						<el-option
-							v-for="item in borderTypes.options"
-							:key="item.value"
-							:label="item.label"
-							:value="item.value"
-						/>
-					</el-select>
-				</div>
-				<div>
-					<input type="checkbox" />
-					<b>阴影</b>
-					<el-color-picker
-						class="colorChoose shadow-color"
-						v-model="shadowColor"
-					/>
-				</div>
-				<div>
-					<b>X轴</b>
-					<b>Y轴</b>
-					<b>模糊</b>
-					<b>尺寸</b>
-				</div>
-				<div>
-					<input class="editable" contenteditable="true" />
-					<input class="editable" contenteditable="true" />
-					<input class="editable" contenteditable="true" />
-					<input class="editable" contenteditable="true" />
-				</div>
-			</div>
+          <input
+            type="checkbox"
+            v-model="hasBorder"
+            @change="onBorderChange"
+          >
+          <b>边框</b>
+          <el-color-picker
+            class="colorChoose border-color"
+            v-model="borderColor"
+            @change="onBorderChange"
+          />
+        </div>
+        <div class="border">
+          <b>粗细</b>
+          <input
+            class="editable"
+            contenteditable="true"
+            v-model.number="borderThicknessInNumber"
+            @change="onBorderChange"
+          >
+          <b>类型</b>
+          <el-select
+            v-model="borderTypes.value"
+            class="borderType"
+            placeholder="borderType"
+            @change="onBorderChange"
+          >
+            <el-option
+              v-for="item in borderTypes.options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </div>
+        <div>
+          <input
+            type="checkbox"
+            :checked="hasShadow"
+            @change="onSetShadow"
+          >
+          <b>阴影</b>
+          <el-color-picker
+            class="colorChoose shadow-color"
+            :model-value="shadowColor"
+            @update:model-value="(color) => onShadowChange('color', color)"
+            show-alpha
+          />
+        </div>
+        <div>
+          <b>X轴</b>
+          <b>Y轴</b>
+          <b>模糊</b>
+          <b>尺寸</b>
+        </div>
+        <div>
+          <input
+            class="editable"
+            contenteditable="true"
+            :value="shadowX"
+            @change="(e) => onShadowChange('x', e.target.value)"
+          >
+          <input
+            class="editable"
+            contenteditable="true"
+            :value="shadowY"
+            @change="(e) => onShadowChange('y', e.target.value)"
+          >
+          <input
+            class="editable"
+            contenteditable="true"
+            :value="shadowBlur"
+            @change="(e) => onShadowChange('blur', e.target.value)"
+          >
+          <input
+            class="editable"
+            contenteditable="true"
+            :value="shadowSpread"
+            @change="(e) => onShadowChange('spread', e.target.value)"
+          >
+        </div>
+      </div>
 		</div>
 		<div v-if="tagOptions.align" class="special WholeLayout">
 			<h4 class="title">
@@ -317,7 +354,7 @@
 </template>
 
 <script>
-import { ref, reactive, watch, watchEffect } from "vue";
+import { ref, reactive, watch, watchEffect, computed } from 'vue';
 import { useStore } from "vuex";
 import { tagToOptions } from "@/utils/tagToOptions/index.js";
 import api from "@/api/index.js";
@@ -501,7 +538,7 @@ export default {
 			value: "px",
 		});
 		let borderTypes = reactive({
-			options: [{ value: "dashed" }, { value: "dottod" }, { value: "solid" }],
+			options: [{ value: "dashed" }, { value: "dotted" }, { value: "solid" }],
 			value: "solid",
 		});
 		// BIUSA解释：
@@ -607,12 +644,88 @@ export default {
 
 		// #endregion 超旭end
 
-		let borderColor = ref("#000000");
-		let shadowColor = ref("#ffffff");
-		const change = (e) => {
-			console.log(e);
-			colorRgba.value = e.rgba;
-		};
+		//#region 边框
+    let borderThicknessInNumber = ref(0);
+    let hasBorder = ref(borderThicknessInNumber.value > 0);
+    let borderColor = ref('#000000');
+
+    const onBorderChange = () => {
+      setStyle({
+        'border': `${borderThicknessInNumber.value}px ${borderTypes.value} ${borderColor.value}`
+      });
+    };
+    //#endregion 边框
+	
+    //#region 阴影
+    /** @type {import('vue').ComputedRef<string | undefined>} */
+    const componentShadow = computed(() =>
+      compData.value?.style['box-shadow']
+    );
+
+    const hasShadow = computed(() => 
+      !(componentShadow.value === undefined
+        || componentShadow.value === 'none')
+    );
+
+    const defaultShadow = '0px 0px 0px 0px rgba(255,255,255,1)';
+    const onSetShadow = (e) => {
+      const bool = e.target.checked;
+      setStyle({ 'box-shadow': bool ? defaultShadow : 'none' });
+    };
+
+    /** @type {import('vue').ComputedRef<string[]>} */
+    const shadowTokens = computed(() => {
+      /** expect box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2); */
+      const splits = hasShadow.value ?
+        componentShadow.value.split(' ') :
+        defaultShadow.split(' ');
+      const px = splits.slice(0, 4).map(s => s.slice(0, -2));
+      const color = splits.slice(4).join('');
+      /** return ['2','2','2','2','rgba(0,0,0,0.2)'] */
+      return [...px, color];
+    });
+		
+    const shadowColor = computed(() =>
+      shadowTokens.value[4]
+				?? /** 如果变量是 undefined */ 'rgba(255, 255, 255, 1)'
+    );
+
+    const shadowX = computed(() => shadowTokens.value[0]);
+    const shadowY = computed(() => shadowTokens.value[1]);
+    const shadowBlur = computed(() => shadowTokens.value[2]);
+    const shadowSpread = computed(() => shadowTokens.value[3]);
+
+    /** @typedef {'x' | 'y' | 'blur' | 'spread' | 'color'} ShadowChangeType */
+    /** @type {(type: ShadowChangeType; newValue: string) => void} */
+    const onShadowChange = (type, newValue) => {
+      if (hasShadow.value) {
+        const template =
+					(x, y, blur, spread, color) =>
+					  `${x}px ${y}px ${blur}px ${spread}px ${color}`;
+        let s;
+        switch (type) {
+        case 'x':
+          s = template(newValue, shadowY.value, shadowBlur.value, shadowSpread.value, shadowColor.value);
+          break;
+        case 'y':
+          s = template(shadowX.value, newValue, shadowBlur.value, shadowSpread.value, shadowColor.value);
+          break;
+        case 'blur':
+          s = template(shadowX.value, shadowY.value, newValue, shadowSpread.value, shadowColor.value);
+          break;
+        case 'spread':
+          s = template(shadowX.value, shadowY.value, shadowBlur.value, newValue, shadowColor.value);
+          break;
+        case 'color':
+          s = template(shadowX.value, shadowY.value, shadowBlur.value, shadowSpread.value, newValue);
+          break;
+        default:
+          throw new Error('unrecognize tag: ' + type);
+        }
+        setStyle({ 'box-shadow': s });
+      }
+    };
+    //#endregion 阴影
 
 		// #region 超旭start
 		let urlContent = ref(null);
@@ -667,13 +780,31 @@ export default {
 
 			// #endregion 超旭end
 
-			change,
 			fontFamilys,
 			fontColor,
 			fontSizes,
 			BgColor,
-			borderColor,
-			shadowColor,
+
+			///#region 边框
+      borderThicknessInNumber,
+      hasBorder,
+      borderColor,
+
+      onBorderChange,
+      ///#endregion 边框
+
+      //#region 阴影
+      hasShadow,
+      shadowColor,
+      shadowX,
+      shadowY,
+      shadowBlur,
+      shadowSpread,
+
+      onSetShadow,
+      onShadowChange,
+      //#endregion 阴影
+
 			units,
 			borderTypes,
 
