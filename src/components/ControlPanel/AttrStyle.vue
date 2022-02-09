@@ -561,11 +561,26 @@ export default {
           if (tagOptions.value.text){
             // font-familys
             let cFontFamily = compData.value.style['font-family'];
-            // fontFamilys.value = cFontFamily?cFontFamily:style[compData.value.tag]['font-family'];
+            fontFamilys.value = cFontFamily?cFontFamily:style[compData.value.tag]['font-family'];
 
-						// font-size
+            // font-size
             let cFontSize = compData.value.style['font-size'];
-						fontSizes.value = cFontSize?cFontSize:style[compData.value.tag]['font-size'];
+            fontSizes.value = parseInt(cFontSize?cFontSize: style[compData.value.tag]['font-size']);
+
+            // color
+            let cColor = compData.value.style['color'];
+            fontColor.value = cColor? cColor: style[compData.value.tag]['color'];
+          }
+
+          // appearance
+          if (tagOptions.value.appearance){
+            // background-color
+            let cBackgroundColor = compData.value.style['background-color'];
+            BgColor.value = cBackgroundColor?cBackgroundColor:style[compData.value.tag]['background-color'];
+
+            // opacity
+            let cOpacity = compData.value.style['opacity'];
+            opacity.value = parseFloat(cOpacity?cOpacity:style[compData.value.tag]['opacity']) * 100;
           }
           initStatus = false;
         } else {
