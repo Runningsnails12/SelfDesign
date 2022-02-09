@@ -70,7 +70,7 @@ export default {
     const saveProject = () => {
       store.commit('editPage/slimComponents');
       const canvasPageContent = store.state.editPage.fileContent;
-      api
+      return api
         .modifyContent({id: route.params.id, content: JSON.stringify(canvasPageContent)})
         .then((res) => {
           if (res.code === 2000) {
@@ -129,19 +129,22 @@ export default {
         if (confirm('是否确定将本项目发布？')) {
           isPublishBtn.value = isPublish;
           // 先保存后发布
-          saveProject();
-          api.release({id: route.params.id, temp: false}).then((res) => {
-            onlineUrl.value = res.data.url;
+          saveProject().then(() => {
+            api.release({id: route.params.id, temp: false}).then((res) => {
+              onlineUrl.value = res.data.url;
+            });
+            dialogVisible.value = !dialogVisible.value;
           });
-          dialogVisible.value = !dialogVisible.value;
         }
       } else {
         // 预览
         isPublishBtn.value = isPublish;
-        api.release({id: route.params.id, temp: true}).then((res) => {
-          onlineUrl.value = res.data.url;
+        saveProject().then(() => {
+          api.release({id: route.params.id, temp: true}).then((res) => {
+            onlineUrl.value = res.data.url;
+          });
+          dialogVisible.value = !dialogVisible.value;
         });
-        dialogVisible.value = !dialogVisible.value;
       }
     };
 
