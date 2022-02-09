@@ -4,11 +4,7 @@
 			<h4 class="title">文本</h4>
 			<div class="core">
 				<div>
-					<el-select
-						v-model="fontFamilys.value"
-						class="fontFamily"
-						placeholder="fontFamily"
-					>
+					<el-select v-model="fontFamilys.value" class="fontFamily" placeholder="fontFamily">
 						<el-option
 							v-for="item in fontFamilys.options"
 							:key="item.value"
@@ -16,17 +12,10 @@
 							:value="item.value"
 						></el-option>
 					</el-select>
-					<el-color-picker
-						class="colorChoose shadow-color"
-						v-model="fontColor"
-					/>
+					<el-color-picker class="colorChoose shadow-color" v-model="fontColor" />
 				</div>
 				<div>
-					<el-select
-						v-model="fontSizes.value"
-						class="fontSize"
-						placeholder="fontSize"
-					>
+					<el-select v-model="fontSizes.value" class="fontSize" placeholder="fontSize">
 						<el-option
 							v-for="item in fontSizes.options"
 							:key="item.value"
@@ -112,14 +101,11 @@
 					<input class="editable" contenteditable="true" />
 				</div>
 				<div class="alaph">
-					<el-color-picker
-						class="colorChoose background-color"
-						v-model="BgColor"
-					/>
+					<el-color-picker class="colorChoose background-color" v-model="BgColor" />
 					<em class="bg">背景</em>
 
 					<i class="water"></i>
-					<input class="editable" contenteditable="true" />
+					<input class="editable" contenteditable="true" v-model="opacity" />
 					<em class="per">%</em>
 					<b>不透明度</b>
 				</div>
@@ -127,20 +113,13 @@
 				<div>
 					<input type="checkbox" />
 					<b>边框</b>
-					<el-color-picker
-						class="colorChoose border-color"
-						v-model="borderColor"
-					/>
+					<el-color-picker class="colorChoose border-color" v-model="borderColor" />
 				</div>
 				<div class="border">
 					<b>粗细</b>
 					<input class="editable" contenteditable="true" />
 					<b>类型</b>
-					<el-select
-						v-model="borderTypes.value"
-						class="borderType"
-						placeholder="borderType"
-					>
+					<el-select v-model="borderTypes.value" class="borderType" placeholder="borderType">
 						<el-option
 							v-for="item in borderTypes.options"
 							:key="item.value"
@@ -152,10 +131,7 @@
 				<div>
 					<input type="checkbox" />
 					<b>阴影</b>
-					<el-color-picker
-						class="colorChoose shadow-color"
-						v-model="shadowColor"
-					/>
+					<el-color-picker class="colorChoose shadow-color" v-model="shadowColor" />
 				</div>
 				<div>
 					<b>X轴</b>
@@ -271,23 +247,13 @@
 					<b>图片地址[网络]</b>
 				</div>
 				<div>
-					<input
-						ref="urlContent"
-						class="i-url"
-						type="text"
-						:value="compData.values.url"
-					/>
+					<input ref="urlContent" class="i-url" type="text" :value="compData.values.url" />
 				</div>
 				<div>
 					<button class="i-changeImg" @click="modifyUrl">确认更改</button>
 				</div>
 				<div>
-					<input
-						type="file"
-						class="uploading"
-						accept="image/*"
-						@change="changeImageFile"
-					/>
+					<input type="file" class="uploading" accept="image/*" @change="changeImageFile" />
 					<button class="i-uploading">上传图片</button>
 				</div>
 			</div>
@@ -300,12 +266,7 @@
 			<div class="core">
 				<div>
 					<b>内容</b>
-					<input
-						ref="textContent"
-						class="content"
-						type="text"
-						:value="compData.values.content"
-					/>
+					<input ref="textContent" class="content" type="text" :value="compData.values.content" />
 				</div>
 				<div>
 					<button class="confirm" @click="modifyText(true)">确 定</button>
@@ -330,6 +291,11 @@ export default {
 
 		// 给当前组件设置样式
 		function setStyle(obj) {
+			for (let attr in obj) {
+				if (obj[attr].__v_isRef) {
+					obj[attr] = obj[attr].value;
+				}
+			}
 			store.commit("editPage/setActiveComponentStyle", obj);
 		}
 
@@ -550,7 +516,7 @@ export default {
 			() => opacity.value,
 			() => {
 				setStyle({
-					opacity: opacity / 100,
+					opacity: opacity.value / 100,
 				});
 			}
 		);
