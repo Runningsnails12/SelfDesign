@@ -166,7 +166,7 @@ export default {
 
     // 修改当前活动组件
     setActiveComponent(state, id) {
-      if (id === 1) { // 不能选中根组件
+      if (id === -1 || id === 1) { // 不能选中根组件
         return;
       }
       resetActiveComponent(state); // 设置之前先重置
