@@ -17,6 +17,9 @@ export default createStore({
     setUsername(state, data) {
       state.username = data;
     },
+    setLoginFormClose(state,data){
+      state.loginFormClose = data;
+    },
 
     ...historyGlobalMutations
   },

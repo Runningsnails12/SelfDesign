@@ -1,4 +1,4 @@
-import { createApp, } from 'vue';
+import { createApp } from 'vue';
 import ShowMessage from './ShowMessage.vue';
 
 const render = (type,text) => {
@@ -8,7 +8,7 @@ const render = (type,text) => {
   messageNode.setAttributeNode(attr);
 
   const height = 60;
-  const messageList = document.getElementsByClassName('message_box');
+  const messageList = document.querySelectorAll('.message_box');
   messageNode.style.top = `${messageList.length * height}px`;
 
   const changeTop = () => {
@@ -26,8 +26,6 @@ const render = (type,text) => {
   const app=createApp(ShowMessage,{type,text,afterRemoveFun});
   app.vm=app.mount(messageNode);
   document.body.appendChild(messageNode);
-  // app.close=()=>afterRemoveFun();
-
   return app;
 };
 

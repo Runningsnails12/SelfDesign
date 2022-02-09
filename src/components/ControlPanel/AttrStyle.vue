@@ -19,6 +19,7 @@
 					<el-color-picker
 						class="colorChoose shadow-color"
 						v-model="fontColor"
+            show-alpha
 					/>
 				</div>
 				<div>
@@ -70,25 +71,39 @@
 			<div class="core">
 				<div>
 					<b>形状</b>
-					<em>W</em>
-					<input class="editable" contenteditable="true" />
+          <div style="flex-direction: column;">
+            <div>
+            	<em>W</em>
+              <input style="max-width:36px; text-align:center" :value="width" @change="changeWidth" class="editable" contenteditable="true" />
+              <el-select :model-value="widthUnits.value"  @change="changeWidthUnit" class="unit" placeholder="units">
+                <el-option
+                  v-for="item in widthUnits.options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
+              </el-select>
+            </div>
+            <div>
+              <em>H</em>
+              <input style="max-width:36px; text-align:center" :value="height" @change="changeHeight" class="editable" contenteditable="true" />
 
-					<em>H</em>
-					<input class="editable" contenteditable="true" />
-
-					<el-select v-model="units.value" class="unit" placeholder="units">
-						<el-option
-							v-for="item in units.options"
-							:key="item.value"
-							:label="item.label"
-							:value="item.value"
-						/>
-					</el-select>
+              <el-select :model-value="heightUnits.value"  @change="changeHeightUnit"  class="unit" placeholder="units">
+                <el-option
+                  v-for="item in heightUnits.options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
+              </el-select>
+            </div>
+          </div>
+				
 				</div>
 				<div class="whole">
 					<b>旋转</b>
 					<i class="rotate" />
-					<input class="editable" contenteditable="true" />
+					<input @change="uncultivated" class="editable" contenteditable="true" />
 
 					<span class="scale">
 						<i />
@@ -115,6 +130,7 @@
 					<el-color-picker
 						class="colorChoose background-color"
 						v-model="BgColor"
+            show-alpha
 					/>
 					<em class="bg">背景</em>
 
@@ -354,11 +370,12 @@
 </template>
 
 <script>
-import { ref, reactive, watch, watchEffect, computed } from 'vue';
+import { ref, reactive, watch, computed } from 'vue';
 import { useStore } from "vuex";
 import { tagToOptions } from "@/utils/tagToOptions/index.js";
 import api from "@/api/index.js";
 import style from "@/utils/style.json";
+import {throttle} from 'lodash-es'
 
 export default {
 	name: "AttrStyle",
@@ -405,6 +422,7 @@ export default {
 		// 监听当前选择节点变化
 		watch(
 			() => store.getters["editPage/activeComponent"],
+      throttle(
 			() => {
 				compData.value = store.getters["editPage/activeComponent"];
 				if (compData.value != null) {
@@ -454,11 +472,34 @@ export default {
 								cOpacity ? cOpacity : style[compData.value.tag]["opacity"]
 							) * 100;
 					}
+
+          // change
+          if(tagOptions.value.change){
+            let reg = /[px | %]/ig
+            // width
+            // widthUnits
+            let curWidth = compData.value.style.width;
+            curWidth = curWidth ? curWidth : style[compData.value.tag].width;
+            width.value = Number(curWidth.slice(0,curWidth.search(reg)));
+            widthUnits.value = curWidth.slice(curWidth.search(reg));
+
+
+            // height
+            // heightUnits
+            let curHeight = compData.value.style.height;
+            curHeight = curHeight ? curHeight : style[compData.value.tag].height;
+            height.value = Number(curHeight.slice(0,curHeight.search(reg)));
+            heightUnits.value = curHeight.slice(curHeight.search(reg));
+         }
+
 					initStatus = false;
 				} else {
 					tagOptions.value = {};
 				}
-			}
+			}, 500),
+      {
+        deep: true
+      }
 		);
 
 		watch(tagOptions, () => {
@@ -533,10 +574,6 @@ export default {
 			}
 		);
 
-		let units = reactive({
-			options: [{ value: "px" }, { value: "%" }],
-			value: "px",
-		});
 		let borderTypes = reactive({
 			options: [{ value: "dashed" }, { value: "dotted" }, { value: "solid" }],
 			value: "solid",
@@ -723,7 +760,7 @@ export default {
       const bool = e.target.checked;
       setStyle({ 'box-shadow': bool ? defaultShadow : 'none' });
     };
-
+   
     /** @type {import('vue').ComputedRef<string[]>} */
     const shadowTokens = computed(() => {
       /** expect box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2); */
@@ -777,6 +814,54 @@ export default {
       }
     };
     //#endregion 阴影
+
+
+    // #region 远安 start
+
+    // 监听组件的高度和宽度的变化
+    let width = ref(0);
+    let widthUnits = reactive({
+      options: [{ value: 'px' }, { value: '%' }],
+      value: 'px',
+    });
+    
+    let height = ref(0);
+    let heightUnits = reactive({
+      options: [{ value: 'px' }, { value: '%' }],
+      value: 'px',
+    });
+
+    const changeHeight = (e) => {
+      setStyle({
+        height: e.target.value + heightUnits.value
+      })
+    }
+
+    const changeHeightUnit = (u) => {
+      console.log(u);
+      setStyle({
+        height: height.value + u
+      })
+    }
+
+    const changeWidth = (e) => {
+      setStyle({
+        width: e.target.value + widthUnits.value
+      })
+    }
+
+    const changeWidthUnit = (u) => {
+      console.log(u);
+      setStyle({
+        width: width.value + u
+      })
+    }
+
+    
+
+    // #endregion 
+
+
 
 		// #region 超旭start
 		let urlContent = ref(null);
@@ -857,7 +942,6 @@ export default {
       onShadowChange,
       //#endregion 阴影
 
-			units,
 			borderTypes,
 
 			// #region 超旭start
@@ -867,6 +951,17 @@ export default {
 
 			changeVertical,
 			changeAlign,
+
+
+      // 变换
+      width,
+      height,
+      widthUnits,
+      heightUnits,
+      changeHeight,
+      changeWidth,
+      changeHeightUnit,
+      changeWidthUnit
 		};
 	},
 };
