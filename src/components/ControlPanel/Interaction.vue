@@ -108,37 +108,38 @@ export default defineComponent({
 			() => store.getters["editPage/activeComponent"],
 			() => {
 				currentlySelected = store.getters["editPage/activeComponent"];
+
 				if (currentlySelected) {
 					// console.log(currentlySelected);
 					Tagoptions = tagToOptions(currentlySelected.tag);
-					if (currentlySelected.value) {
-						// 选取的元素 不为 null
-						if (currentlySelected.value.event) {
-							// 是有event
-							// event 的 length 不等于 0
-							let event = currentlySelected.value.event;
-							// curEvent = reactive([]);
-							curEvent.length = 0;
-							for (let i = 0; i < event.length; i++) {
-								curEvent[i] = {
-									type: {
-										value: event[i].type,
-										label: getLabel(event[i].type),
-									},
-									action: {
-										value: event[i].action,
-										label: getLabel(event[i].action),
-									},
-									handleType: {
-										value: event[i].handleType,
-										label: getLabel(event[i].handleType),
-									},
-									argument: {
-										value: event[i].argument,
-									},
-								};
-							}
-							// console.log(JSON.parse(JSON.stringify(curEvent)));
+
+					// 选取的元素 不为 null
+					if (currentlySelected.event) {
+						// 是有event
+						// event 的 length 不等于 0
+
+						let event = currentlySelected.event;
+
+						curEvent.length = 0;
+
+						for (let i = 0; i < event.length; i++) {
+							curEvent[i] = {
+								type: {
+									value: event[i].type,
+									label: getLabel(event[i].type),
+								},
+								action: {
+									value: event[i].action,
+									label: getLabel(event[i].action),
+								},
+								handleType: {
+									value: event[i].handleType,
+									label: getLabel(event[i].handleType),
+								},
+								argument: {
+									value: event[i].argument,
+								},
+							};
 						}
 					}
 				}
@@ -281,6 +282,7 @@ export default defineComponent({
 		}
 		function getLabel(key) {
 			let res = "";
+			// console.log(key);
 			switch (key) {
 				case "mouse":
 					res = "鼠标";
@@ -324,19 +326,19 @@ export default defineComponent({
 			if (options.type.value) {
 				event.type = {
 					value: options.type.value,
-					label: getLabel("type"),
+					label: getLabel(options.type.value),
 				};
 			}
 			if (options.action.value) {
 				event.action = {
 					value: options.action.value,
-					label: getLabel("action"),
+					label: getLabel(options.action.value),
 				};
 			}
 			if (options.handleType.value) {
 				event.handleType = {
 					value: options.handleType.value,
-					label: getLabel("handleType"),
+					label: getLabel(options.handleType.value),
 				};
 			}
 			if (argument.value) {
