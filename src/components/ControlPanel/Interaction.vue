@@ -33,7 +33,7 @@
 			<ul>
 				<li v-for="item in options" class="item" :key="item.name">
 					<h4 class="itemTitle">{{ item.title }}</h4>
-					<el-select v-model="item.value" placeholder="请选择">
+					<el-select v-modal="item.value" placeholder="请选择">
 						<el-option
 							class="select"
 							v-for="data in item.data"
@@ -52,7 +52,7 @@
 						class="el-input__inner"
 						type="text"
 						:placeholder="argument.tip"
-						v-model="argument.value"
+						v-modal="argument.value"
 					/>
 				</li>
 			</ul>
@@ -233,7 +233,7 @@ export default defineComponent({
 						label: "弹框",
 					},
 					{
-						value: "model",
+						value: "modal",
 						label: "模态框",
 					},
 					{
@@ -302,7 +302,7 @@ export default defineComponent({
 				case "toast":
 					res = "弹框";
 					break;
-				case "model":
+				case "modal":
 					res = "模态框";
 					break;
 				case "target":
