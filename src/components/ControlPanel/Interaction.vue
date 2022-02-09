@@ -1,23 +1,27 @@
 <template>
 	<div class="interaction">
 		<div class="curAdd" v-show="isAdd == 'cur'">
-			<h4 class="title">当前添加</h4>
-			<ul class="curAddItem" v-for="item in curEvent" :key="item">
+			<h4 class="title" @click="getEvent">当前添加</h4>
+			<ul class="curAddItem" v-for="(item, index) in curEvent" :key="item">
 				<li>
-					触发方式 <span>{{ item.type }}</span>
+					触发方式 <span>{{ item.type.label }}</span>
 				</li>
 				<li>
-					交互功能 <span>{{ item.action }}</span>
+					交互功能 <span>{{ item.action.label }}</span>
 				</li>
 				<li>
-					打开类型 <span>{{ item.handleType }}</span>
+					打开类型 <span>{{ item.handleType.label }}</span>
 				</li>
 				<li>
-					目标页面 <span>{{ item.argument }}</span>
+					目标页面 <span>{{ item.argument.value }}</span>
 				</li>
 				<div class="hoverCom">
-					<span class="edit"><i></i></span>
-					<span class="delete"><i></i></span>
+					<span class="edit" @click="editEvent(index)" :event="curEvent[index]">
+						<i></i>
+					</span>
+					<span class="delete" @click="deleteEvent(index)">
+						<i></i>
+					</span>
 				</div>
 			</ul>
 			<button class="addbtn" @click="triggleIsAdd('add')">
@@ -25,44 +29,280 @@
 			</button>
 		</div>
 
-		<AddEvent v-show="isAdd == 'add'" @triggleIsAdd="triggleIsAdd"></AddEvent>
+		<div class="add" v-show="isAdd != 'cur'">
+			<ul>
+				<li v-for="item in options" class="item" :key="item.name">
+					<h4 class="itemTitle">{{ item.title }}</h4>
+					<el-select v-model="item.value" placeholder="请选择">
+						<el-option
+							class="select"
+							v-for="data in item.data"
+							:key="data.value"
+							:label="data.label"
+							:value="data.value"
+							@click="getTip()"
+						>
+						</el-option>
+					</el-select>
+				</li>
+				<li class="item">
+					<h4 class="itemTitle">目标页面</h4>
+					<input
+						class="el-input__inner"
+						type="text"
+						:placeholder="argument.tip"
+						v-model="argument.value"
+					/>
+				</li>
+			</ul>
+			<button class="cancel" @click="cancel">取 消</button>
+			<button class="comfirm" @click="comfirm()">确 定</button>
+		</div>
 	</div>
 </template>
 
 <script>
-import { ref, reactive, defineComponent } from "vue";
-import AddEvent from "./AddEvent.vue";
+import { ref, reactive, defineComponent, handleError, watch } from "vue";
+import { useStore } from "vuex";
 
 export default defineComponent({
 	name: "Interaction",
-	components: {
-		AddEvent,
-	},
+
 	setup() {
+		const store = useStore();
+
 		let isAdd = ref("cur");
-		let curEvent = reactive([
-			{
-				id: 0,
-				type: "鼠标",
-				action: "页面跳转",
-				handleType: "新窗口",
-				argument: "首页",
-			},
-			{
-				id: 1,
-				type: "键盘",
-				action: "页面跳转",
-				handleType: "新窗口",
-				argument: "首页",
-			},
-		]);
+		let curEvent = reactive([]);
 		function triggleIsAdd(val) {
 			isAdd.value = val;
 		}
+
+		function addEvent(arr) {
+			curEvent.push(arr);
+		}
+		function deleteEvent(index) {
+			curEvent.splice(index, 1);
+		}
+		function editEvent(index) {
+			originAddEvent(curEvent[index]);
+			this.triggleIsAdd(index);
+		}
+		function getEvent() {
+			watch(
+				() => store.getters["editPage/activeComponent"],
+				() => {
+					console.log(store.getters["editPage/activeComponent"]);
+					curEvent = store.getters["editPage/activeComponent"].event;
+				}
+			);
+			// if (store.getters["editPage/activeComponent"]) {
+			// 	curEvent = store.getters["editPage/activeComponent"].event;
+			// }
+		}
+
+		function changeEvent() {
+			store.commit("editPage/setActiveComponentEvent", {
+				event: curEvent,
+				// [
+				// 	// 想添加或更新啥事件就写啥对象
+				// 	{},
+				// ],
+			});
+		}
+
+		let oriEvent = reactive({
+			type: {
+				value: "mouse",
+				label: "鼠标",
+			},
+			action: {
+				value: "click",
+				label: "单击",
+			},
+			handleType: {
+				value: "blank",
+				label: "新窗口跳转",
+			},
+			argument: {
+				value: "",
+				tip: "请输入文本",
+			},
+		});
+
+		let options = reactive({
+			type: {
+				name: "type",
+				title: "触发方式", // 事件类型
+				value: oriEvent.type.value,
+				label: oriEvent.type.label,
+				data: [
+					{
+						value: "mouse",
+						label: "鼠标",
+					},
+					{
+						value: "keydow",
+						label: "键盘按下",
+					},
+					{
+						value: "keyup",
+						label: "键盘弹起",
+					},
+				],
+			},
+			action: {
+				name: "action",
+				title: "交互功能", // 事件动作
+				value: oriEvent.action.value,
+				label: oriEvent.action.label,
+				data: [
+					{
+						value: "click",
+						label: "单击",
+					},
+					{
+						value: "dbClick",
+						label: "双击",
+					},
+				],
+			},
+			handleType: {
+				name: "handleType",
+				title: "打开类型", // 如何处理事件
+				value: oriEvent.handleType.value,
+				label: oriEvent.handleType.label,
+				data: [
+					{
+						value: "toast",
+						label: "弹框",
+					},
+					{
+						value: "model",
+						label: "模态框",
+					},
+					{
+						value: "target",
+						label: "当前页面跳转",
+					},
+					{
+						value: "blank",
+						label: "新窗口跳转",
+					},
+					{
+						value: "jump",
+						label: "没过渡的锚点",
+					},
+					{
+						value: "slide",
+						label: "有过渡的锚点",
+					},
+				],
+			},
+		});
+
+		let argument = reactive({
+			value: oriEvent.argument.value,
+
+			tip: "请输入文本",
+		});
+
+		function getTip() {
+			let tip = "请输入";
+			switch (options.handleType.value) {
+				case "toast":
+				case "modal":
+					tip = tip + "文本";
+					break;
+				case "target":
+				case "blank":
+					tip = tip + "链接";
+					break;
+				case "jump":
+				case "slide":
+					tip = tip + "节点ID";
+					break;
+			}
+			argument.tip = tip;
+		}
+		function getLabel(key) {
+			let res = "";
+
+			console.log(options[key].data);
+			options[key].data.forEach((element) => {
+				if (element.value === options[key].value) {
+					res = element.label + "";
+				}
+			});
+			return res;
+		}
+		function comfirm() {
+			let event = reactive({});
+			// 添加事件
+			if (options.type.value) {
+				event.type = {
+					value: options.type.value + "",
+					label: this.getLabel("type"),
+				};
+			}
+			if (options.action.value) {
+				event.action = {
+					value: options.action.value + "",
+					label: this.getLabel("action"),
+				};
+			}
+			if (options.handleType.value) {
+				event.handleType = {
+					value: options.handleType.value + "",
+					label: this.getLabel("handleType"),
+				};
+			}
+			if (argument.value) {
+				event.argument = {
+					value: argument.value + "",
+				};
+				if (isAdd.value != "add") {
+					// console.log(isAdd.value);
+					curEvent.splice(isAdd.value, 1, event);
+				} else {
+					curEvent.push(event);
+				}
+				this.triggleIsAdd("cur");
+			} else {
+				alert("目标页面不能为空");
+			}
+			originAddEvent(oriEvent);
+		}
+		function originAddEvent(obj) {
+			options.type.value = obj.type.value;
+			options.type.label = obj.type.label;
+			options.action.value = obj.action.value;
+			options.action.label = obj.action.label;
+			options.handleType.value = obj.handleType.value;
+			options.handleType.label = obj.handleType.label;
+			argument.value = obj.argument.value;
+		}
+		function cancel() {
+			// 取消
+			this.triggleIsAdd("cur");
+		}
+
 		return {
 			isAdd,
 			curEvent,
 			triggleIsAdd,
+			getEvent,
+			originAddEvent,
+			getLabel,
+
+			deleteEvent,
+			changeEvent,
+			addEvent,
+			editEvent,
+			options,
+			comfirm,
+			cancel,
+			argument,
+			getTip,
 		};
 	},
 });
@@ -207,5 +447,37 @@ button {
 	background: url(/img/EditIcons/zoom_icon.png) -1px -1px;
 	background-size: 450%;
 	border: 0.075rem dashed #bbb;
+}
+
+.add {
+	width: 11rem;
+	margin: 0 auto;
+	/* padding-right: 1.25rem; */
+}
+.add .item {
+	margin-bottom: 1.5625rem;
+}
+.add .item:nth-last-of-type(1) {
+	margin-bottom: 1.875rem;
+}
+
+.add > button {
+	width: 5rem;
+	height: 2rem;
+	float: left;
+	display: block;
+	background-color: #f0f3f4;
+	border: 1px #dddddd solid;
+	font-size: 0.825rem;
+	color: #000;
+	border-radius: 0.375rem;
+	outline: none;
+	cursor: pointer;
+}
+.add > button.comfirm {
+	background-color: #4a8af4;
+	float: right;
+	color: #fff;
+	border: 1px #4a8af4 solid;
 }
 </style>

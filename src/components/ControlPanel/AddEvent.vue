@@ -10,26 +10,20 @@
 						:key="data.value"
 						:label="data.label"
 						:value="data.value"
+						@click="getTip()"
 					>
 					</el-option>
 				</el-select>
 			</li>
-			<!-- <li class="triggleWay">
-				<h4 class="itemTitle">触发方式</h4>
-				<el-select v-model="value" placeholder="请选择">
-					<el-option
-						class="select"
-						v-for="item in options"
-						:key="item.value"
-						:label="item.label"
-						:value="item.value"
-					>
-					</el-option>
-				</el-select>
+			<li class="item">
+				<h4 class="itemTitle">目标页面</h4>
+				<input
+					class="el-input__inner"
+					type="text"
+					:placeholder="argument.tip"
+					v-model="argument.value"
+				/>
 			</li>
-			<li class="item interactionFunction"></li>
-			<li class="item targetType"></li>
-			<li class="item targetPage"></li> -->
 		</ul>
 		<button class="cancel" @click="cancel">取 消</button>
 		<button class="comfirm" @click="comfirm">确 定</button>
@@ -37,16 +31,22 @@
 </template>
 
 <script>
-import { defineComponent, ref, reactive } from "vue";
+import { defineComponent, ref, reactive, inject } from "vue";
 
 export default defineComponent({
 	name: "AddEvent",
 	setup(props, { emit }) {
+		let event = reactive({ // inject("oriEvent"); //inject("editEvent") || ;
+			type: "mouse",
+			action: "click",
+			handleType: "model",
+			argument: "",
+		});
 		let options = reactive({
 			type: {
 				name: "type",
 				title: "触发方式", // 事件类型
-				value: "mouse",
+				value: event.type,
 				data: [
 					{
 						value: "mouse",
@@ -65,7 +65,7 @@ export default defineComponent({
 			action: {
 				name: "action",
 				title: "交互功能", // 事件动作
-				value: "",
+				value: event.action,
 				data: [
 					{
 						value: "click",
@@ -75,47 +75,81 @@ export default defineComponent({
 						value: "dbClick",
 						label: "双击",
 					},
-					{
-						value: "key",
-						label: "键盘",
-					},
 				],
 			},
 			handleType: {
 				name: "handleType",
 				title: "打开类型", // 如何处理事件
-				value: "",
+				value: event.handleType,
 				data: [
 					{
-						value: "mouse",
-						label: "新窗口",
+						value: "toast",
+						label: "弹框",
 					},
 					{
-						value: "key",
-						label: "键盘",
-					},
-				],
-			},
-			argument: {
-				name: "argument",
-				title: "目标页面", // 传入事件处理器的参数
-				value: "",
-				data: [
-					{
-						value: "mouse",
-						label: "首页",
+						value: "model",
+						label: "模态框",
 					},
 					{
-						value: "key",
-						label: "键盘",
+						value: "target",
+						label: "当前页面跳转",
+					},
+					{
+						value: "blank",
+						label: "新窗口跳转",
+					},
+					{
+						value: "jump",
+						label: "没过渡的锚点",
+					},
+					{
+						value: "slide",
+						label: "有过渡的锚点",
 					},
 				],
 			},
 		});
+
+		let argument = reactive({
+			value: event.argument,
+			tip: "请输入文本",
+		});
+
+		function getTip() {
+			let tip = "请输入";
+			switch (options.handleType.value) {
+				case "toast":
+				case "modal":
+					tip = tip + "文本";
+					break;
+				case "target":
+				case "blank":
+					tip = tip + "链接";
+					break;
+				case "jump":
+				case "slide":
+					tip = tip + "节点ID";
+					break;
+			}
+			argument.tip = tip;
+		}
+
 		function comfirm() {
 			// 添加事件
+			// if (options.type.value) {
+			event.type = options.type.value;
+			event.action = options.action.value;
+			event.handleType = options.handleType.value;
+			// }
+			console.log(event);
+			if (argument.value) {
+				event.argument = argument.value;
 
-			this.triggleIsAdd("cur");
+				emit("addEvent", event);
+				this.triggleIsAdd("cur");
+			} else {
+				alert("目标页面不能为空");
+			}
 		}
 		function cancel() {
 			// 取消
@@ -130,6 +164,8 @@ export default defineComponent({
 			comfirm,
 			cancel,
 			triggleIsAdd,
+			argument,
+			getTip,
 		};
 	},
 });

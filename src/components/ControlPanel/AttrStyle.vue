@@ -90,7 +90,7 @@
 					<i class="rotate"></i>
 					<input class="editable" contenteditable="true" />
 
-					<span class="scale">
+					<span class="scale" @click="uncultivated">
 						<i></i>
 					</span>
 				</div>
@@ -375,7 +375,7 @@ export default {
 		);
 
 		watch(tagOptions, () => {
-			console.log(tagOptions);
+			// console.log(tagOptions);
 		});
 
 		// 修改文本内容
@@ -560,7 +560,7 @@ export default {
 		let borderColor = ref("#000000");
 		let shadowColor = ref("#ffffff");
 		const change = (e) => {
-			console.log(e);
+			// console.log(e);
 			colorRgba.value = e.rgba;
 		};
 
@@ -573,7 +573,7 @@ export default {
 		}
 
 		function changeImageFile(e) {
-			console.log(e.target.files);
+			// console.log(e.target.files);
 			api.uploadImg(e.target.files[0]).then((data) => {
 				if (data.flag) {
 					store.commit("editPage/setActiveComponentValues", {

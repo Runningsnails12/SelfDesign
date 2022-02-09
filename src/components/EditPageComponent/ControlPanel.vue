@@ -9,7 +9,7 @@
 			<div :class="checkedOne === 0 ? 'L' : ''">
 				<ul class="btn">
 					<li
-						@click="tabChange(index)"
+						@click="tabChange(index), changeShowInteraction()"
 						:class="checkedOne == index ? 'tabSelected' : ''"
 						:key="item.id"
 						v-for="(item, index) in panelSwitchOptions"
@@ -28,7 +28,7 @@
 					class="interact-panel"
 					:class="checkedOne != 0 ? 'panelSelected' : ''"
 				>
-					<Interaction></Interaction>
+					<Interaction v-show="showInteraction"></Interaction>
 				</div>
 			</div>
 		</div>
@@ -37,7 +37,9 @@
 </template>
 
 <script>
-import { ref, reactive } from "vue";
+import { ref, reactive, watch } from "vue";
+import { useStore } from "vuex";
+
 import AttrStyle from "../ControlPanel/AttrStyle.vue";
 import Interaction from "../ControlPanel/Interaction.vue";
 
@@ -48,6 +50,22 @@ export default {
 		Interaction,
 	},
 	setup() {
+		const store = useStore();
+
+		let showInteraction = ref(
+			store.getters["editPage/activeComponent"] != null
+		);
+		function changeShowInteraction() {
+			console.log(store.getters["editPage/activeComponent"] != null);
+			showInteraction.value = store.getters["editPage/activeComponent"] != null;
+		}
+		watch(
+			() => store.getters["editPage/activeComponent"],
+			() => {
+				showInteraction.value =
+					store.getters["editPage/activeComponent"] != null;
+			}
+		);
 		let btnSrc = ref("L");
 		let checkedOne = ref(0);
 
@@ -81,6 +99,8 @@ export default {
 			sideExtension,
 			panelSwitchOptions,
 			tabChange,
+			showInteraction,
+			changeShowInteraction,
 		};
 	},
 };
