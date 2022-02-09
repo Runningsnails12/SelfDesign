@@ -191,7 +191,7 @@ const historyGlobalMutations = {
  * 用于替换`editPage`的状态
  * @type {import('vuex').Action<any, any>}
  */
-const replaceState = ({ state, commit }, { editPage }) => {
+const replaceState = ({ commit }, { editPage }) => {
   // 标记是插件在调用`editPage`的 Mutation
   commit(SET_INTERNAL_FLAG_KEY, true);
 
