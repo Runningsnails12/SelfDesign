@@ -33,7 +33,7 @@ import {useStore} from 'vuex';
 import ComponentPanel from '@/components/EditPageComponent/ComponentPanel.vue';
 import CanvasPage from '@/components/EditPageComponent/CanvasPage.vue';
 import ControlPanel from '@/components/EditPageComponent/ControlPanel.vue';
-import { RESET_HISTORY_KEY } from '../store/plugins/history';
+import {RESET_HISTORY_KEY} from '../store/plugins/history';
 
 export default {
   name: 'ProjectEdit',
@@ -163,6 +163,7 @@ export default {
   height: calc(100vh - 63px);
   justify-content: center;
   overflow: scroll;
+  direction: ltr;
 }
 
 /* ----------- 滚动条 ----------- */

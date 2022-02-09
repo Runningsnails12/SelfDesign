@@ -19,7 +19,7 @@
           <button id="undo" @click="undo" :disabled="!canUndo" />
           <button id="redo" @click="redo" :disabled="!canRedo" />
           <button id="edit-save" @click="saveProject" />
-          <p id="edit-save-time">保存于 {{ lastSaveTime }}</p>
+          <p v-if="!isSaveProject" id="edit-save-time">保存于 {{ saveTime }}</p>
         </div>
       </div>
       <div class="right-part">
@@ -50,7 +50,6 @@ export default {
     DialogBox,
   },
   setup() {
-    let lastSaveTime = '00:00'; // 最后一次的保存时间
     // 父传子的数据：修改子
     let dialogVisible = ref(false);
     // 子传父的数据：修改父
@@ -64,17 +63,22 @@ export default {
 
     // 保存
     const route = useRoute();
-    let isSaveProject = ref(false);
-    // let saveTime = ref('');       // 此次保存时间
+    let isSaveProject = ref(true);
+    let saveTime = ref(''); // 此次保存时间
     const saveProject = () => {
       store.commit('editPage/slimComponents');
-      const canvasPageContent = store.state.editPage.slimComponents;
+      const canvasPageContent = store.state.editPage.fileContent;
       api
         .modifyContent({id: route.params.id, content: JSON.stringify(canvasPageContent)})
         .then((res) => {
           if (res.code === 2000) {
-            isSaveProject.value = true;
-            // saveTime.value = new Date(res.data.midifyTime).toLocaleString().replace(/年|月/g, '-').replace(/日/g, ' ');;
+            saveTime.value = new Date(res.data.modifyTime)
+              .toLocaleString()
+              .replace(/年|月/g, '-')
+              .replace(/日/g, ' ');
+            console.log(res);
+            console.log(saveTime.value);
+            isSaveProject.value = false;
           }
         });
     };
@@ -90,7 +94,7 @@ export default {
           // 先保存后发布
           saveProject();
           api.release({id: route.params.id, temp: false}).then((res) => {
-            onlineUrl.value = res.data.data.url;
+            onlineUrl.value = res.data.url;
           });
           dialogVisible.value = !dialogVisible.value;
         }
@@ -98,7 +102,7 @@ export default {
         // 预览
         isPublishBtn.value = isPublish;
         api.release({id: route.params.id, temp: true}).then((res) => {
-          onlineUrl.value = res.data.data.url;
+          onlineUrl.value = res.data.url;
         });
         dialogVisible.value = !dialogVisible.value;
       }
@@ -126,7 +130,7 @@ export default {
       userIcon,
       childData,
       dialogVisible,
-      lastSaveTime,
+      saveTime,
       isSaveProject,
       saveProject,
       displaylDialog,

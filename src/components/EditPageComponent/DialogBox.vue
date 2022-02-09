@@ -7,7 +7,11 @@
         </h3>
         <div class="link-box">
           <img src="/img/EditIcons/链接.png" />
-          <input id="online-link" type="text" :value="linkValue" />
+          <input
+            id="online-link"
+            type="text"
+            :value="'http://159.75.249.227:8848' + linkValue"
+          />
         </div>
         <button :class="btn ? 'publishCopyBtn' : 'copyBtn'" @click="copyPublishLink">
           复 &nbsp; 制
