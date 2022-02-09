@@ -13,7 +13,7 @@
           </ul>
         </div>
         <div class="file-name">
-          <input type="text" :value="$router.currentRoute.value.query.name" />
+          <input type="text" v-model="fileName" @keyup.enter="changeFileName" />
         </div>
         <div class="edit-operation">
           <button id="undo" @click="undo" :disabled="!canUndo" />
@@ -43,6 +43,7 @@ import {
   UNDO_KEY,
 } from '../../store/plugins/history';
 import api from '@/api';
+import Message from '@/components/ShowMessage';
 
 export default {
   name: 'ProjectEditNav',
@@ -162,6 +163,16 @@ export default {
     /** @type {import('vue').ComputedRef<boolean>} */
     const canRedo = computed(() => store.getters[CAN_REDO_KEY]);
 
+    const fileName = ref(route.query.name);
+    const changeFileName = async () => {
+      const {code, message} = await api.modifyName({
+        id: route.params.id,
+        name: fileName.value,
+      });
+      if (code === 2000) Message.success(message);
+      else Message.error(message);
+    };
+
     return {
       userIcon,
       childData,
@@ -176,6 +187,9 @@ export default {
       redo,
       canRedo,
       canUndo,
+
+      fileName,
+      changeFileName,
     };
   },
 };
