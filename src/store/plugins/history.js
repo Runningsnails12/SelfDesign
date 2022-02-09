@@ -22,7 +22,6 @@ const undo = ({ state, dispatch, commit }) => {
   const historyModule = state;
 
   if (historyModule.i <= 0) {
-    console.log('no more earlier history');
     return;
   }
 
@@ -41,7 +40,6 @@ const redo = ({ state, dispatch, commit }) => {
   const historyModule = state;
 
   if (historyModule.i >= historyModule.history.length - 1) {
-    console.log('no more history');
     return;
   }
   
@@ -58,7 +56,6 @@ const redo = ({ state, dispatch, commit }) => {
  */
 const resetHistory = ({ commit }) => {
   commit('truncateHistory', 0);
-  console.log('history reset.');
 };
 
 const INTERNAL_FLAG_KEY = Symbol('isInternal');
@@ -105,9 +102,6 @@ const createEditPageMutationHandler = (store) => {
 
     if (!shouldPushInHistory(mutationType)) return;
   
-    console.log(`${mutationType}: `);
-    console.log({ mutation, state });
-  
     /** @type {{ i: number; history: unknown[] }} */
     const historyModule = state.history;
   
@@ -120,10 +114,6 @@ const createEditPageMutationHandler = (store) => {
   
     store.commit(ADD_ITEM_TO_HISTORY_KEY, clonedWithRootOnly);
     store.commit(UPDATE_I_KEY, historyModule.i + 1);
-  
-    console.log('plugin: ');
-    console.log(historyModule.history);
-    console.log('pointer: ' + historyModule.i);
   };
 
   return onEditPageMutation;
@@ -134,9 +124,6 @@ const createEditPageMutationHandler = (store) => {
  * @param {import('vuex').Store} store Store实例
  */
 const historyPlugin = (store) => {
-  console.log('history plugin');
-
-  console.log('register history module: ');
   store.registerModule(MODULE_KEY, {
     
     namespaced: true,
@@ -185,9 +172,6 @@ const historyPlugin = (store) => {
 
   const onEditPageMutation = createEditPageMutationHandler(store);
   store.subscribe(onEditPageMutation);
-
-  console.log(store);
-  console.log('history plugin installed');
 };
 
 /** 
@@ -222,9 +206,6 @@ const replaceState = ({ state, commit }, { editPage }) => {
   commit('editPage/addComponent', { node: root, parentId: 0 });
 
   commit(SET_INTERNAL_FLAG_KEY, false);
-
-  console.log('after replaceState:');
-  console.log(state.editPage);
 };
 
 const historyGlobalActions = {

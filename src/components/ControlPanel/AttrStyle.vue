@@ -702,7 +702,6 @@ export default {
 					default:
 						throw new TypeError('unrecognized border type: ' + type);
 				}
-				console.log(s);
 				setStyle({ 'border': s });
 			}
     };
