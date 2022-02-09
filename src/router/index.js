@@ -46,4 +46,9 @@ const router = createRouter({
   routes
 });
 
+router.beforeEach((to, from, next) => {
+  if (to.name === 'ProjectEdit' && !localStorage.getItem('token')) next({ name: 'project' });
+  else next();
+});
+
 export default router;
