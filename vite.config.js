@@ -32,4 +32,8 @@ export default defineConfig({
       }
     }
   },
+	esbuild: {
+		pure: ["console.log"],
+		minify: true,
+	}
 });
