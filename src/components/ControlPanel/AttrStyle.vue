@@ -127,14 +127,14 @@
 				<div>
           <input
             type="checkbox"
-            v-model="hasBorder"
-            @change="onBorderChange"
+            :checked="hasBorder"
+            @change="onSetBorder"
           >
           <b>边框</b>
           <el-color-picker
             class="colorChoose border-color"
-            v-model="borderColor"
-            @change="onBorderChange"
+            :model-value="borderColor"
+            @update:model-value="(color) => onBorderChange('color', color)"
           />
         </div>
         <div class="border">
@@ -142,15 +142,15 @@
           <input
             class="editable"
             contenteditable="true"
-            v-model.number="borderThicknessInNumber"
-            @change="onBorderChange"
+            :value="borderThickness"
+            @change="(e) => onBorderChange('thickness', e.target.value)"
           >
           <b>类型</b>
           <el-select
             v-model="borderTypes.value"
             class="borderType"
             placeholder="borderType"
-            @change="onBorderChange"
+            @change="(type) => onBorderChange('type', type)"
           >
             <el-option
               v-for="item in borderTypes.options"
@@ -645,14 +645,65 @@ export default {
 		// #endregion 超旭end
 
 		//#region 边框
-    let borderThicknessInNumber = ref(0);
-    let hasBorder = ref(borderThicknessInNumber.value > 0);
-    let borderColor = ref('#000000');
+		const componentBorder = computed(() =>
+      compData.value?.style['border']
+    );
+	
+		const hasBorder = computed(() => 
+      !(componentBorder.value === undefined
+        || componentBorder.value === 'none')
+    );
 
-    const onBorderChange = () => {
-      setStyle({
-        'border': `${borderThicknessInNumber.value}px ${borderTypes.value} ${borderColor.value}`
-      });
+    const defaultBorder = '1px solid #bbbbbb';
+		const onSetBorder = (e) => {
+      const bool = e.target.checked;
+      setStyle({ 'border': bool ? defaultBorder : 'none' });
+    };
+	
+		/** @type {import('vue').ComputedRef<string[]>} */
+    const borderToken = computed(() => {
+      /** expect border: 1px solid #bbbbbb; */
+      const splits = hasBorder.value ?
+        componentBorder.value.split(' ') :
+        defaultBorder.split(' ');
+      const thickness = splits[0].slice(0, -2);
+			const type = splits[1];
+      const color = splits[2];
+      /** return ['1','solid','#bbbbbb'] */
+      return [thickness, type, color];
+    });
+
+		const borderColor = computed(() =>
+      borderToken.value[2]
+				?? /** 如果变量是 undefined */ '#bbbbbb'
+    );
+    const borderThickness = computed(() => borderToken.value[0]);
+
+		/** @typedef {'thickness' | 'type' | 'color'} BorderChangeType */
+    /** @type {(type: BorderChangeType; val: string) => void} */
+    const onBorderChange = (type, val) => {
+			if (hasBorder.value) {
+        const template = ({
+					thickness = borderThickness.value,
+					type = borderTypes.value,
+					color = borderColor.value
+				}) => `${thickness}px ${type} ${color}`;
+        let s;
+				switch (type) {
+					case 'thickness':
+						s = template({ thickness: val });
+						break;
+					case 'type':
+						s = template({ type: val });
+						break;
+					case 'color':
+						s = template({ color: val });
+						break;
+					default:
+						throw new TypeError('unrecognized border type: ' + type);
+				}
+				setStyle({ 'border': s });
+			}
     };
     //#endregion 边框
 	
@@ -667,7 +718,7 @@ export default {
         || componentShadow.value === 'none')
     );
 
-    const defaultShadow = '0px 0px 0px 0px rgba(255,255,255,1)';
+    const defaultShadow = '1px 1px 1px 1px rgba(0,0,0,1)';
     const onSetShadow = (e) => {
       const bool = e.target.checked;
       setStyle({ 'box-shadow': bool ? defaultShadow : 'none' });
@@ -786,11 +837,12 @@ export default {
 			BgColor,
 
 			///#region 边框
-      borderThicknessInNumber,
       hasBorder,
       borderColor,
+      borderThickness,
 
-      onBorderChange,
+      onSetBorder,
+			onBorderChange,
       ///#endregion 边框
 
       //#region 阴影

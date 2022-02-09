@@ -50,8 +50,6 @@ const changeComponentSizeTo = ({ width, height }) => {
 };
 
 const onSizeChange = (delta) => {
-  console.log('delta: ');
-  console.log(delta);
 
   const { deltaX, deltaY } = delta;
 
