@@ -892,11 +892,11 @@ export default {
 
 		//runnging-snails  begin
 		const changeVertical = (type) => {
-			setStyle({ alignItems: type });
+			setStyle({ 'align-items': type });
 		};
 
 		const changeAlign = (type) => {
-			setStyle({ justifyContent: type });
+			setStyle({ 'justify-content': type });
 		};
 		//runnging-snails  end
 
