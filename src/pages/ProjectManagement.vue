@@ -190,9 +190,7 @@ const onFileChange = async () => {
 
   if (resp.flag) {
     Message.success(resp.message);
-    setTimeout(() => {
-      router.push('/projectEdit/' + resp.data.id);
-    }, 2000);
+    updateProject();
   } else {
     Message.error(resp.data.message);
   }
