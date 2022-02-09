@@ -13,7 +13,7 @@
           </ul>
         </div>
         <div class="file-name">
-          <input type="text" value="未命名文件" />
+          <input type="text" :value="$router.currentRoute.value.query.name" />
         </div>
         <div class="edit-operation">
           <button id="undo" @click="undo" :disabled="!canUndo" />
@@ -32,8 +32,9 @@
 </template>
 
 <script>
-import {computed, ref, provide} from 'vue';
-import {useRoute} from 'vue-router';
+import {computed, ref, provide, watch} from 'vue';
+import {useStore} from 'vuex';
+import {useRoute, useRouter} from 'vue-router';
 import DialogBox from '@/components/EditPageComponent/DialogBox.vue';
 import {
   CAN_REDO_KEY,
@@ -41,7 +42,6 @@ import {
   REDO_KEY,
   UNDO_KEY,
 } from '../../store/plugins/history';
-import {useStore} from 'vuex';
 import api from '@/api';
 
 export default {
@@ -61,8 +61,9 @@ export default {
     const store = useStore();
     const userIcon = computed(() => store.state.username?.slice(0, 2));
 
-    // 保存
     const route = useRoute();
+    const router = useRouter();
+    // 保存
     let isSaveProject = ref(true);
     let saveTime = ref(''); // 此次保存时间
     const saveProject = () => {
@@ -72,16 +73,51 @@ export default {
         .modifyContent({id: route.params.id, content: JSON.stringify(canvasPageContent)})
         .then((res) => {
           if (res.code === 2000) {
+            router.replace({
+              // 修改路由参数，主修改时间
+              query: {
+                modifyTime: res.data.modifyTime,
+                name: router.currentRoute.value.query.name,
+              },
+            });
             saveTime.value = new Date(res.data.modifyTime)
               .toLocaleString()
               .replace(/年|月/g, '-')
               .replace(/日/g, ' ');
-            console.log(res);
-            console.log(saveTime.value);
             isSaveProject.value = false;
           }
         });
     };
+
+    // 自动保存
+    let s = ref(0);
+    const TimeCount = () => {
+      if (s.value > 5 * 60) {
+        console.log('5min');
+        s.value = 0;
+        saveProject();
+      }
+      s.value++;
+      setTimeout(TimeCount, 1000);
+    };
+
+    TimeCount();
+
+    // 动态监听
+    watch(
+      () => [router.currentRoute.value.query.modifyTime, saveTime.value],
+      ([time]) => {
+        saveTime.value = new Date(Number(time))
+          .toLocaleString()
+          .replace(/年|月/g, '-')
+          .replace(/日/g, ' ');
+        isSaveProject.value = false;
+      },
+      {
+        deep: false,
+        immediate: true, // 首次加载时执行
+      }
+    );
 
     // 预览 & 发布
     let isPublishBtn = ref(true);
@@ -187,6 +223,7 @@ export default {
   box-sizing: border-box;
   transition: ease-in-out all 0.5s;
   z-index: 1;
+  cursor: pointer;
 }
 
 /* 二级导航 */

@@ -3,25 +3,21 @@
     <div class="title">
       <div class="w1000_flex">
         <div class="title_left">
-          <div>SelfDeign</div>
+          <div>
+            <strong>SelfDeign</strong>
+          </div>
           <div>零代码设计平台</div>
           <div>快速创建属于你的网页</div>
         </div>
         <div class="title_right">
-          <img 
-            src="/img/course/1.png" 
-            alt="1" 
-          >
+          <img src="/img/course/1.png" alt="1" />
         </div>
       </div>
     </div>
     <div class="info">
       <div class="w1000_flex">
         <div class="info_left">
-          <img 
-            src="/img/course/2.png"
-            alt="2"
-          >
+          <img src="/img/course/2.png" alt="2" />
         </div>
         <div class="info_right">
           <div>随意拼接</div>
@@ -44,25 +40,18 @@
     </div>
     <div class="go">
       <div class="text">
-        快来创建<br>
+        快来创建<br />
         一个属于你的网页吧
       </div>
       <div>
-        <div 
-          class="btn" 
-          @click="go"
-        >
-          立即使用
-        </div>
+        <div class="btn" @click="go">立即使用</div>
       </div>
     </div>
-    <div class="foot">
-      ©2022-SelfDesign
-    </div>
+    <div class="foot">©2022-SelfDesign</div>
   </div>
 </template>
 <script setup>
-import { useRouter } from 'vue-router';
+import {useRouter} from 'vue-router';
 const router = useRouter();
 const go = () => router.push('/project');
 </script>
@@ -76,7 +65,7 @@ const go = () => router.push('/project');
   & > div {
     display: flex;
     justify-content: center;
-    padding: 30px 0;
+    padding: 82px 0 72px;
   }
   .title {
     div {
@@ -84,10 +73,10 @@ const go = () => router.push('/project');
         display: flex;
         flex-direction: column;
         justify-content: center;
-        font-size: 44px;
+        font-size: 50px;
         div {
-          font-family: Microsoft YaHei-Regular, Microsoft YaHei;
-          font-weight: bold;
+          font-family: Book Antiqua;
+          // font-weight: bold;
           color: #444444;
           line-height: 60px;
           white-space: nowrap;
@@ -181,5 +170,10 @@ const go = () => router.push('/project');
     color: #fff;
     background: #666666;
   }
+}
+iframe {
+  padding-bottom: 10px;
+  border-radius: 20px;
+  border: 1px solid #666666;
 }
 </style>
