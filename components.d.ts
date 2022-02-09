@@ -14,13 +14,10 @@ declare module 'vue' {
     ControlPanel: typeof import('./src/components/EditPageComponent/ControlPanel.vue')['default']
     DeleteComponent: typeof import('./src/components/UserComponent/ActiveComponentFrame/childComps/DeleteComponent.vue')['default']
     DialogBox: typeof import('./src/components/EditPageComponent/DialogBox.vue')['default']
-<<<<<<< HEAD
-    I: typeof import('./src/components/ControlPanel/i.vue')['default']
-=======
     ElColorPicker: typeof import('element-plus/es')['ElColorPicker']
     ElOption: typeof import('element-plus/es')['ElOption']
     ElSelect: typeof import('element-plus/es')['ElSelect']
->>>>>>> 347394dabe2b89c0be1284a969004f817a05cca4
+    I: typeof import('./src/components/ControlPanel/i.vue')['default']
     Interaction: typeof import('./src/components/ControlPanel/Interaction.vue')['default']
     LogIn: typeof import('./src/components/LoginForm/LogIn.vue')['default']
     LoginForm: typeof import('./src/components/LoginForm/LoginForm.vue')['default']
