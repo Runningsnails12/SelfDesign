@@ -192,7 +192,7 @@
           <input
             class="editable"
             contenteditable="true"
-						v-model="opacity"
+            v-model="opacity"
           >
           <em class="per">%</em>
           <b>不透明度</b>
@@ -481,15 +481,15 @@ export default {
     // #region 超旭start
     const store = useStore();
 
-		// 给当前组件设置样式
-		function setStyle(obj) {
-			for (let attr in obj) {
-				if (obj[attr].__v_isRef) {
-					obj[attr] = obj[attr].value;
-				}
-			}
-			store.commit("editPage/setActiveComponentStyle", obj);
-		}
+    // 给当前组件设置样式
+    function setStyle(obj) {
+      for (let attr in obj) {
+        if (obj[attr].__v_isRef) {
+          obj[attr] = obj[attr].value;
+        }
+      }
+      store.commit('editPage/setActiveComponentStyle', obj);
+    }
 
     // 这个就是判断组件都可以改那些值的对象
     let tagOptions = ref({
