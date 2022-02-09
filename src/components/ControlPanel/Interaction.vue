@@ -33,7 +33,7 @@
 			<ul>
 				<li v-for="item in options" class="item" :key="item.name">
 					<h4 class="itemTitle">{{ item.title }}</h4>
-					<el-select v-modal="item.value" placeholder="请选择">
+					<el-select v-model="item.value" placeholder="请选择">
 						<el-option
 							class="select"
 							v-for="data in item.data"
@@ -52,7 +52,7 @@
 						class="el-input__inner"
 						type="text"
 						:placeholder="argument.tip"
-						v-modal="argument.value"
+						v-model="argument.value"
 					/>
 				</li>
 			</ul>
