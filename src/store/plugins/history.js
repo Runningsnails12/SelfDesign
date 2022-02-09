@@ -65,21 +65,21 @@ const INTERNAL_FLAG_KEY = Symbol('isInternal');
 
 const MODULE_KEY = 'history';
 
-const shouldPushInHistory = (type) => (
-  ![
-    'setActiveContainer',
-    'resetActiveContainer',
-    'setActiveComponentTempStyle',
-    'clearActiveComponentTempStyle',
-    'setActiveComponent',
-    'resetActiveComponent',
-    'setActiveComponentSize',
-    'clearAllStates',
-    'initComponents',
-    'setFileContent',
-    'slimComponents'
-  ].includes(type)
-);
+const BLOCK_LIST = new Set([
+  'setActiveContainer',
+  'resetActiveContainer',
+  'setActiveComponentTempStyle',
+  'clearActiveComponentTempStyle',
+  'setActiveComponent',
+  'resetActiveComponent',
+  'setActiveComponentSize',
+  'clearAllStates',
+  'initComponents',
+  'setFileContent',
+  'slimComponents'
+]);
+
+const shouldPushInHistory = (type) => !BLOCK_LIST.has(type);
 
 /** @typedef {Parameters<Subscribe>[0]} SubscribeHandler */
 
