@@ -1,6 +1,12 @@
 <template>
   <div class="nav">
     <div class="nav_left">
+      <img 
+        src="/logo.png" 
+        alt="logo" 
+        class="logo" 
+        @click="router.push('/tutorial')"
+      >
       <div 
         v-for="item in navData" 
         :key="item.id" 
@@ -138,9 +144,16 @@ const saveUsername=async()=>{
   box-shadow: 0px 3px 6px 1px rgba(0, 0, 0, 0.16);
   .nav_left {
     display: flex;
-    margin-left: 180px;
+    margin-left: 140px;
     justify-content: center;
+    align-items: center;
     transition: width 0.5s ease-in-out;
+    .logo{
+      width: 153px;
+      height: 30px;
+      margin-right: 30px;
+      cursor: pointer;
+    }
     .nav_item {
       display: flex;
       margin-right: 32px;
