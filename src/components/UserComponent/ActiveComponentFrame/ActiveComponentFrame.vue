@@ -44,7 +44,6 @@ export default {
       const{offsetX: mouseLeft, offsetY: mouseTop} = e;
 
       const style = {
-        'z-index': 100,
         'pointer-events':'none'
       }
       store.commit('editPage/setActiveComponentTempStyle', style)

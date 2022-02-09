@@ -31,7 +31,7 @@ export default {
     const store = useStore();
     const rootNode = reactive(props.content.root);
     store.commit('editPage/setFileContent', props.content); // 把 除 root 外的其他属性保存到 content 里
-    store.commit('editPage/addComponent', {node: rootNode, parentId: 0}); // 初始化组件
+    store.commit('editPage/initComponents', {node: rootNode, parentId: 0}); // 初始化组件
     return {
       componentMap,
       rootNode,
