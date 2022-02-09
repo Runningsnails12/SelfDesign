@@ -27,7 +27,7 @@ export default createStore({
     editPage
   },
   plugins: [
-    // historyPlugin
+    historyPlugin
   ]
 });
 
