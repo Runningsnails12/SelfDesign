@@ -481,8 +481,13 @@ export default {
     // #region 超旭start
     const store = useStore();
 
+    let initStatus = false;
+
     // 给当前组件设置样式
     function setStyle(obj) {
+      if (initStatus){
+        return;
+      }
       for (let attr in obj) {
         if (obj[attr].__v_isRef) {
           obj[attr] = obj[attr].value;
@@ -526,6 +531,19 @@ export default {
           tagOptions.value.position = ['PositionLayout'].includes(
             compData.value.parentTag
           );
+          initStatus = true;
+					
+          // text
+          if (tagOptions.value.text){
+            // font-familys
+            let cFontFamily = compData.value.style['font-family'];
+            // fontFamilys.value = cFontFamily?cFontFamily:style[compData.value.tag]['font-family'];
+
+						// font-size
+            let cFontSize = compData.value.style['font-size'];
+						fontSizes.value = cFontSize?cFontSize:style[compData.value.tag]['font-size'];
+          }
+          initStatus = false;
         } else {
           tagOptions.value = {};
         }
