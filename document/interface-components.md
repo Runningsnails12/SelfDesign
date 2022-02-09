@@ -1,4 +1,4 @@
-# 组件操作接口
+# **组件操作接口**
 
 ## 添加节点
 
@@ -163,6 +163,6 @@ store.commit('editPage/resetActiveComponent')
  // 比较耗时，执行函数期间最好禁止用户发起其他操作
  // 两条语句一起操作，且不能互换次序
   store.commit("editPage/slimComponents");
-  const json = store.state.editPage.slimComponents;
+  const json = store.state.editPage.fileContent;
  
 ```

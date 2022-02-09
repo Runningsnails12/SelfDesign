@@ -1,7 +1,7 @@
 <template>
   <component-decorator :id="rootNode.id" v-slot="{data}">
     <component
-      :is="componentMap.get(rootNode.tag)"
+      :is="componentMap.get(content.root.tag)"
       @click.stop
       v-bind="data"
       :component-id="rootNode.id"
@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import {reactive} from 'vue-demi';
 import {useStore} from 'vuex';
 import ActiveComponentFrame from './ActiveComponentFrame/ActiveComponentFrame.vue';
 import componentMap from './componentMap';
@@ -20,7 +21,7 @@ import useUserComponentTransformer from './transformers';
 export default {
   components: {ActiveComponentFrame},
   props: {
-    rootNode: {
+    content: {
       type: Object,
       required: true,
     },
@@ -28,9 +29,12 @@ export default {
   setup(props) {
     useUserComponentTransformer();
     const store = useStore();
-    store.commit('editPage/addComponent', {node: props.rootNode, parentId: 0}); // 初始化组件
+    const rootNode = reactive(props.content.root);
+    store.commit('editPage/setFileContent', props.content); // 把 除 root 外的其他属性保存到 content 里
+    store.commit('editPage/addComponent', {node: rootNode, parentId: 0}); // 初始化组件
     return {
       componentMap,
+      rootNode,
     };
   },
 };

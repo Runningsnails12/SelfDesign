@@ -102,6 +102,7 @@ export default {
     components: new Map(),
     activeComponentId: -1,
     activeContainerId: -1,
+    fileContent: {}, // 保存后端返回的 content 
     slimComponents: null
   },
   getters: {
@@ -110,7 +111,7 @@ export default {
       if (state.activeComponentId === -1) {
         return null;
       }
-      const activeComponent = state.components.get(state.activeComponentId)
+      const activeComponent = state.components.get(state.activeComponentId);
       return Object.assign({}, activeComponent, {
         parentTag: state.components.get(activeComponent.parentId).tag
       });
@@ -240,6 +241,7 @@ export default {
       state.components = new Map();
       state.activeComponentId = -1;
       state.activeContainerId = -1;
+      state.fileContent = {};
       state.slimComponents = null;
     },
 
@@ -249,13 +251,21 @@ export default {
       if(state.components.size === 0){
         return false;
       }
-      state.slimComponents = componentfilter(state.components.get(1));
+      state.fileContent.root = componentfilter(state.components.get(1));
     },
 
     setActiveComponentSize(state, { widthInPx, heightInPx }) {
       const id = state.activeComponentId;
       state.components.get(id).style.width = widthInPx;
       state.components.get(id).style.height = heightInPx;
+    },
+
+    setFileContent(state, content){
+      for(let key in content){
+        if(key !== 'root'){
+          state.fileContent[key] = content[key];
+        }
+      }
     }
   }
 };
