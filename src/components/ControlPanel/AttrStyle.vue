@@ -270,31 +270,55 @@
       <div class="core">
         <div class="vertical">
           <b>垂直方向</b>
-          <span class="v-top">
+          <span 
+            class="v-top"
+            @click="changeVertical('flex-start')"
+          >
             <i />
           </span>
-          <span class="v-center">
+          <span 
+            class="v-center"
+            @click="changeVertical('center')"
+          >
             <i />
           </span>
-          <span class="v-bottom">
+          <span 
+            class="v-bottom" 
+            @click="changeVertical('flex-end')"
+          >
             <i />
           </span>
-          <span class="v-justify">
+          <span 
+            class="v-justify"
+            @click="changeVertical('space-between')"
+          >
             <i />
           </span>
         </div>
         <div class="align">
           <b>水平方向</b>
-          <span class="a-left">
+          <span 
+            class="a-left"
+            @click="changeAlign('flex-start')"
+          >
             <i />
           </span>
-          <span class="a-center">
+          <span 
+            class="a-center"
+            @click="changeAlign('center')"
+          >
             <i />
           </span>
-          <span class="a-right">
+          <span 
+            class="a-right"
+            @click="changeAlign('flex-end')"
+          >
             <i />
           </span>
-          <span class="a-justify">
+          <span 
+            class="a-justify"
+            @click="changeAlign('space-between')"
+          >
             <i />
           </span>
         </div>
@@ -743,6 +767,16 @@ export default {
     }
     // #endregion 超旭end
 
+    //runnging-snails  begin
+    const changeVertical=(type)=>{
+      compData.value.style['alignItems'] = type;
+    };
+
+    const changeAlign=(type)=>{
+      compData.value.style['justifyContent'] = type;
+    };
+    //runnging-snails  end
+
     return {
       // #region 超旭start
       tagOptions,
@@ -773,6 +807,9 @@ export default {
       changeImageFile,
       uncultivated,
       // #endregion 超旭end
+
+      changeVertical,
+      changeAlign
     };
   },
 };
