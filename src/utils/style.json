@@ -12,7 +12,7 @@
     "border": "1px solid #DCDFE6",
     "box-shadow": "none",
     "opacity": "1",
-    "transform":"rotate(0deg)"
+    "transform": "rotate(0deg)"
   },
   "Text": {
     "width": "100px",
@@ -22,57 +22,55 @@
     "font-size": "16px",
     "font-weight": "normal",
     "text-align": "center",
-    "background-color": "#F5F5F5",
-    "border-radius": "6px 6px 6px 6px",
-    "border": "1px solid #DCDFE6",
+    "background-color": "transparent",
+    "border-radius": "0",
+    "border": "none",
     "box-shadow": "none",
     "opacity": "1",
-    "transform":"rotate(0deg)"
+    "transform": "rotate(0deg)"
   },
   "Image": {
-    "width":"50px",
-    "height":"50px",
+    "width": "120px",
+    "height": "120px",
     "background-color": "#fff",
     "border-radius": "2px 2px 2px 2px",
     "border": "1px solid #bbbbbb",
     "box-shadow": "none",
     "opacity": "1",
-    "transform":"rotate(0deg)"
+    "transform": "rotate(0deg)"
   },
   "PositionLayout": {
-    "left":"0",
-    "right":"0",
-    "width": "100px",
-    "height": "50px",
-    "background-color": "#fff",
+    "width": "400px",
+    "height": "400px",
+    "background-color": "transparent",
     "border-radius": "0",
     "border": "none",
     "box-shadow": "none",
     "opacity": "1",
-    "transform":"rotate(0deg)"
+    "transform": "rotate(0deg)"
   },
-  "HorizontalLayout":{
-    "width": "100px",
-    "height": "50px",
+  "HorizontalLayout": {
+    "width": "400px",
+    "height": "200px",
     "justify-content": "flex-start",
-    "background-color": "#fff",
+    "background-color": "transparent",
     "border-radius": "0",
     "border": "none",
     "box-shadow": "none",
     "opacity": "1",
-    "transform":"rotate(0deg)",
-    "align-items":"center"
+    "transform": "rotate(0deg)",
+    "align-items": "center"
   },
-  "VerticalLayout":{
-    "width": "100px",
-    "height": "50px",
+  "VerticalLayout": {
+    "width": "200px",
+    "height": "400px",
     "justify-content": "flex-start",
-    "background-color": "#fff",
+    "background-color": "transparent",
     "border-radius": "0",
     "border": "none",
     "box-shadow": "none",
     "opacity": "1",
-    "transform":"rotate(0deg)",
-    "align-items":"center"
+    "transform": "rotate(0deg)",
+    "align-items": "center"
   }
 }
