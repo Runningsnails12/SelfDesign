@@ -775,11 +775,11 @@ export default {
 
     //runnging-snails  begin
     const changeVertical=(type)=>{
-      compData.value.style['alignItems'] = type;
+      setStyle({ 'alignItems': type });
     };
 
     const changeAlign=(type)=>{
-      compData.value.style['justifyContent'] = type;
+      setStyle({ 'justifyContent': type });
     };
     //runnging-snails  end
 
