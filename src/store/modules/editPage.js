@@ -62,6 +62,10 @@ function generateNode(nodeTemplate, parentId) {
 
 // 重置 activeComponentId
 function resetActiveComponent(state) {
+  if(state.activeComponentId === -1){
+    return;
+  }
+  state.components.get(state.activeComponentId).tempStyle = {}
   state.activeComponentId = -1;
 }
 
@@ -165,7 +169,10 @@ export default {
       if (id === 1) { // 不能选中根组件
         return;
       }
+      resetActiveComponent(state); // 设置之前先重置
       state.activeComponentId = id;
+      // 设置临时样式 z-index 置于顶层
+      state.components.get(id).tempStyle['z-index'] = 1000;
     },
 
     // 重置活动组件
