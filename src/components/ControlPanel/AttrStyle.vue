@@ -321,6 +321,7 @@ import { ref, reactive, watch, watchEffect } from "vue";
 import { useStore } from "vuex";
 import { tagToOptions } from "@/utils/tagToOptions/index.js";
 import api from "@/api/index.js";
+import style from '@/utils/style.json';
 
 export default {
 	name: "AttrStyle",
