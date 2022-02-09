@@ -197,6 +197,7 @@ const onFileChange = async () => {
     Message.error(resp.data.message);
   }
 };
+
 </script>
 <style lang="scss">
 .management {

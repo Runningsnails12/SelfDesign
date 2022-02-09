@@ -4,6 +4,7 @@
 import axios from 'axios';
 import config from '../config';
 import router from '@/router';
+import store from '@/store';
 
 //axiox实例
 const service = axios.create({
@@ -24,6 +25,9 @@ service.interceptors.request.use((req) => {
 service.interceptors.response.use((res) => {
   const { code } = res.data;
   if (code === 4002) {
+    store.commit('setLoginFormClose',true);
+    store.commit('setToken',undefined);
+    store.commit('setUsername',undefined);
     localStorage.removeItem('token');
     router.push('/project');
   }
