@@ -2,7 +2,7 @@
   <div id="outsidebox">
     <div id="canvas-page">
       <!-- 比例系数：{{ parseInt(scaleCoefficient) * 0.01 }} -->
-      <the-root-component v-if="!loading" :root-node="root" />
+      <the-root-component v-if="!loading" :content="root" />
     </div>
   </div>
 </template>
@@ -37,7 +37,9 @@ export default {
     let root = ref({});
     const route = useRoute();
     api.getProjectContent({id: route.params.id}).then((res) => {
-      root.value = res.data.content.root;
+      console.log('渲染');
+      console.log(res);
+      root.value = res.data.content;
       loading.value = false;
     });
 

@@ -1,9 +1,9 @@
 {
-  "button": {
+  "Button": {
     "width": "20px",
     "height": "20px",
     "color": "#666666",
-    "font-family": "Microsoft YaHei, Microsoft YaHei",
+    "font-family": "微软雅黑",
     "font-size": "16px",
     "font-weight": "normal",
     "text-align": "center",
@@ -14,11 +14,11 @@
     "opacity": "1",
     "transform":"rotate(0deg)"
   },
-  "text": {
+  "Text": {
     "width": "100px",
     "height": "30px",
     "color": "#666666",
-    "font-family": "Microsoft YaHei, Microsoft YaHei",
+    "font-family": "微软雅黑",
     "font-size": "16px",
     "font-weight": "normal",
     "text-align": "center",
@@ -29,7 +29,7 @@
     "opacity": "1",
     "transform":"rotate(0deg)"
   },
-  "image": {
+  "Image": {
     "width":"50px",
     "height":"50px",
     "background-color": "#fff",

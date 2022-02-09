@@ -10,8 +10,7 @@
           <input
             id="online-link"
             type="text"
-            :value="linkValue"
-            placeholder="https://www.baidu.com"
+            :value="'http://159.75.249.227:8848' + linkValue"
           />
         </div>
         <button :class="btn ? 'publishCopyBtn' : 'copyBtn'" @click="copyPublishLink">
@@ -46,15 +45,15 @@ export default {
       }
     );
 
-    // 是否是发布的按钮
-    const btn = inject('isPublishBtn');
+    const btn = inject('isPublishBtn'); // 是否是发布的按钮
 
+    // 取消
     const cancelDialog = () => {
       emit('dialogVisible', dialogDisvisible.value);
     };
 
     // 点击复制，复制链接
-    let linkValue = ref('https://github.com/Runningsnails12/SelfDesign');
+    let linkValue = inject('onlineUrl'); // 返回的访问地址
     const copyPublishLink = () => {
       let onlineLink = document.getElementById('online-link');
       onlineLink.select();

@@ -62,6 +62,10 @@ function generateNode(nodeTemplate, parentId) {
 
 // 重置 activeComponentId
 function resetActiveComponent(state) {
+  if(state.activeComponentId === -1){
+    return;
+  }
+  state.components.get(state.activeComponentId).tempStyle = {}
   state.activeComponentId = -1;
 }
 
@@ -77,6 +81,21 @@ function addComponent(state, { node, parentId = 1 }) {
     node.children.forEach(child => addComponent(state, { node: child, parentId: copyNode.id }));
   }
 }
+
+
+// 初始化节点, 需要被加入黑名单
+function initComponents(state, { node, parentId = 1 }) {
+  const copyNode = generateNode(node, parentId);
+  state.components.set(copyNode.id, copyNode); // 往 map 中添加节点
+  if (parentId !== 0) {
+    // 非根节点
+    state.components.get(parentId).children.push(copyNode); // 构造树状数据
+  }
+  if (node.children) {
+    node.children.forEach(child => initComponents(state, { node: child, parentId: copyNode.id }));
+  }
+}
+
 
 
 // 过滤节点
@@ -102,6 +121,7 @@ export default {
     components: new Map(),
     activeComponentId: -1,
     activeContainerId: -1,
+    fileContent: {}, // 保存后端返回的 content 
     slimComponents: null
   },
   getters: {
@@ -110,7 +130,7 @@ export default {
       if (state.activeComponentId === -1) {
         return null;
       }
-      const activeComponent = state.components.get(state.activeComponentId)
+      const activeComponent = state.components.get(state.activeComponentId);
       return Object.assign({}, activeComponent, {
         parentTag: state.components.get(activeComponent.parentId).tag
       });
@@ -123,6 +143,9 @@ export default {
   },
 
   mutations: {
+    // 初始化节点
+    initComponents,
+
     // 添加组件
     addComponent,
 
@@ -161,10 +184,13 @@ export default {
 
     // 修改当前活动组件
     setActiveComponent(state, id) {
-      if (id === 1) { // 不能选中根组件
+      if (id === -1 || id === 1) { // 不能选中根组件
         return;
       }
+      resetActiveComponent(state); // 设置之前先重置
       state.activeComponentId = id;
+      // 设置临时样式 z-index 置于顶层
+      state.components.get(id).tempStyle['z-index'] = 1000;
     },
 
     // 重置活动组件
@@ -240,6 +266,7 @@ export default {
       state.components = new Map();
       state.activeComponentId = -1;
       state.activeContainerId = -1;
+      state.fileContent = {};
       state.slimComponents = null;
     },
 
@@ -249,13 +276,21 @@ export default {
       if(state.components.size === 0){
         return false;
       }
-      state.slimComponents = componentfilter(state.components.get(1));
+      state.fileContent.root = componentfilter(state.components.get(1));
     },
 
     setActiveComponentSize(state, { widthInPx, heightInPx }) {
       const id = state.activeComponentId;
       state.components.get(id).style.width = widthInPx;
       state.components.get(id).style.height = heightInPx;
+    },
+
+    setFileContent(state, content){
+      for(let key in content){
+        if(key !== 'root'){
+          state.fileContent[key] = content[key];
+        }
+      }
     }
   }
 };
