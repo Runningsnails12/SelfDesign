@@ -40,13 +40,14 @@
 							:key="data.value"
 							:label="data.label"
 							:value="data.value"
+							:disabled="data.disabled"
 							@click="getTip()"
 						>
 						</el-option>
 					</el-select>
 				</li>
 				<li class="item">
-					<h4 class="itemTitle">目标页面</h4>
+					<h4 class="itemTitle">目标{{ argument.tip }}</h4>
 					<input
 						class="el-input__inner"
 						type="text"
@@ -64,6 +65,7 @@
 <script>
 import { ref, reactive, defineComponent, handleError, watch } from "vue";
 import { useStore } from "vuex";
+import { tagToOptions } from "@/utils/tagToOptions/index.js";
 
 export default defineComponent({
 	name: "Interaction",
@@ -84,19 +86,40 @@ export default defineComponent({
 			originAddEvent(curEvent[index]);
 			this.triggleIsAdd(index);
 		}
+
+		let currentlySelected = reactive({});
+		let Tagoptions = reactive({
+			align: false,
+			appearance: false,
+			change: false,
+			event: {
+				mouse: false,
+				keydown: false,
+				keyup: false,
+			},
+			image: false,
+			order: false,
+			position: false,
+			text: false,
+			textContent: false,
+		});
+
 		watch(
 			() => store.getters["editPage/activeComponent"],
 			() => {
-				if (store.getters["editPage/activeComponent"]) {
+				currentlySelected = store.getters["editPage/activeComponent"];
+
+				Tagoptions = tagToOptions(currentlySelected.tag);
+
+				if (currentlySelected.value) {
 					// 选取的元素 不为 null
-					if (store.getters["editPage/activeComponent"].event) {
+					if (currentlySelected.value.event) {
 						// 是有event
 						// event 的 length 不等于 0
-						let event = store.getters["editPage/activeComponent"].event;
+						let event = currentlySelected.value.event;
 						// curEvent = reactive([]);
 						curEvent.length = 0;
 						for (let i = 0; i < event.length; i++) {
-							console.log("98");
 							curEvent[i] = {
 								type: {
 									value: event[i].type,
@@ -115,7 +138,7 @@ export default defineComponent({
 								},
 							};
 						}
-						console.log(JSON.parse(JSON.stringify(curEvent)));
+						// console.log(JSON.parse(JSON.stringify(curEvent)));
 					}
 				}
 			}
@@ -171,14 +194,17 @@ export default defineComponent({
 					{
 						value: "mouse",
 						label: "鼠标",
+						disabled: !Tagoptions.event.mouse,
 					},
 					{
 						value: "keydown",
 						label: "键盘按下",
+						disabled: !Tagoptions.event.keydown,
 					},
 					{
 						value: "keyup",
 						label: "键盘弹起",
+						disabled: !Tagoptions.event.keyup,
 					},
 				],
 			},
@@ -191,10 +217,6 @@ export default defineComponent({
 					{
 						value: "click",
 						label: "单击",
-					},
-					{
-						value: "dbClick",
-						label: "双击",
 					},
 				],
 			},
@@ -231,13 +253,7 @@ export default defineComponent({
 				],
 			},
 		});
-		watch(
-			() => curEvent,
-			() => {
-				console.log(JSON.parse(JSON.stringify(curEvent)));
-			},
-			{ deep: true }
-		);
+
 		let argument = reactive({
 			value: oriEvent.argument.value,
 
@@ -245,7 +261,7 @@ export default defineComponent({
 		});
 
 		function getTip() {
-			let tip = "请输入";
+			let tip = "";
 			switch (options.handleType.value) {
 				case "toast":
 				case "modal":
@@ -264,7 +280,6 @@ export default defineComponent({
 		}
 		function getLabel(key) {
 			let res = "";
-			console.log(key);
 			switch (key) {
 				case "mouse":
 					res = "鼠标";
@@ -328,7 +343,7 @@ export default defineComponent({
 					value: argument.value,
 				};
 				if (isAdd.value != "add") {
-					console.log(curEvent);
+					// console.log(curEvent);
 					curEvent.splice(isAdd.value, 1);
 					curEvent.splice(isAdd.value, 0, event);
 				} else {
