@@ -74,7 +74,10 @@ const shouldPushInHistory = (type) => (
     'setActiveComponent',
     'resetActiveComponent',
     'setActiveComponentSize',
-    'clearAllStates'
+    'clearAllStates',
+    'initComponents',
+    'setFileContent',
+    'slimComponents'
   ].includes(type)
 );
 

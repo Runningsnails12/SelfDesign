@@ -83,6 +83,21 @@ function addComponent(state, { node, parentId = 1 }) {
 }
 
 
+// 初始化节点, 需要被加入黑名单
+function initComponents(state, { node, parentId = 1 }) {
+  const copyNode = generateNode(node, parentId);
+  state.components.set(copyNode.id, copyNode); // 往 map 中添加节点
+  if (parentId !== 0) {
+    // 非根节点
+    state.components.get(parentId).children.push(copyNode); // 构造树状数据
+  }
+  if (node.children) {
+    node.children.forEach(child => initComponents(state, { node: child, parentId: copyNode.id }));
+  }
+}
+
+
+
 // 过滤节点
 function componentfilter(root){
   const slimNode = {
@@ -128,6 +143,9 @@ export default {
   },
 
   mutations: {
+    // 初始化节点
+    initComponents,
+
     // 添加组件
     addComponent,
 
