@@ -3,6 +3,7 @@
  */
 import axios from 'axios';
 import config from '../config';
+import router from '@/router';
 
 //axiox实例
 const service = axios.create({
@@ -21,10 +22,11 @@ service.interceptors.request.use((req) => {
 
 //响应拦截
 service.interceptors.response.use((res) => {
-  // const { code, data, msg } = res.data;
-  // if (code === 200) {
-  //     return data;
-  // }
+  const { code } = res.data;
+  if (code === 4002) {
+    localStorage.removeItem('token');
+    router.push('/project');
+  }
   return res.data;
 });
 

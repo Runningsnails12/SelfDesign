@@ -4,7 +4,7 @@
       <div class="user_info_bg">
         <div class="ava">
           <img
-            src="img/默认头像.png"
+            src="/img/默认头像.png"
             alt="头像"
             class="ava_img"
             v-if="!store.state.token"

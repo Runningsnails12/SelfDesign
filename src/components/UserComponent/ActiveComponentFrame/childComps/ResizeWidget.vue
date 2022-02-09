@@ -11,9 +11,6 @@ const onMouseDown = (e) => {
   isDragging.value = true;
   lastCoord.value = { x: e.clientX, y: e.clientY };
 
-  console.log('mousedown:');
-  console.log(e);
-
   document.addEventListener('mousemove', onMouseMove);
   document.addEventListener('mouseup', function f(e) {
     onMouseUp(e);
@@ -24,8 +21,7 @@ const onMouseDown = (e) => {
 
 const onMouseMove = (e) => {
   if (!isDragging.value) return;
-  console.log('mousemove:');
-  console.log(e);
+
   const deltaX = e.clientX - lastCoord.value.x;
   const deltaY = e.clientY - lastCoord.value.y;
 
@@ -34,10 +30,8 @@ const onMouseMove = (e) => {
   emit('sizeChange', { deltaX, deltaY });
 };
 
-const onMouseUp = (e) => {
+const onMouseUp = () => {
   isDragging.value = false;
-  console.log('mouseup:');
-  console.log(e);
 
   emit('resizeEnd');
 };

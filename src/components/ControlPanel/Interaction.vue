@@ -1,7 +1,7 @@
 <template>
 	<div class="interaction">
 		<div class="curAdd" v-show="isAdd == 'cur'">
-			<h4 class="title" @click="getEvent">当前添加</h4>
+			<h4 class="title">当前添加</h4>
 			<ul class="curAddItem" v-for="(item, index) in curEvent" :key="item">
 				<li>
 					触发方式 <span>{{ item.type.label }}</span>
@@ -76,38 +76,70 @@ export default defineComponent({
 		function triggleIsAdd(val) {
 			isAdd.value = val;
 		}
-
-		function addEvent(arr) {
-			curEvent.push(arr);
-		}
 		function deleteEvent(index) {
 			curEvent.splice(index, 1);
+			changeEvent();
 		}
 		function editEvent(index) {
 			originAddEvent(curEvent[index]);
 			this.triggleIsAdd(index);
 		}
-		function getEvent() {
-			watch(
-				() => store.getters["editPage/activeComponent"],
-				() => {
-					console.log(store.getters["editPage/activeComponent"]);
-					curEvent = store.getters["editPage/activeComponent"].event;
+		watch(
+			() => store.getters["editPage/activeComponent"],
+			() => {
+				if (store.getters["editPage/activeComponent"]) {
+					// 选取的元素 不为 null
+					if (store.getters["editPage/activeComponent"].event) {
+						// 是有event
+						// event 的 length 不等于 0
+						let event = store.getters["editPage/activeComponent"].event;
+						// curEvent = reactive([]);
+						curEvent.length = 0;
+						for (let i = 0; i < event.length; i++) {
+							console.log("98");
+							curEvent[i] = {
+								type: {
+									value: event[i].type,
+									label: getLabel(event[i].type),
+								},
+								action: {
+									value: event[i].action,
+									label: getLabel(event[i].action),
+								},
+								handleType: {
+									value: event[i].handleType,
+									label: getLabel(event[i].handleType),
+								},
+								argument: {
+									value: event[i].argument,
+								},
+							};
+						}
+						console.log(JSON.parse(JSON.stringify(curEvent)));
+					}
 				}
-			);
-			// if (store.getters["editPage/activeComponent"]) {
-			// 	curEvent = store.getters["editPage/activeComponent"].event;
-			// }
-		}
+			}
+		);
 
 		function changeEvent() {
-			store.commit("editPage/setActiveComponentEvent", {
-				event: curEvent,
-				// [
-				// 	// 想添加或更新啥事件就写啥对象
-				// 	{},
-				// ],
-			});
+			if (curEvent.length == 0) {
+				store.commit("editPage/setActiveComponentEvents", {
+					event: [],
+				});
+			} else {
+				let event = reactive([]);
+				for (let i = 0; i < curEvent.length; i++) {
+					let item = {};
+					item.type = curEvent[i].type.value;
+					item.action = curEvent[i].action.value;
+					item.handleType = curEvent[i].handleType.value;
+					item.argument = curEvent[i].argument.value;
+					event.push(item);
+				}
+				store.commit("editPage/setActiveComponentEvents", {
+					event: JSON.parse(JSON.stringify(event)),
+				});
+			}
 		}
 
 		let oriEvent = reactive({
@@ -141,7 +173,7 @@ export default defineComponent({
 						label: "鼠标",
 					},
 					{
-						value: "keydow",
+						value: "keydown",
 						label: "键盘按下",
 					},
 					{
@@ -199,7 +231,13 @@ export default defineComponent({
 				],
 			},
 		});
-
+		watch(
+			() => curEvent,
+			() => {
+				console.log(JSON.parse(JSON.stringify(curEvent)));
+			},
+			{ deep: true }
+		);
 		let argument = reactive({
 			value: oriEvent.argument.value,
 
@@ -226,51 +264,82 @@ export default defineComponent({
 		}
 		function getLabel(key) {
 			let res = "";
-
-			console.log(options[key].data);
-			options[key].data.forEach((element) => {
-				if (element.value === options[key].value) {
-					res = element.label + "";
-				}
-			});
+			console.log(key);
+			switch (key) {
+				case "mouse":
+					res = "鼠标";
+					break;
+				case "keyup":
+					res = "键盘弹起";
+					break;
+				case "keydown":
+					res = "键盘按下";
+					break;
+				case "click":
+					res = "单击";
+					break;
+				case "dbClick":
+					res = "双击";
+					break;
+				case "toast":
+					res = "弹框";
+					break;
+				case "model":
+					res = "模态框";
+					break;
+				case "target":
+					res = "当前页面跳转";
+					break;
+				case "blank":
+					res = "新窗口跳转";
+					break;
+				case "jump":
+					res = "没过渡的锚点";
+					break;
+				case "slide":
+					res = "有过渡的锚点";
+					break;
+			}
 			return res;
 		}
 		function comfirm() {
-			let event = reactive({});
+			let event = {};
 			// 添加事件
 			if (options.type.value) {
 				event.type = {
-					value: options.type.value + "",
-					label: this.getLabel("type"),
+					value: options.type.value,
+					label: getLabel("type"),
 				};
 			}
 			if (options.action.value) {
 				event.action = {
-					value: options.action.value + "",
-					label: this.getLabel("action"),
+					value: options.action.value,
+					label: getLabel("action"),
 				};
 			}
 			if (options.handleType.value) {
 				event.handleType = {
-					value: options.handleType.value + "",
-					label: this.getLabel("handleType"),
+					value: options.handleType.value,
+					label: getLabel("handleType"),
 				};
 			}
 			if (argument.value) {
 				event.argument = {
-					value: argument.value + "",
+					value: argument.value,
 				};
 				if (isAdd.value != "add") {
-					// console.log(isAdd.value);
-					curEvent.splice(isAdd.value, 1, event);
+					console.log(curEvent);
+					curEvent.splice(isAdd.value, 1);
+					curEvent.splice(isAdd.value, 0, event);
 				} else {
-					curEvent.push(event);
+					curEvent.push(JSON.parse(JSON.stringify(event)));
 				}
 				this.triggleIsAdd("cur");
 			} else {
 				alert("目标页面不能为空");
 			}
-			originAddEvent(oriEvent);
+			// originAddEvent(oriEvent);
+			changeEvent();
 		}
 		function originAddEvent(obj) {
 			options.type.value = obj.type.value;
@@ -290,13 +359,13 @@ export default defineComponent({
 			isAdd,
 			curEvent,
 			triggleIsAdd,
-			getEvent,
+
 			originAddEvent,
 			getLabel,
 
 			deleteEvent,
 			changeEvent,
-			addEvent,
+
 			editEvent,
 			options,
 			comfirm,
