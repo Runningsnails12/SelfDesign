@@ -1,293 +1,485 @@
 <template>
-	<div class="attrStyle">
-		<div v-if="tagOptions.text" class="text">
-			<h4 class="title">文本</h4>
-			<div class="core">
-				<div>
-					<el-select v-model="fontFamilys.value" class="fontFamily" placeholder="fontFamily">
-						<el-option
-							v-for="item in fontFamilys.options"
-							:key="item.value"
-							:label="item.label"
-							:value="item.value"
-						></el-option>
-					</el-select>
-					<el-color-picker class="colorChoose shadow-color" v-model="fontColor" />
-				</div>
-				<div>
-					<el-select v-model="fontSizes.value" class="fontSize" placeholder="fontSize">
-						<el-option
-							v-for="item in fontSizes.options"
-							:key="item.value"
-							:label="item.value"
-							:value="item.value"
-						></el-option>
-					</el-select>
-				</div>
-				<div>
-					<span :class="getBIUSAClass('b')" @click="changeBIUSA('b')">
-						<i></i>
-					</span>
-					<span :class="getBIUSAClass('i')" @click="changeBIUSA('i')">
-						<i></i>
-					</span>
-					<span :class="getBIUSAClass('u')" @click="changeBIUSA('u')">
-						<i></i>
-					</span>
-					<span :class="getBIUSAClass('s')" @click="changeBIUSA('s')">
-						<i></i>
-					</span>
-					<span :class="getBIUSAClass('a')" @click="changeBIUSA('a')">
-						<i></i>
-					</span>
-				</div>
-				<div class="align">
-					<span :class="getBIUSAClass('left')" @click="changeBIUSA('left')">
-						<i></i>
-					</span>
-					<span :class="getBIUSAClass('center')" @click="changeBIUSA('center')">
-						<i></i>
-					</span>
-					<span :class="getBIUSAClass('right')" @click="changeBIUSA('right')">
-						<i></i>
-					</span>
-				</div>
-			</div>
-		</div>
-		<div v-if="tagOptions.change" class="change">
-			<h4 class="title">变换</h4>
-			<div class="core">
-				<div>
-					<b>形状</b>
-					<em>W</em>
-					<input class="editable" contenteditable="true" />
+  <div class="attrStyle">
+    <div
+      v-if="tagOptions.text"
+      class="text"
+    >
+      <h4 class="title">
+        文本
+      </h4>
+      <div class="core">
+        <div>
+          <el-select
+            v-model="fontFamilys.value"
+            class="fontFamily"
+            placeholder="fontFamily"
+          >
+            <el-option
+              v-for="item in fontFamilys.options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+          <el-color-picker
+            class="colorChoose shadow-color"
+            v-model="fontColor"
+          />
+        </div>
+        <div>
+          <el-select
+            v-model="fontSizes.value"
+            class="fontSize"
+            placeholder="fontSize"
+          >
+            <el-option
+              v-for="item in fontSizes.options"
+              :key="item.value"
+              :label="item.value"
+              :value="item.value"
+            />
+          </el-select>
+        </div>
+        <div>
+          <span
+            :class="getBIUSAClass('b')"
+            @click="changeBIUSA('b')"
+          >
+            <i />
+          </span>
+          <span
+            :class="getBIUSAClass('i')"
+            @click="changeBIUSA('i')"
+          >
+            <i />
+          </span>
+          <span
+            :class="getBIUSAClass('u')"
+            @click="changeBIUSA('u')"
+          >
+            <i />
+          </span>
+          <span
+            :class="getBIUSAClass('s')"
+            @click="changeBIUSA('s')"
+          >
+            <i />
+          </span>
+          <span
+            :class="getBIUSAClass('a')"
+            @click="changeBIUSA('a')"
+          >
+            <i />
+          </span>
+        </div>
+        <div class="align">
+          <span
+            :class="getBIUSAClass('left')"
+            @click="changeBIUSA('left')"
+          >
+            <i />
+          </span>
+          <span
+            :class="getBIUSAClass('center')"
+            @click="changeBIUSA('center')"
+          >
+            <i />
+          </span>
+          <span
+            :class="getBIUSAClass('right')"
+            @click="changeBIUSA('right')"
+          >
+            <i />
+          </span>
+        </div>
+      </div>
+    </div>
+    <div
+      v-if="tagOptions.change"
+      class="change"
+    >
+      <h4 class="title">
+        变换
+      </h4>
+      <div class="core">
+        <div>
+          <b>形状</b>
+          <em>W</em>
+          <input
+            class="editable"
+            contenteditable="true"
+          >
 
-					<em>H</em>
-					<input class="editable" contenteditable="true" />
+          <em>H</em>
+          <input
+            class="editable"
+            contenteditable="true"
+          >
 
-					<el-select v-model="units.value" class="unit" placeholder="units">
-						<el-option
-							v-for="item in units.options"
-							:key="item.value"
-							:label="item.label"
-							:value="item.value"
-						></el-option>
-					</el-select>
-				</div>
-				<div class="whole">
-					<b>旋转</b>
-					<i class="rotate"></i>
-					<input class="editable" contenteditable="true" />
+          <el-select
+            v-model="units.value"
+            class="unit"
+            placeholder="units"
+          >
+            <el-option
+              v-for="item in units.options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </div>
+        <div class="whole">
+          <b>旋转</b>
+          <i class="rotate" />
+          <input
+            class="editable"
+            contenteditable="true"
+          >
 
-					<span class="scale">
-						<i></i>
-					</span>
-				</div>
-			</div>
-		</div>
-		<div v-if="tagOptions.appearance" class="appearance">
-			<h4 class="title">外观</h4>
-			<div class="core">
-				<div>
-					<span class="square" @click="uncultivated">
-						<i></i>
-					</span>
-					<span class="foursquare" @click="uncultivated">
-						<i></i>
-					</span>
-					<input class="editable" contenteditable="true" />
-					<input class="editable" contenteditable="true" />
-					<input class="editable" contenteditable="true" />
-					<input class="editable" contenteditable="true" />
-				</div>
-				<div class="alaph">
-					<el-color-picker class="colorChoose background-color" v-model="BgColor" />
-					<em class="bg">背景</em>
+          <span class="scale">
+            <i />
+          </span>
+        </div>
+      </div>
+    </div>
+    <div
+      v-if="tagOptions.appearance"
+      class="appearance"
+    >
+      <h4 class="title">
+        外观
+      </h4>
+      <div class="core">
+        <div>
+          <span
+            class="square"
+            @click="uncultivated"
+          >
+            <i />
+          </span>
+          <span
+            class="foursquare"
+            @click="uncultivated"
+          >
+            <i />
+          </span>
+          <input
+            class="editable"
+            contenteditable="true"
+          >
+          <input
+            class="editable"
+            contenteditable="true"
+          >
+          <input
+            class="editable"
+            contenteditable="true"
+          >
+          <input
+            class="editable"
+            contenteditable="true"
+          >
+        </div>
+        <div class="alaph">
+          <el-color-picker
+            class="colorChoose background-color"
+            v-model="BgColor"
+          />
+          <em class="bg">背景</em>
 
-					<i class="water"></i>
-					<input class="editable" contenteditable="true" v-model="opacity" />
-					<em class="per">%</em>
-					<b>不透明度</b>
-				</div>
+          <i class="water" />
+          <input
+            class="editable"
+            contenteditable="true"
+						v-model="opacity"
+          >
+          <em class="per">%</em>
+          <b>不透明度</b>
+        </div>
 
-				<div>
-					<input type="checkbox" />
-					<b>边框</b>
-					<el-color-picker class="colorChoose border-color" v-model="borderColor" />
-				</div>
-				<div class="border">
-					<b>粗细</b>
-					<input class="editable" contenteditable="true" />
-					<b>类型</b>
-					<el-select v-model="borderTypes.value" class="borderType" placeholder="borderType">
-						<el-option
-							v-for="item in borderTypes.options"
-							:key="item.value"
-							:label="item.label"
-							:value="item.value"
-						></el-option>
-					</el-select>
-				</div>
-				<div>
-					<input type="checkbox" />
-					<b>阴影</b>
-					<el-color-picker class="colorChoose shadow-color" v-model="shadowColor" />
-				</div>
-				<div>
-					<b>X轴</b>
-					<b>Y轴</b>
-					<b>模糊</b>
-					<b>尺寸</b>
-				</div>
-				<div>
-					<input class="editable" contenteditable="true" />
-					<input class="editable" contenteditable="true" />
-					<input class="editable" contenteditable="true" />
-					<input class="editable" contenteditable="true" />
-				</div>
-			</div>
-		</div>
-		<div v-if="tagOptions.align" class="special WholeLayout">
-			<h4 class="title">
-				<span>特有 |</span>
-				<span>HorizontalLayout VerticalLayout</span>
-			</h4>
-			<div class="core">
-				<div class="vertical">
-					<b>垂直方向</b>
-					<span class="v-top">
-						<i></i>
-					</span>
-					<span class="v-center">
-						<i></i>
-					</span>
-					<span class="v-bottom">
-						<i></i>
-					</span>
-					<span class="v-justify">
-						<i></i>
-					</span>
-				</div>
-				<div class="align">
-					<b>水平方向</b>
-					<span class="a-left">
-						<i></i>
-					</span>
-					<span class="a-center">
-						<i></i>
-					</span>
-					<span class="a-right">
-						<i></i>
-					</span>
-					<span class="a-justify">
-						<i></i>
-					</span>
-				</div>
-			</div>
-		</div>
-		<div v-if="tagOptions.order" class="special childLayout">
-			<h4 class="title">
-				<span>特有 |</span>
-				<span>HorizontalLayout-childNode VerticalLayout-childNode</span>
-			</h4>
-			<div class="core">
-				<div>
-					<button class="tobefore">次序前移</button>
-					<button class="toafter">次序后移</button>
-				</div>
-				<div>
-					<button class="tofirst">置于首位</button>
-					<button class="tolast">置于末位</button>
-				</div>
-			</div>
-		</div>
-		<div v-if="tagOptions.position" class="special childPosition">
-			<h4 class="title">
-				<span>特有 |</span>
-				<span>PositionLayout-childNode</span>
-			</h4>
-			<div class="core">
-				<div>
-					<b>位置</b>
-					<em>X</em>
-					<input class="editable" contenteditable="true" />
+        <div>
+          <input type="checkbox">
+          <b>边框</b>
+          <el-color-picker
+            class="colorChoose border-color"
+            v-model="borderColor"
+          />
+        </div>
+        <div class="border">
+          <b>粗细</b>
+          <input
+            class="editable"
+            contenteditable="true"
+          >
+          <b>类型</b>
+          <el-select
+            v-model="borderTypes.value"
+            class="borderType"
+            placeholder="borderType"
+          >
+            <el-option
+              v-for="item in borderTypes.options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </div>
+        <div>
+          <input type="checkbox">
+          <b>阴影</b>
+          <el-color-picker
+            class="colorChoose shadow-color"
+            v-model="shadowColor"
+          />
+        </div>
+        <div>
+          <b>X轴</b>
+          <b>Y轴</b>
+          <b>模糊</b>
+          <b>尺寸</b>
+        </div>
+        <div>
+          <input
+            class="editable"
+            contenteditable="true"
+          >
+          <input
+            class="editable"
+            contenteditable="true"
+          >
+          <input
+            class="editable"
+            contenteditable="true"
+          >
+          <input
+            class="editable"
+            contenteditable="true"
+          >
+        </div>
+      </div>
+    </div>
+    <div
+      v-if="tagOptions.align"
+      class="special WholeLayout"
+    >
+      <h4 class="title">
+        <span>特有 |</span>
+        <span>HorizontalLayout VerticalLayout</span>
+      </h4>
+      <div class="core">
+        <div class="vertical">
+          <b>垂直方向</b>
+          <span class="v-top">
+            <i />
+          </span>
+          <span class="v-center">
+            <i />
+          </span>
+          <span class="v-bottom">
+            <i />
+          </span>
+          <span class="v-justify">
+            <i />
+          </span>
+        </div>
+        <div class="align">
+          <b>水平方向</b>
+          <span class="a-left">
+            <i />
+          </span>
+          <span class="a-center">
+            <i />
+          </span>
+          <span class="a-right">
+            <i />
+          </span>
+          <span class="a-justify">
+            <i />
+          </span>
+        </div>
+      </div>
+    </div>
+    <div
+      v-if="tagOptions.order"
+      class="special childLayout"
+    >
+      <h4 class="title">
+        <span>特有 |</span>
+        <span>HorizontalLayout-childNode VerticalLayout-childNode</span>
+      </h4>
+      <div class="core">
+        <div>
+          <button class="tobefore">
+            次序前移
+          </button>
+          <button class="toafter">
+            次序后移
+          </button>
+        </div>
+        <div>
+          <button class="tofirst">
+            置于首位
+          </button>
+          <button class="tolast">
+            置于末位
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      v-if="tagOptions.position"
+      class="special childPosition"
+    >
+      <h4 class="title">
+        <span>特有 |</span>
+        <span>PositionLayout-childNode</span>
+      </h4>
+      <div class="core">
+        <div>
+          <b>位置</b>
+          <em>X</em>
+          <input
+            class="editable"
+            contenteditable="true"
+          >
 
-					<em>Y</em>
-					<input class="editable" contenteditable="true" />
-				</div>
-				<div>
-					<button class="toup">上移一层</button>
-					<button class="todown">下移一层</button>
-				</div>
-				<div>
-					<button class="totopmost">置于顶层</button>
-					<button class="tobottommost">置于底层</button>
-				</div>
-			</div>
-		</div>
-		<div v-if="tagOptions.image" class="special image">
-			<h4 class="title">
-				<span>特有 |</span>
-				<span>Image</span>
-			</h4>
-			<div class="core">
-				<div class="i-percentage">
-					<b>比例</b>
-					<span class="11" @click="uncultivated">
-						<b>1 : 1</b>
-					</span>
-					<span class="43" @click="uncultivated">
-						<b>4 : 3</b>
-					</span>
-					<span class="169" @click="uncultivated">
-						<b>16 : 9</b>
-					</span>
-				</div>
-				<div>
-					<b>图片地址[网络]</b>
-				</div>
-				<div>
-					<input ref="urlContent" class="i-url" type="text" :value="compData.values.url" />
-				</div>
-				<div>
-					<button class="i-changeImg" @click="modifyUrl">确认更改</button>
-				</div>
-				<div>
-					<input type="file" class="uploading" accept="image/*" @change="changeImageFile" />
-					<button class="i-uploading">上传图片</button>
-				</div>
-			</div>
-		</div>
-		<div v-if="tagOptions.textContent" class="special text">
-			<h4 class="title">
-				<span>特有 |</span>
-				<span>Text</span>
-			</h4>
-			<div class="core">
-				<div>
-					<b>内容</b>
-					<input ref="textContent" class="content" type="text" :value="compData.values.content" />
-				</div>
-				<div>
-					<button class="confirm" @click="modifyText(true)">确 定</button>
-					<button class="cancel" @click="modifyText(false)">清 空</button>
-				</div>
-			</div>
-		</div>
-	</div>
+          <em>Y</em>
+          <input
+            class="editable"
+            contenteditable="true"
+          >
+        </div>
+        <div>
+          <button class="toup">
+            上移一层
+          </button>
+          <button class="todown">
+            下移一层
+          </button>
+        </div>
+        <div>
+          <button class="totopmost">
+            置于顶层
+          </button>
+          <button class="tobottommost">
+            置于底层
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      v-if="tagOptions.image"
+      class="special image"
+    >
+      <h4 class="title">
+        <span>特有 |</span>
+        <span>Image</span>
+      </h4>
+      <div class="core">
+        <div class="i-percentage">
+          <b>比例</b>
+          <span
+            class="11"
+            @click="uncultivated"
+          >
+            <b>1 : 1</b>
+          </span>
+          <span
+            class="43"
+            @click="uncultivated"
+          >
+            <b>4 : 3</b>
+          </span>
+          <span
+            class="169"
+            @click="uncultivated"
+          >
+            <b>16 : 9</b>
+          </span>
+        </div>
+        <div>
+          <b>图片地址[网络]</b>
+        </div>
+        <div>
+          <input
+            ref="urlContent"
+            class="i-url"
+            type="text"
+            :value="compData.values.url"
+          >
+        </div>
+        <div>
+          <button
+            class="i-changeImg"
+            @click="modifyUrl"
+          >
+            确认更改
+          </button>
+        </div>
+        <div>
+          <input
+            type="file"
+            class="uploading"
+            accept="image/*"
+            @change="changeImageFile"
+          >
+          <button class="i-uploading">
+            上传图片
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      v-if="tagOptions.textContent"
+      class="special text"
+    >
+      <h4 class="title">
+        <span>特有 |</span>
+        <span>Text</span>
+      </h4>
+      <div class="core">
+        <div>
+          <b>内容</b>
+          <input
+            ref="textContent"
+            class="content"
+            type="text"
+            :value="compData.values.content"
+          >
+        </div>
+        <div>
+          <button
+            class="confirm"
+            @click="modifyText(true)"
+          >
+            确 定
+          </button>
+          <button
+            class="cancel"
+            @click="modifyText(false)"
+          >
+            清 空
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-import { ref, reactive, watch, watchEffect } from "vue";
-import { useStore } from "vuex";
-import { tagToOptions } from "@/utils/tagToOptions/index.js";
-import api from "@/api/index.js";
+import { ref, reactive, watch, watchEffect } from 'vue';
+import { useStore } from 'vuex';
+import { tagToOptions } from '@/utils/tagToOptions/index.js';
+import api from '@/api/index.js';
+import style from '@/utils/style.json';
 
 export default {
-	name: "AttrStyle",
-	setup() {
-		// #region 超旭start
-		const store = useStore();
+  name: 'AttrStyle',
+  setup() {
+    // #region 超旭start
+    const store = useStore();
 
 		// 给当前组件设置样式
 		function setStyle(obj) {
@@ -299,296 +491,296 @@ export default {
 			store.commit("editPage/setActiveComponentStyle", obj);
 		}
 
-		// 这个就是判断组件都可以改那些值的对象
-		let tagOptions = ref({
-			align: false,
-			appearance: false,
-			change: false,
-			event: {
-				mouse: false,
-				keydown: false,
-				keyup: false,
-			},
-			image: false,
-			order: false,
-			position: false,
-			text: false,
-			textContent: false,
-		});
+    // 这个就是判断组件都可以改那些值的对象
+    let tagOptions = ref({
+      align: false,
+      appearance: false,
+      change: false,
+      event: {
+        mouse: false,
+        keydown: false,
+        keyup: false,
+      },
+      image: false,
+      order: false,
+      position: false,
+      text: false,
+      textContent: false,
+    });
 
-		let compData = ref();
+    let compData = ref();
 
-		let textContent = ref(null);
+    let textContent = ref(null);
 
-		// 监听当前选择节点变化
-		watch(
-			() => store.getters["editPage/activeComponent"],
-			() => {
-				compData.value = store.getters["editPage/activeComponent"];
-				if (compData.value != null) {
-					tagOptions.value = tagToOptions(compData.value.tag);
-					tagOptions.value.order = [
-						"VerticalLayout",
-						"HorizontalLayout",
-					].includes(compData.value.parentTag);
-					tagOptions.value.position = ["PositionLayout"].includes(
-						compData.value.parentTag
-					);
-				} else {
-					tagOptions.value = {};
-				}
-			}
-		);
+    // 监听当前选择节点变化
+    watch(
+      () => store.getters['editPage/activeComponent'],
+      () => {
+        compData.value = store.getters['editPage/activeComponent'];
+        if (compData.value != null) {
+          tagOptions.value = tagToOptions(compData.value.tag);
+          tagOptions.value.order = [
+            'VerticalLayout',
+            'HorizontalLayout',
+          ].includes(compData.value.parentTag);
+          tagOptions.value.position = ['PositionLayout'].includes(
+            compData.value.parentTag
+          );
+        } else {
+          tagOptions.value = {};
+        }
+      }
+    );
 
-		watch(tagOptions, () => {
-			console.log(tagOptions);
-		});
+    watch(tagOptions, () => {
+      console.log(tagOptions);
+    });
 
-		// 修改文本内容
-		function modifyText(flag) {
-			store.commit("editPage/setActiveComponentValues", {
-				content: flag ? textContent.value.value : "",
-			});
-		}
+    // 修改文本内容
+    function modifyText(flag) {
+      store.commit('editPage/setActiveComponentValues', {
+        content: flag ? textContent.value.value : '',
+      });
+    }
 
-		// #endregion 超旭end
+    // #endregion 超旭end
 
-		// #region 超旭start
-		let fontFamilys = reactive({
-			options: [{ value: "微软雅黑" }, { value: "宋体" }, { value: "黑体" }],
-			value: "微软雅黑",
-		});
-		// #endregion 超旭end
+    // #region 超旭start
+    let fontFamilys = reactive({
+      options: [{ value: '微软雅黑' }, { value: '宋体' }, { value: '黑体' }],
+      value: '微软雅黑',
+    });
+    // #endregion 超旭end
 
-		// #region 超旭start
-		// 监听字体变化
-		watch(
-			() => fontFamilys.value,
-			() => {
-				setStyle({
-					"font-family": fontFamilys.value,
-				});
-			}
-		);
-		// #endregion 超旭end
+    // #region 超旭start
+    // 监听字体变化
+    watch(
+      () => fontFamilys.value,
+      () => {
+        setStyle({
+          'font-family': fontFamilys.value,
+        });
+      }
+    );
+    // #endregion 超旭end
 
-		// #region 超旭start
-		let fontColor = ref(null);
-		fontColor.value = "#ffe793";
-		watch(
-			() => fontColor.value,
-			() => {
-				setStyle({
-					color: fontColor.value,
-				});
-			}
-		);
-		// #endregion 超旭end
+    // #region 超旭start
+    let fontColor = ref(null);
+    fontColor.value = '#ffe793';
+    watch(
+      () => fontColor.value,
+      () => {
+        setStyle({
+          color: fontColor.value,
+        });
+      }
+    );
+    // #endregion 超旭end
 
-		let fontSizes = reactive({
-			options: [
-				{ value: "8" },
-				{ value: "10" },
-				{ value: "12" },
-				{ value: "14" },
-				{ value: "16" },
-				{ value: "18" },
-				{ value: "20" },
-				{ value: "24" },
-				{ value: "26" },
-				{ value: "28" },
-			],
-			value: "16",
-		});
+    let fontSizes = reactive({
+      options: [
+        { value: '8' },
+        { value: '10' },
+        { value: '12' },
+        { value: '14' },
+        { value: '16' },
+        { value: '18' },
+        { value: '20' },
+        { value: '24' },
+        { value: '26' },
+        { value: '28' },
+      ],
+      value: '16',
+    });
 
-		// #region 超旭start
-		// 监听文字大小变化
-		watch(
-			() => fontSizes.value,
-			() => {
-				setStyle({
-					"font-size": fontSizes.value + "px",
-				});
-			}
-		);
+    // #region 超旭start
+    // 监听文字大小变化
+    watch(
+      () => fontSizes.value,
+      () => {
+        setStyle({
+          'font-size': fontSizes.value + 'px',
+        });
+      }
+    );
 
-		let units = reactive({
-			options: [{ value: "px" }, { value: "%" }],
-			value: "px",
-		});
-		let borderTypes = reactive({
-			options: [{ value: "dashed" }, { value: "dottod" }, { value: "solid" }],
-			value: "solid",
-		});
-		// BIUSA解释：
-		// BIUSA分别代表B(加粗), I(斜体), U(下划线), S(删除线), A(英文变大写)
-		// 由于text-align和这个操作方式相同
-		// 所以text-align直接使用了BIUSA相关函数
+    let units = reactive({
+      options: [{ value: 'px' }, { value: '%' }],
+      value: 'px',
+    });
+    let borderTypes = reactive({
+      options: [{ value: 'dashed' }, { value: 'dottod' }, { value: 'solid' }],
+      value: 'solid',
+    });
+    // BIUSA解释：
+    // BIUSA分别代表B(加粗), I(斜体), U(下划线), S(删除线), A(英文变大写)
+    // 由于text-align和这个操作方式相同
+    // 所以text-align直接使用了BIUSA相关函数
 
-		// 判断BIUSA的状态
-		function checkBIUSA(attr) {
-			if (attr == "b") {
-				return compData.value.style["font-weight"] == "700";
-			} else if (attr == "i") {
-				return compData.value.style["font-style"] == "italic";
-			} else if (attr == "u") {
-				return compData.value.style["text-decoration"] == "underline";
-			} else if (attr == "s") {
-				return compData.value.style["text-decoration"] == "line-through";
-			} else if (attr == "a") {
-				return compData.value.style["text-transform"] == "uppercase";
-			} else if (attr == "left") {
-				return compData.value.style["text-align"] == "left";
-			} else if (attr == "center") {
-				return compData.value.style["text-align"] == "center";
-			} else if (attr == "right") {
-				return compData.value.style["text-align"] == "right";
-			} else {
-				return false;
-			}
-		}
+    // 判断BIUSA的状态
+    function checkBIUSA(attr) {
+      if (attr == 'b') {
+        return compData.value.style['font-weight'] == '700';
+      } else if (attr == 'i') {
+        return compData.value.style['font-style'] == 'italic';
+      } else if (attr == 'u') {
+        return compData.value.style['text-decoration'] == 'underline';
+      } else if (attr == 's') {
+        return compData.value.style['text-decoration'] == 'line-through';
+      } else if (attr == 'a') {
+        return compData.value.style['text-transform'] == 'uppercase';
+      } else if (attr == 'left') {
+        return compData.value.style['text-align'] == 'left';
+      } else if (attr == 'center') {
+        return compData.value.style['text-align'] == 'center';
+      } else if (attr == 'right') {
+        return compData.value.style['text-align'] == 'right';
+      } else {
+        return false;
+      }
+    }
 
-		// 获取BIUSA的class
-		function getBIUSAClass(attr) {
-			let res = [attr];
-			if (checkBIUSA(attr)) {
-				res.push("active");
-			}
-			return res;
-		}
+    // 获取BIUSA的class
+    function getBIUSAClass(attr) {
+      let res = [attr];
+      if (checkBIUSA(attr)) {
+        res.push('active');
+      }
+      return res;
+    }
 
-		// 切换BIUSA
-		function changeBIUSA(attr) {
-			if (checkBIUSA(attr)) {
-				if (attr == "b") {
-					setStyle({ "font-weight": "400" });
-				} else if (attr == "i") {
-					setStyle({ "font-style": "normal" });
-				} else if (attr == "u") {
-					setStyle({ "text-decoration": "none" });
-				} else if (attr == "s") {
-					setStyle({ "text-decoration": "none" });
-				} else if (attr == "a") {
-					setStyle({ "text-transform": "none" });
-				}
-			} else {
-				if (attr == "b") {
-					setStyle({ "font-weight": "700" });
-				} else if (attr == "i") {
-					setStyle({ "font-style": "italic" });
-				} else if (attr == "u") {
-					setStyle({ "text-decoration": "underline" });
-				} else if (attr == "s") {
-					setStyle({ "text-decoration": "line-through" });
-				} else if (attr == "a") {
-					setStyle({ "text-transform": "uppercase" });
-				} else if (attr == "left") {
-					setStyle({ "text-align": "left" });
-				} else if (attr == "center") {
-					setStyle({ "text-align": "center" });
-				} else if (attr == "right") {
-					setStyle({ "text-align": "right" });
-				}
-			}
-		}
-		// #endregion 超旭end
+    // 切换BIUSA
+    function changeBIUSA(attr) {
+      if (checkBIUSA(attr)) {
+        if (attr == 'b') {
+          setStyle({ 'font-weight': '400' });
+        } else if (attr == 'i') {
+          setStyle({ 'font-style': 'normal' });
+        } else if (attr == 'u') {
+          setStyle({ 'text-decoration': 'none' });
+        } else if (attr == 's') {
+          setStyle({ 'text-decoration': 'none' });
+        } else if (attr == 'a') {
+          setStyle({ 'text-transform': 'none' });
+        }
+      } else {
+        if (attr == 'b') {
+          setStyle({ 'font-weight': '700' });
+        } else if (attr == 'i') {
+          setStyle({ 'font-style': 'italic' });
+        } else if (attr == 'u') {
+          setStyle({ 'text-decoration': 'underline' });
+        } else if (attr == 's') {
+          setStyle({ 'text-decoration': 'line-through' });
+        } else if (attr == 'a') {
+          setStyle({ 'text-transform': 'uppercase' });
+        } else if (attr == 'left') {
+          setStyle({ 'text-align': 'left' });
+        } else if (attr == 'center') {
+          setStyle({ 'text-align': 'center' });
+        } else if (attr == 'right') {
+          setStyle({ 'text-align': 'right' });
+        }
+      }
+    }
+    // #endregion 超旭end
 
-		let text = reactive({});
+    let text = reactive({});
 
-		// #region 超旭start
+    // #region 超旭start
 
-		// 背景色
-		let BgColor = ref(null);
-		BgColor.value = "#fff";
-		watch(
-			() => BgColor.value,
-			() => {
-				setStyle({
-					"background-color": BgColor,
-				});
-			}
-		);
+    // 背景色
+    let BgColor = ref(null);
+    BgColor.value = '#fff';
+    watch(
+      () => BgColor.value,
+      () => {
+        setStyle({
+          'background-color': BgColor,
+        });
+      }
+    );
 
-		// 透明度
-		let opacity = ref(null);
-		opacity.value = 100;
-		watch(
-			() => opacity.value,
-			() => {
-				setStyle({
-					opacity: opacity.value / 100,
-				});
-			}
-		);
+    // 透明度
+    let opacity = ref(null);
+    opacity.value = 100;
+    watch(
+      () => opacity.value,
+      () => {
+        setStyle({
+          opacity: opacity.value / 100,
+        });
+      }
+    );
 
-		// #endregion 超旭end
+    // #endregion 超旭end
 
-		let borderColor = ref("#000000");
-		let shadowColor = ref("#ffffff");
-		const change = (e) => {
-			console.log(e);
-			colorRgba.value = e.rgba;
-		};
+    let borderColor = ref('#000000');
+    let shadowColor = ref('#ffffff');
+    const change = (e) => {
+      console.log(e);
+      colorRgba.value = e.rgba;
+    };
 
-		// #region 超旭start
-		let urlContent = ref(null);
-		function modifyUrl() {
-			store.commit("editPage/setActiveComponentValues", {
-				url: urlContent.value.value,
-			});
-		}
+    // #region 超旭start
+    let urlContent = ref(null);
+    function modifyUrl() {
+      store.commit('editPage/setActiveComponentValues', {
+        url: urlContent.value.value,
+      });
+    }
 
-		function changeImageFile(e) {
-			console.log(e.target.files);
-			api.uploadImg(e.target.files[0]).then((data) => {
-				if (data.flag) {
-					store.commit("editPage/setActiveComponentValues", {
-						url: data.data.url,
-					});
-				} else {
-					alert("上传失败");
-				}
-			});
-		}
+    function changeImageFile(e) {
+      console.log(e.target.files);
+      api.uploadImg(e.target.files[0]).then((data) => {
+        if (data.flag) {
+          store.commit('editPage/setActiveComponentValues', {
+            url: data.data.url,
+          });
+        } else {
+          alert('上传失败');
+        }
+      });
+    }
 
-		// 未开发事件
-		function uncultivated() {
-			alert("敬请期待");
-		}
-		// #endregion 超旭end
+    // 未开发事件
+    function uncultivated() {
+      alert('敬请期待');
+    }
+    // #endregion 超旭end
 
-		return {
-			// #region 超旭start
-			tagOptions,
-			compData,
-			getBIUSAClass,
-			changeBIUSA,
-			opacity,
-			modifyUrl,
-			modifyText,
+    return {
+      // #region 超旭start
+      tagOptions,
+      compData,
+      getBIUSAClass,
+      changeBIUSA,
+      opacity,
+      modifyUrl,
+      modifyText,
 
-			// ref dom元素
-			textContent,
-			urlContent,
+      // ref dom元素
+      textContent,
+      urlContent,
 
-			// #endregion 超旭end
+      // #endregion 超旭end
 
-			change,
-			fontFamilys,
-			fontColor,
-			fontSizes,
-			BgColor,
-			borderColor,
-			shadowColor,
-			units,
-			borderTypes,
+      change,
+      fontFamilys,
+      fontColor,
+      fontSizes,
+      BgColor,
+      borderColor,
+      shadowColor,
+      units,
+      borderTypes,
 
-			// #region 超旭start
-			changeImageFile,
-			uncultivated,
-			// #endregion 超旭end
-		};
-	},
+      // #region 超旭start
+      changeImageFile,
+      uncultivated,
+      // #endregion 超旭end
+    };
+  },
 };
 </script>
 
