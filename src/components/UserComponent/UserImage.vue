@@ -55,7 +55,11 @@ const height = computed(() => {
 /** @type {import('vue').Ref<boolean>} */
 const hasError = ref(false);
 
-const src = computed(() => (hasError.value ? ERROR_IMAGE : props.src ?? EMPTY_IMAGE));
+const src = computed(() => {
+  if (hasError.value) return ERROR_IMAGE;
+  if (!props.src || props.src === '') return EMPTY_IMAGE;
+  return props.src;
+});
 
 /** @type {import('vue').Ref<boolean>} */
 const loading = ref(true);
