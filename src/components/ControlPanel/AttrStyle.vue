@@ -192,6 +192,7 @@
           <input
             class="editable"
             contenteditable="true"
+            v-model="opacity"
           >
           <em class="per">%</em>
           <b>不透明度</b>
@@ -506,6 +507,11 @@ export default {
 
     // 给当前组件设置样式
     function setStyle(obj) {
+      for (let attr in obj) {
+        if (obj[attr].__v_isRef) {
+          obj[attr] = obj[attr].value;
+        }
+      }
       store.commit('editPage/setActiveComponentStyle', obj);
     }
 
