@@ -233,7 +233,7 @@ export default defineComponent({
 						label: "弹框",
 					},
 					{
-						value: "model",
+						value: "modal",
 						label: "模态框",
 					},
 					{
@@ -302,7 +302,7 @@ export default defineComponent({
 				case "toast":
 					res = "弹框";
 					break;
-				case "model":
+				case "modal":
 					res = "模态框";
 					break;
 				case "target":
