@@ -33,6 +33,7 @@ export default defineConfig({
     }
   },
 	esbuild: {
-		pure:'console.log'
+		pure: ["console.log"],
+		minify: true,
 	}
 });
