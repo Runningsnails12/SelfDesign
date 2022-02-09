@@ -19,6 +19,7 @@
 					<el-color-picker
 						class="colorChoose shadow-color"
 						v-model="fontColor"
+            show-alpha
 					/>
 				</div>
 				<div>
@@ -115,6 +116,7 @@
 					<el-color-picker
 						class="colorChoose background-color"
 						v-model="BgColor"
+            show-alpha
 					/>
 					<em class="bg">背景</em>
 
