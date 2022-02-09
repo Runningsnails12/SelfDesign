@@ -25,6 +25,7 @@ export default {
 p {
   width: 100px;
   height: 30px;
+	text-align: center;
   outline: 1px dashed #aaaaaa;
 }
 </style>
