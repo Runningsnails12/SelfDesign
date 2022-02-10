@@ -28,15 +28,15 @@
       </div>
     </div>
     <div class="video">
-      <iframe
-        src="//player.bilibili.com/player.html?aid=287758771&bvid=BV1Jf4y1q7uv&cid=256170512&page=1"
-        scrolling="no"
-        border="0"
-        frameborder="no"
-        framespacing="0"
-        allowfullscreen="true"
-        class="v"
-      />
+			<iframe 
+				src="//player.bilibili.com/player.html?aid=681404924&bvid=BV1HS4y1G7P3&cid=505273556&page=1" 
+				scrolling="no" 
+				border="0" 
+				frameborder="no" 
+				framespacing="0" 
+				allowfullscreen="true"
+				class="v"
+			> </iframe>
     </div>
     <div class="go">
       <div class="text">
