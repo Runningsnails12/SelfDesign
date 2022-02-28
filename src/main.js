@@ -1,24 +1,23 @@
-import { createApp} from 'vue';
+import { createApp, defineAsyncComponent} from 'vue';
 import App from './App.vue';
 import router from './router';
 import store from './store';
 
-
-import UserButton from './components/UserComponent/UserButton.vue';
-import UserImage from './components/UserComponent/UserImage.vue';
-import UserText from './components/UserComponent/UserText.vue';
-import UserLayoutVertical from './components/UserComponent/UserLayoutVertical.vue';
-import UserLayoutHorizontal from './components/UserComponent/UserLayoutHorizontal.vue';
-import UserLayoutPosition from './components/UserComponent/UserLayoutPosition.vue'
-
+// 异步加载模块
+const UserButton = defineAsyncComponent(() => import("./components/UserComponent/UserButton.vue"))
+const UserImage = defineAsyncComponent(() => import("./components/UserComponent/UserImage.vue"))
+const UserText = defineAsyncComponent(() => import("./components/UserComponent/UserText.vue"))
+const UserLayoutVertical = defineAsyncComponent(() => import("./components/UserComponent/UserLayoutVertical.vue"))
+const UserLayoutHorizontal = defineAsyncComponent(() => import("./components/UserComponent/UserLayoutHorizontal.vue"))
+const UserLayoutPosition = defineAsyncComponent(() => import("./components/UserComponent/UserLayoutPosition.vue"))
 
 const app = createApp(App);
-app.component(UserButton.name,UserButton);
-app.component(UserImage.name,UserImage);
-app.component(UserText.name,UserText);
-app.component(UserLayoutHorizontal.name,UserLayoutHorizontal);
-app.component(UserLayoutVertical.name,UserLayoutVertical);
-app.component(UserLayoutPosition.name, UserLayoutPosition);
+app.component('UserButton',UserButton);
+app.component('UserImage',UserImage);
+app.component('UserText',UserText);
+app.component('UserLayoutHorizontal',UserLayoutHorizontal);
+app.component('UserLayoutVertical',UserLayoutVertical);
+app.component('UserLayoutPosition', UserLayoutPosition);
 app.use(router);
 app.use(store);
 app.mount('#app');

@@ -34,7 +34,7 @@ service.interceptors.response.use((res) => {
   return res.data;
 });
 
-const request = (options) => {
+const  request = (options) => {
   options.method = options.method || 'get';
   if (options.method.toLowerCase() === 'get') {
     options.params = options.data;
